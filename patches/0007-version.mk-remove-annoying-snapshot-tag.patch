@@ -1,0 +1,26 @@
+From 94bf6ecddf14b81348b03f5687a6279130c75968 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Mon, 13 Jul 2020 15:26:33 +0800
+Subject: [PATCH] version.mk: remove annoying snapshot tag
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ include/version.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/version.mk b/include/version.mk
+index 7d3c1ad640..efc38e9bae 100644
+--- a/include/version.mk
++++ b/include/version.mk
+@@ -26,7 +26,7 @@ PKG_CONFIG_DEPENDS += \
+ sanitize = $(call tolower,$(subst _,-,$(subst $(space),-,$(1))))
+ 
+ VERSION_NUMBER:=$(call qstrip,$(CONFIG_VERSION_NUMBER))
+-VERSION_NUMBER:=$(if $(VERSION_NUMBER),$(VERSION_NUMBER),SNAPSHOT)
++VERSION_NUMBER:=$(if $(VERSION_NUMBER),$(VERSION_NUMBER),)
+ 
+ VERSION_CODE:=$(call qstrip,$(CONFIG_VERSION_CODE))
+ VERSION_CODE:=$(if $(VERSION_CODE),$(VERSION_CODE),$(REVISION))
+-- 
+2.17.1
+
