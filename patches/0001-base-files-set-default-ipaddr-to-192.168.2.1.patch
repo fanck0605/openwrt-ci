@@ -1,0 +1,26 @@
+From c1720518464aa0dc94a17fc329b2e5273b20f89b Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Wed, 15 Jul 2020 14:20:10 +0800
+Subject: [PATCH] base-files: set default ipaddr to 192.168.2.1
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ package/base-files/files/bin/config_generate | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/package/base-files/files/bin/config_generate b/package/base-files/files/bin/config_generate
+index abb1388ba..79e12bd3f 100755
+--- a/package/base-files/files/bin/config_generate
++++ b/package/base-files/files/bin/config_generate
+@@ -100,7 +100,7 @@ generate_network() {
+ 		static)
+ 			local ipad
+ 			case "$1" in
+-				lan) ipad=${ipaddr:-"192.168.1.1"} ;;
++				lan) ipad=${ipaddr:-"192.168.2.1"} ;;
+ 				*) ipad=${ipaddr:-"192.168.$((addr_offset++)).1"} ;;
+ 			esac
+ 
+-- 
+2.17.1
+

@@ -1,0 +1,27 @@
+From ac7a0bbe7df26c45e9225073ca233b429f258ac7 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Wed, 15 Jul 2020 14:20:18 +0800
+Subject: [PATCH] default-settings: fstab: don't anon mount
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ package/lean/default-settings/files/zzz-default-settings | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/package/lean/default-settings/files/zzz-default-settings b/package/lean/default-settings/files/zzz-default-settings
+index 3900492d2..546e506b2 100755
+--- a/package/lean/default-settings/files/zzz-default-settings
++++ b/package/lean/default-settings/files/zzz-default-settings
+@@ -7,9 +7,6 @@ uci set system.@system[0].timezone=CST-8
+ uci set system.@system[0].zonename=Asia/Shanghai
+ uci commit system
+ 
+-uci set fstab.@global[0].anon_mount=1
+-uci commit fstab
+-
+ rm -f /usr/lib/lua/luci/view/admin_status/index/mwan.htm
+ rm -f /usr/lib/lua/luci/view/admin_status/index/upnp.htm
+ rm -f /usr/lib/lua/luci/view/admin_status/index/ddns.htm
+-- 
+2.17.1
+

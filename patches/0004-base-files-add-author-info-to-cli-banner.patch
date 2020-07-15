@@ -1,0 +1,23 @@
+From 18440d48352a71d91e1d1726aeca5f1a8434f367 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Wed, 15 Jul 2020 14:20:27 +0800
+Subject: [PATCH] base-files: add author info to cli banner
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ package/base-files/files/etc/banner | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/package/base-files/files/etc/banner b/package/base-files/files/etc/banner
+index f3af3c014..b281ef93a 100644
+--- a/package/base-files/files/etc/banner
++++ b/package/base-files/files/etc/banner
+@@ -6,3 +6,5 @@
+  -----------------------------------------------------
+  %D %V, %C
+  -----------------------------------------------------
++ Powered By Lean's OpenWrt, Modified By Chuck
++
+-- 
+2.17.1
+

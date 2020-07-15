@@ -1,0 +1,26 @@
+From 3a84d1c9bd5cce30d4caa614edd03fdd3649b5f4 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Wed, 15 Jul 2020 14:20:30 +0800
+Subject: [PATCH] toolchain: optimize for performance instead of size
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ include/target.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/target.mk b/include/target.mk
+index be8075ec4..4b64de7a2 100644
+--- a/include/target.mk
++++ b/include/target.mk
+@@ -165,7 +165,7 @@ LINUX_RECONF_DIFF = $(call __linux_confcmd,$(filter-out $(LINUX_RECONFIG_TARGET)
+ ifeq ($(DUMP),1)
+   BuildTarget=$(BuildTargets/DumpCurrent)
+ 
+-  CPU_CFLAGS = -Os -pipe
++  CPU_CFLAGS = -O2 -pipe
+   ifneq ($(findstring mips,$(ARCH)),)
+     ifneq ($(findstring mips64,$(ARCH)),)
+       CPU_TYPE ?= mips64
+-- 
+2.17.1
+

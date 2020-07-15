@@ -1,0 +1,27 @@
+From 190a93246c051a32ef38b40550732f9f8432465a Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Wed, 15 Jul 2020 14:20:22 +0800
+Subject: [PATCH] samba36: use root account by default
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ package/network/services/samba36/files/smb.conf.template | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/package/network/services/samba36/files/smb.conf.template b/package/network/services/samba36/files/smb.conf.template
+index fb82732d9..7e6fab751 100644
+--- a/package/network/services/samba36/files/smb.conf.template
++++ b/package/network/services/samba36/files/smb.conf.template
+@@ -8,7 +8,8 @@
+ 	bind interfaces only = yes
+ 	deadtime = 30
+ 	enable core files = no
+-	invalid users = root
++	guest account = root
++#	invalid users = root
+ 	local master = yes
+ 	map to guest = Bad User
+ 	max protocol = SMB2
+-- 
+2.17.1
+
