@@ -51,4 +51,4 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: OpenWrt
-          path: ./openwrt/bin
+          path: OpenWrt_*_NanoPi-R2S.tar.gz
