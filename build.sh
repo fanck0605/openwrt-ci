@@ -61,4 +61,4 @@ archive_tag=OpenWrt_$(date +%Y%m%d)_NanoPi-R2S
 pushd openwrt/bin/targets/*/*
 tar zcf $archive_tag.tar.gz $(ls -l | grep ^- | awk '{print $NF}')
 popd
-cp openwrt/bin/targets/*/*/$archive_tag.tar.gz .
+mv openwrt/bin/targets/*/*/$archive_tag.tar.gz .
