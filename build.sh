@@ -59,6 +59,12 @@ popd
 # package output files
 archive_tag=OpenWrt_$(date +%Y%m%d)_NanoPi-R2S
 pushd openwrt/bin/targets/*/*
+# repack openwrt*.img.gz
+set +e
+gunzip openwrt*.img.gz
+set -e
+gzip openwrt*.img
+sha256sum -b $(ls -l | grep ^- | awk '{print $NF}' | grep -v sha256sums) >sha256sums
 tar zcf $archive_tag.tar.gz $(ls -l | grep ^- | awk '{print $NF}')
 popd
 mv openwrt/bin/targets/*/*/$archive_tag.tar.gz .
