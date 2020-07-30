@@ -25,7 +25,7 @@ jobs:
     steps:
 
       - name: Checkout Project
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
         with:
           ref: openwrt-lean
 
@@ -48,7 +48,7 @@ jobs:
           ./build.sh
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v2
         with:
           name: OpenWrt
           path: OpenWrt_*_NanoPi-R2S.tar.gz
