@@ -1,4 +1,4 @@
-From 79a40da5125b47416b7cedfb5541eec3b27426e0 Mon Sep 17 00:00:00 2001
+From 4375044d21f9e33293c0853b4394c82709f51192 Mon Sep 17 00:00:00 2001
 From: Chuck <fanck0605@qq.com>
 Date: Wed, 15 Jul 2020 14:20:39 +0800
 Subject: [PATCH] rk3328: nanopi-r2s: swap wan and lan
@@ -9,18 +9,18 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/linux/rockchip/armv8/base-files/etc/board.d/02_network b/target/linux/rockchip/armv8/base-files/etc/board.d/02_network
-index ed14d58a4..eac8233b9 100755
+index e129fd6a6..07cbdeee2 100755
 --- a/target/linux/rockchip/armv8/base-files/etc/board.d/02_network
 +++ b/target/linux/rockchip/armv8/base-files/etc/board.d/02_network
-@@ -6,7 +6,7 @@ board_config_update
+@@ -9,7 +9,7 @@ rockchip_setup_interfaces()
  
- case "$(board_name)" in
- friendlyarm,nanopi-r2s)
--	ucidef_set_interfaces_lan_wan "eth1" "eth0"
-+	ucidef_set_interfaces_lan_wan "eth0" "eth1"
- 	;;
- radxa,rock-pi-e)
- 	ucidef_set_interfaces_lan_wan "eth1" "eth0"
+ 	case "$board" in
+ 	friendlyarm,nanopi-r2s)
+-		ucidef_set_interfaces_lan_wan 'eth1' 'eth0'
++		ucidef_set_interfaces_lan_wan 'eth0' 'eth1'
+ 		;;
+ 	*)
+ 		ucidef_set_interface_lan 'eth0'
 -- 
-2.17.1
+2.26.2
 
