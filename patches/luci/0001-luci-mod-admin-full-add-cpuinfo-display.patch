@@ -1,22 +1,22 @@
-From 478d05c26be2f96d73a3d6ad15d1d463bbadcc15 Mon Sep 17 00:00:00 2001
+From 74b8bfe1e1bf7ebdde21175b883c7d9f86913334 Mon Sep 17 00:00:00 2001
 From: Chuck <fanck0605@qq.com>
 Date: Wed, 15 Jul 2020 14:28:47 +0800
 Subject: [PATCH] luci-mod-admin-full: add cpuinfo display
 
 Signed-off-by: Chuck <fanck0605@qq.com>
 ---
- .../luasrc/view/admin_status/index.htm                 | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ .../luasrc/view/admin_status/index.htm               | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm b/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm
-index 09bc3e5..01c8c84 100644
+index 8e38759..65b42a2 100644
 --- a/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm
 +++ b/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm
 @@ -46,12 +46,16 @@
  			"sysctl -n -e net.nf_conntrack_max net.ipv4.netfilter.ip_conntrack_max"
  		):match("%d+")) or 4096
  		
-+		local cpu_info = luci.sys.exec("echo \"$(cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq)/1000\" | bc") .. "MHz " .. 
++		local cpu_info = luci.sys.exec("echo \"$(cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq)/1000\" | bc") .. "MHz " ..
 +				luci.sys.exec("echo \"scale=2; $(cat /sys/class/thermal/thermal_zone0/temp)/1000\" | bc") .. "°C"
 +
  		local user_info = luci.sys.exec("cat /proc/net/arp | grep 'br-lan' | grep '0x2' | wc -l")
@@ -38,24 +38,26 @@ index 09bc3e5..01c8c84 100644
  		function(x, info)
  		{
  			if (!(npoll++ % 5))
-@@ -640,6 +644,9 @@
+@@ -640,7 +644,10 @@
  				
  			if (e = document.getElementById('userinfo'))
  				e.innerHTML = info.userinfo;
+-				
 +
 +			if (e = document.getElementById('cpuinfo'))
 +				e.innerHTML = info.cpuinfo;
- 				
++
  			if (e = document.getElementById('cpuusage'))
  				e.innerHTML = info.cpuusage;
+ 
 @@ -692,6 +699,7 @@
  		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
- 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "AArch64")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
- 		<tr><td width="33%"><%:Architecture%></td><td><%=pcdata(boardinfo.system or "?")%> x <%=luci.sys.exec("cat /proc/cpuinfo | grep 'processor' | wc -l") or "1"%></td></tr>
+ 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
+ 		<tr><td width="33%"><%:Architecture%></td><td><%=pcdata(boardinfo.system or "ARMv8 Processor")%> x <%=luci.sys.exec("cat /proc/cpuinfo | grep 'processor' | wc -l") or "1"%></td></tr>
 +		<tr><td width="33%"><%:CPU Info%></td><td id="cpuinfo">-</td></tr>
  		<tr><td width="33%"><%:Firmware Version%></td><td>
  			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
  			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>)
 -- 
-2.17.1
+2.28.0
 
