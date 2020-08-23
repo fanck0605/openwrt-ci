@@ -1,4 +1,4 @@
-From 22359b66ab8d14b95da43ef9864a9373b6b180c5 Mon Sep 17 00:00:00 2001
+From f89118d706172623b9867cc7f0f6474fc6bc4981 Mon Sep 17 00:00:00 2001
 From: Chuck <fanck0605@qq.com>
 Date: Wed, 15 Jul 2020 14:28:58 +0800
 Subject: [PATCH] luci-mod-admin-full: fix broad info for rk3328
@@ -9,18 +9,18 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm b/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm
-index 01c8c84..f2d1616 100644
+index 1b7adce..cb4fdba 100644
 --- a/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm
 +++ b/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm
 @@ -698,7 +698,7 @@
  	<table width="100%" cellspacing="10">
  		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
- 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "AArch64")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
--		<tr><td width="33%"><%:Architecture%></td><td><%=pcdata(boardinfo.system or "?")%> x <%=luci.sys.exec("cat /proc/cpuinfo | grep 'processor' | wc -l") or "1"%></td></tr>
+ 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
+-		<tr><td width="33%"><%:Architecture%></td><td><%=pcdata(boardinfo.system or "ARMv8 Processor")%> x <%=luci.sys.exec("cat /proc/cpuinfo | grep 'processor' | wc -l") or "1"%></td></tr>
 +		<tr><td width="33%"><%:Architecture%></td><td><%=pcdata(boardinfo.system or "Rockchip RK3328")%> x <%=luci.sys.exec("cat /proc/cpuinfo | grep 'processor' | wc -l") or "1"%></td></tr>
  		<tr><td width="33%"><%:CPU Info%></td><td id="cpuinfo">-</td></tr>
  		<tr><td width="33%"><%:Firmware Version%></td><td>
  			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
 -- 
-2.17.1
+2.27.0.windows.1
 
