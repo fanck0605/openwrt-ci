@@ -1,0 +1,47 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Mon, 20 Jul 2020 19:12:21 +0800
+Subject: [PATCH] luci-mod-network: add filter-aaaa option for dnsmasq
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ modules/luci-base/po/zh_Hans/base.po                        | 6 ++++++
+ .../htdocs/luci-static/resources/view/network/dhcp.js       | 5 +++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/modules/luci-base/po/zh_Hans/base.po b/modules/luci-base/po/zh_Hans/base.po
+index d35be0dab..2b8e0c0f7 100644
+--- a/modules/luci-base/po/zh_Hans/base.po
++++ b/modules/luci-base/po/zh_Hans/base.po
+@@ -490,6 +490,12 @@ msgstr "额外的 HOSTS 文件"
+ msgid "Additional servers file"
+ msgstr "额外的 SERVERS 文件"
+ 
++msgid "Filter IPv6 Records"
++msgstr "过滤 IPv6 记录"
++
++msgid "Filter IPv6(AAAA) Records during DNS resolution"
++msgstr "在域名解析时，过滤 IPv6(AAAA) 记录"
++
+ #: modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/30_network.js:34
+ #: modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/30_network.js:35
+ #: modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/30_network.js:36
+diff --git a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js
+index fa991db41..e01654a0f 100644
+--- a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js
++++ b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js
+@@ -199,6 +199,11 @@ return view.extend({
+ 		s.taboption('files', form.DynamicList, 'addnhosts',
+ 			_('Additional Hosts files')).optional = true;
+ 
++		o = s.taboption('advanced', form.Flag, 'filteraaaa',
++			_('Filter IPv6 Records'),
++			_('Filter IPv6(AAAA) Records during DNS resolution'));
++		o.optional = true;
++
+ 		o = s.taboption('advanced', form.Flag, 'quietdhcp',
+ 			_('Suppress logging'),
+ 			_('Suppress logging of the routine operation of these protocols'));
+-- 
+2.17.1
+

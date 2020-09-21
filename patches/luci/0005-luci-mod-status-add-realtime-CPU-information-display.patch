@@ -1,0 +1,122 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Tue, 21 Jul 2020 19:14:13 +0800
+Subject: [PATCH] luci-mod-status: add realtime CPU information display
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ modules/luci-base/po/zh_Hans/base.po                |  6 ++++++
+ modules/luci-base/root/usr/libexec/rpcd/luci        | 13 +++++++++++++
+ .../resources/view/status/include/10_system.js      | 13 +++++++++++--
+ .../root/usr/share/rpcd/acl.d/luci-mod-status.json  |  2 +-
+ 4 files changed, 31 insertions(+), 3 deletions(-)
+
+diff --git a/modules/luci-base/po/zh_Hans/base.po b/modules/luci-base/po/zh_Hans/base.po
+index 2b8e0c0f7..1fe565671 100644
+--- a/modules/luci-base/po/zh_Hans/base.po
++++ b/modules/luci-base/po/zh_Hans/base.po
+@@ -1022,6 +1022,12 @@ msgstr "CA 证书，如果留空，则证书将在第一次连接后被保存。
+ msgid "CLAT configuration failed"
+ msgstr "CLAT 配置失败"
+ 
++msgid "CPU Information"
++msgstr "CPU 信息"
++
++msgid "CPU Usage"
++msgstr "CPU 使用率"
++
+ #: modules/luci-mod-status/htdocs/luci-static/resources/view/status/processes.js:72
+ msgid "CPU usage (%)"
+ msgstr "CPU 使用率（%）"
+diff --git a/modules/luci-base/root/usr/libexec/rpcd/luci b/modules/luci-base/root/usr/libexec/rpcd/luci
+index 1d46ad276..2199fd526 100755
+--- a/modules/luci-base/root/usr/libexec/rpcd/luci
++++ b/modules/luci-base/root/usr/libexec/rpcd/luci
+@@ -612,6 +612,19 @@ local methods = {
+ 			end
+ 			return { result = res }
+ 		end
++	},
++
++	getCPUInfo = {
++		call = function()
++			local sys = require "luci.sys"
++			local cpuinfo = {}
++
++			cpuinfo.freq = sys.exec("echo -n $(expr $(cat /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq) / 1000) MHz")
++			cpuinfo.temp = sys.exec("echo -n $(awk \"BEGIN { printf(\\\"%.1f\\n\\\", $(cat /sys/class/thermal/thermal_zone0/temp) / 1000) }\") °C")
++			cpuinfo.usage = sys.exec("echo -n $(expr 100 - $(top -n1 | grep -m1 -i cpu | awk '{print $8}' | grep -o '[0-9.]*'))%")
++
++			return cpuinfo
++		end
+ 	}
+ }
+ 
+diff --git a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+index 12563ef1a..f65d19c07 100644
+--- a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
++++ b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+@@ -13,6 +13,11 @@ var callSystemInfo = rpc.declare({
+ 	method: 'info'
+ });
+ 
++var callCPUInfo = rpc.declare({
++	object: 'luci',
++	method: 'getCPUInfo'
++});
++
+ return baseclass.extend({
+ 	title: _('System'),
+ 
+@@ -20,6 +25,7 @@ return baseclass.extend({
+ 		return Promise.all([
+ 			L.resolveDefault(callSystemBoard(), {}),
+ 			L.resolveDefault(callSystemInfo(), {}),
++			L.resolveDefault(callCPUInfo(), {}),
+ 			fs.lines('/usr/lib/lua/luci/version.lua')
+ 		]);
+ 	},
+@@ -27,7 +33,8 @@ return baseclass.extend({
+ 	render: function(data) {
+ 		var boardinfo   = data[0],
+ 		    systeminfo  = data[1],
+-		    luciversion = data[2];
++		    cpuinfo     = data[2],
++		    luciversion = data[3];
+ 
+ 		luciversion = luciversion.filter(function(l) {
+ 			return l.match(/^\s*(luciname|luciversion)\s*=/);
+@@ -54,6 +61,7 @@ return baseclass.extend({
+ 			_('Hostname'),         boardinfo.hostname,
+ 			_('Model'),            boardinfo.model,
+ 			_('Architecture'),     boardinfo.system || 'Rockchip RK3328',
++			_('CPU Information'),         cpuinfo.freq + ', ' + cpuinfo.temp,
+ 			_('Firmware Version'), (L.isObject(boardinfo.release) ? boardinfo.release.description + ' / ' : '') + (luciversion || ''),
+ 			_('Kernel Version'),   boardinfo.kernel,
+ 			_('Local Time'),       datestr,
+@@ -62,7 +70,8 @@ return baseclass.extend({
+ 				systeminfo.load[0] / 65535.0,
+ 				systeminfo.load[1] / 65535.0,
+ 				systeminfo.load[2] / 65535.0
+-			) : null
++			) : null,
++			_('CPU Usage'),        cpuinfo.usage
+ 		];
+ 
+ 		var table = E('div', { 'class': 'table' });
+diff --git a/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json b/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
+index 05569d760..6cfc98b74 100644
+--- a/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
++++ b/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
+@@ -3,7 +3,7 @@
+ 		"description": "Grant access to realtime statistics",
+ 		"read": {
+ 			"ubus": {
+-				"luci": [ "getConntrackList", "getRealtimeStats" ],
++				"luci": [ "getConntrackList", "getRealtimeStats", "getCPUInfo" ],
+ 				"network.rrdns": [ "lookup" ]
+ 			}
+ 		}
+-- 
+2.17.1
+

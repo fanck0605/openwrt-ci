@@ -1,0 +1,38 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Wed, 3 Jun 2020 22:00:02 +0800
+Subject: [PATCH] scripts/getver.sh: remove local revision calculation
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ scripts/getver.sh | 13 -------------
+ 1 file changed, 13 deletions(-)
+
+diff --git a/scripts/getver.sh b/scripts/getver.sh
+index 9175f411db..3a7bfaec1f 100755
+--- a/scripts/getver.sh
++++ b/scripts/getver.sh
+@@ -28,20 +28,7 @@ try_git() {
+ 		ORIGIN="$(git rev-parse --verify --symbolic-full-name ${BRANCH}@{u} 2>/dev/null)"
+ 		[ -n "$ORIGIN" ] || ORIGIN="$(git rev-parse --verify --symbolic-full-name master@{u} 2>/dev/null)"
+ 		REV="$(git rev-list ${REBOOT}..$GET_REV | wc -l | awk '{print $1}')"
+-
+-		if [ -n "$ORIGIN" ]; then
+-			UPSTREAM_BASE="$(git merge-base $GET_REV $ORIGIN)"
+-			UPSTREAM_REV="$(git rev-list ${REBOOT}..$UPSTREAM_BASE | wc -l | awk '{print $1}')"
+-		else
+-			UPSTREAM_REV=0
+-		fi
+-
+-		if [ "$REV" -gt "$UPSTREAM_REV" ]; then
+-			REV="${UPSTREAM_REV}+$((REV - UPSTREAM_REV))"
+-		fi
+-
+ 		REV="${REV:+r$REV-$(git log -n 1 --format="%h" $UPSTREAM_BASE)}"
+-
+ 		;;
+ 	esac
+ 
+-- 
+2.17.1
+

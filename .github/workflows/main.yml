@@ -1,0 +1,54 @@
+#
+# This is free software, license use GPLv3.
+#
+# Copyright (c) 2020, Chuck <fanck0605@qq.com>
+#
+
+name: openwrt-master
+
+on:
+  push:
+    branches:
+      - openwrt-master
+  schedule:
+    - cron: '00 18 * * *'
+  watch:
+    types: [started]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-18.04
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    steps:
+
+      - name: Checkout Project
+        uses: actions/checkout@v2
+        with:
+          ref: openwrt-master
+
+      - name: Initialize Environment
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          docker image prune -a -f
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          sudo -E apt-get update
+          sudo -E apt-get -y install subversion build-essential libncurses5-dev zlib1g-dev gawk git ccache gettext libssl-dev xsltproc zip
+          wget -O- https://raw.githubusercontent.com/friendlyarm/build-env-on-ubuntu-bionic/master/install.sh | bash
+          sudo -E apt-get -y autoremove --purge
+          sudo -E apt-get clean
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+
+      - name: Build OpenWrt
+        run: |
+          ./build.sh
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: OpenWrt
+          path: OpenWrt_*_NanoPi-R2S.tar.gz

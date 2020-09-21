@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Tue, 21 Jul 2020 18:15:01 +0800
+Subject: [PATCH] luci-mod-status: fix arch display for rockchip rk3328
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ .../luci-static/resources/view/status/include/10_system.js      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+index 942b2dd56..12563ef1a 100644
+--- a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
++++ b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+@@ -53,7 +53,7 @@ return baseclass.extend({
+ 		var fields = [
+ 			_('Hostname'),         boardinfo.hostname,
+ 			_('Model'),            boardinfo.model,
+-			_('Architecture'),     boardinfo.system,
++			_('Architecture'),     boardinfo.system || 'Rockchip RK3328',
+ 			_('Firmware Version'), (L.isObject(boardinfo.release) ? boardinfo.release.description + ' / ' : '') + (luciversion || ''),
+ 			_('Kernel Version'),   boardinfo.kernel,
+ 			_('Local Time'),       datestr,
+-- 
+2.17.1
+
