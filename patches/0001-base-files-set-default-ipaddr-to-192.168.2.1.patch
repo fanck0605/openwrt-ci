@@ -9,10 +9,10 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/package/base-files/files/bin/config_generate b/package/base-files/files/bin/config_generate
-index eb6816e519..9a82478ffd 100755
+index e23f901504..9e47f59c5e 100755
 --- a/package/base-files/files/bin/config_generate
 +++ b/package/base-files/files/bin/config_generate
-@@ -100,7 +100,7 @@ generate_network() {
+@@ -129,7 +129,7 @@ generate_network() {
  		static)
  			local ipad
  			case "$1" in

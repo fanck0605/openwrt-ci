@@ -9,17 +9,17 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 13 deletions(-)
 
 diff --git a/scripts/getver.sh b/scripts/getver.sh
-index 9175f411db..3a7bfaec1f 100755
+index 49260a2260..557e3da364 100755
 --- a/scripts/getver.sh
 +++ b/scripts/getver.sh
 @@ -28,20 +28,7 @@ try_git() {
  		ORIGIN="$(git rev-parse --verify --symbolic-full-name ${BRANCH}@{u} 2>/dev/null)"
  		[ -n "$ORIGIN" ] || ORIGIN="$(git rev-parse --verify --symbolic-full-name master@{u} 2>/dev/null)"
- 		REV="$(git rev-list ${REBOOT}..$GET_REV | wc -l | awk '{print $1}')"
+ 		REV="$(git rev-list ${REBOOT}..$GET_REV 2>/dev/null | wc -l | awk '{print $1}')"
 -
 -		if [ -n "$ORIGIN" ]; then
 -			UPSTREAM_BASE="$(git merge-base $GET_REV $ORIGIN)"
--			UPSTREAM_REV="$(git rev-list ${REBOOT}..$UPSTREAM_BASE | wc -l | awk '{print $1}')"
+-			UPSTREAM_REV="$(git rev-list ${REBOOT}..$UPSTREAM_BASE 2>/dev/null | wc -l | awk '{print $1}')"
 -		else
 -			UPSTREAM_REV=0
 -		fi

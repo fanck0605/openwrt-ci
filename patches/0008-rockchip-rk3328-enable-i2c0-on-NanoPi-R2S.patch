@@ -7,13 +7,13 @@ Signed-off-by: Chuck <fanck0605@qq.com>
 ---
  ...nable-i2c0-on-FriendlyARM-NanoPi-R2S.patch | 24 +++++++++++++++++++
  1 file changed, 24 insertions(+)
- create mode 100644 target/linux/rockchip/patches-5.4/005-rockchip-rk3328-Enable-i2c0-on-FriendlyARM-NanoPi-R2S.patch
+ create mode 100644 target/linux/rockchip/patches-5.4/201-rockchip-rk3328-Enable-i2c0-on-FriendlyARM-NanoPi-R2S.patch
 
-diff --git a/target/linux/rockchip/patches-5.4/005-rockchip-rk3328-Enable-i2c0-on-FriendlyARM-NanoPi-R2S.patch b/target/linux/rockchip/patches-5.4/005-rockchip-rk3328-Enable-i2c0-on-FriendlyARM-NanoPi-R2S.patch
+diff --git a/target/linux/rockchip/patches-5.4/201-rockchip-rk3328-Enable-i2c0-on-FriendlyARM-NanoPi-R2S.patch b/target/linux/rockchip/patches-5.4/201-rockchip-rk3328-Enable-i2c0-on-FriendlyARM-NanoPi-R2S.patch
 new file mode 100644
 index 0000000000..a1219033d3
 --- /dev/null
-+++ b/target/linux/rockchip/patches-5.4/005-rockchip-rk3328-Enable-i2c0-on-FriendlyARM-NanoPi-R2S.patch
++++ b/target/linux/rockchip/patches-5.4/201-rockchip-rk3328-Enable-i2c0-on-FriendlyARM-NanoPi-R2S.patch
 @@ -0,0 +1,24 @@
 +From 3b7eb946b1d640d684a921e53e1e50985ab7eb89 Mon Sep 17 00:00:00 2001
 +From: QiuSimons <45143996+QiuSimons@users.noreply.github.com>

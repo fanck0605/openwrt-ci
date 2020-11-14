@@ -12,22 +12,22 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  create mode 100644 package/network/services/dnsmasq/patches/900-add-filter-aaaa-option.patch
 
 diff --git a/package/network/services/dnsmasq/files/dhcp.conf b/package/network/services/dnsmasq/files/dhcp.conf
-index 19052e2333..03bdd9b9b6 100644
+index 8c42ef782e..6d929a9e57 100644
 --- a/package/network/services/dnsmasq/files/dhcp.conf
 +++ b/package/network/services/dnsmasq/files/dhcp.conf
-@@ -20,6 +20,7 @@ config dnsmasq
- 	#list notinterface	lo
+@@ -21,6 +21,7 @@ config dnsmasq
  	#list bogusnxdomain     '64.94.110.11'
  	option localservice	1  # disable to allow DNS requests from non-local subnets
+ 	option ednspacket_max	1232
 +	option filteraaaa	1
  
  config dhcp lan
  	option interface	lan
 diff --git a/package/network/services/dnsmasq/files/dnsmasq.init b/package/network/services/dnsmasq/files/dnsmasq.init
-index 2d72bc6a28..a64e056c5e 100644
+index 680e72f9e7..c998aa3ac5 100644
 --- a/package/network/services/dnsmasq/files/dnsmasq.init
 +++ b/package/network/services/dnsmasq/files/dnsmasq.init
-@@ -869,6 +869,7 @@ dnsmasq_start()
+@@ -893,6 +893,7 @@ dnsmasq_start()
  	append_bool "$cfg" sequential_ip "--dhcp-sequential-ip"
  	append_bool "$cfg" allservers "--all-servers"
  	append_bool "$cfg" noping "--no-ping"

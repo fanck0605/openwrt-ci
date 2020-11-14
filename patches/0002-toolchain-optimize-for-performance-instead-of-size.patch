@@ -9,10 +9,10 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/target.mk b/include/target.mk
-index 03550c6ca6..863c215d78 100644
+index edc6a146de..2a293f4f1b 100644
 --- a/include/target.mk
 +++ b/include/target.mk
-@@ -188,7 +188,7 @@ LINUX_RECONF_DIFF = $(call __linux_confcmd,$(filter-out $(LINUX_RECONFIG_TARGET)
+@@ -194,7 +194,7 @@ LINUX_RECONF_DIFF = $(SCRIPT_DIR)/kconfig.pl - '>' $(call __linux_confcmd,$(filt
  ifeq ($(DUMP),1)
    BuildTarget=$(BuildTargets/DumpCurrent)
  

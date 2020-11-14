@@ -9,7 +9,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/version.mk b/include/version.mk
-index b7f42e13bb..4d7de6cb4b 100644
+index b7f42e13bb..b558563db8 100644
 --- a/include/version.mk
 +++ b/include/version.mk
 @@ -32,7 +32,7 @@ VERSION_CODE:=$(call qstrip,$(CONFIG_VERSION_CODE))

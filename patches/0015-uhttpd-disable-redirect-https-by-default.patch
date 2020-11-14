@@ -9,7 +9,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/package/network/services/uhttpd/files/uhttpd.config b/package/network/services/uhttpd/files/uhttpd.config
-index 39089ca25b..2c5fd76ff3 100644
+index aeded08afc..40ce67fd01 100644
 --- a/package/network/services/uhttpd/files/uhttpd.config
 +++ b/package/network/services/uhttpd/files/uhttpd.config
 @@ -10,7 +10,7 @@ config uhttpd main
