@@ -9,18 +9,18 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/linux/rockchip/armv8/base-files/etc/board.d/02_network b/target/linux/rockchip/armv8/base-files/etc/board.d/02_network
-index e129fd6a6..07cbdeee2 100755
+index e70fe3ef8..a281ca9e3 100755
 --- a/target/linux/rockchip/armv8/base-files/etc/board.d/02_network
 +++ b/target/linux/rockchip/armv8/base-files/etc/board.d/02_network
-@@ -9,7 +9,7 @@ rockchip_setup_interfaces()
- 
- 	case "$board" in
- 	friendlyarm,nanopi-r2s)
+@@ -11,7 +11,7 @@ rockchip_setup_interfaces()
+ 	friendlyarm,nanopi-r2s|\
+ 	friendlyarm,nanopi-r4s-1gb|\
+ 	friendlyarm,nanopi-r4s-4gb)
 -		ucidef_set_interfaces_lan_wan 'eth1' 'eth0'
 +		ucidef_set_interfaces_lan_wan 'eth0' 'eth1'
  		;;
  	*)
  		ucidef_set_interface_lan 'eth0'
 -- 
-2.26.2
+2.29.2
 
