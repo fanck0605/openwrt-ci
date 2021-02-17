@@ -1,0 +1,37 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Mon, 20 Jul 2020 21:32:56 +0800
+Subject: [PATCH] luci-base: add nas section menu
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ .../root/usr/share/luci/menu.d/luci-base.json         | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/modules/luci-base/root/usr/share/luci/menu.d/luci-base.json b/modules/luci-base/root/usr/share/luci/menu.d/luci-base.json
+index eb72c565d..c35d09e69 100644
+--- a/modules/luci-base/root/usr/share/luci/menu.d/luci-base.json
++++ b/modules/luci-base/root/usr/share/luci/menu.d/luci-base.json
+@@ -41,9 +41,18 @@
+ 		}
+ 	},
+ 
++	"admin/nas": {
++		"title": "NAS",
++		"order": 50,
++		"action": {
++			"type": "firstchild",
++			"recurse": true
++		}
++	},
++
+ 	"admin/network": {
+ 		"title": "Network",
+-		"order": 50,
++		"order": 60,
+ 		"action": {
+ 			"type": "firstchild",
+ 			"recurse": true
+-- 
+2.25.1
+

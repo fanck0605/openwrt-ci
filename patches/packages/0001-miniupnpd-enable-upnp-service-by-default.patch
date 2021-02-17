@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Mon, 13 Apr 2020 16:55:02 +0800
+Subject: [PATCH] miniupnpd: enable upnp service by default
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ net/miniupnpd/files/upnpd.config | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/miniupnpd/files/upnpd.config b/net/miniupnpd/files/upnpd.config
+index 7c408683c..e8788ee35 100644
+--- a/net/miniupnpd/files/upnpd.config
++++ b/net/miniupnpd/files/upnpd.config
+@@ -1,5 +1,5 @@
+ config upnpd config
+-	option enabled		0
++	option enabled		1
+ 	option enable_natpmp	1
+ 	option enable_upnp	1
+ 	option secure_mode	1
+-- 
+2.25.1
+

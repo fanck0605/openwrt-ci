@@ -1,0 +1,25 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Sun, 31 May 2020 01:04:43 +0800
+Subject: [PATCH] firewall: enable flow offlading by default
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ package/network/config/firewall/files/firewall.config | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/package/network/config/firewall/files/firewall.config b/package/network/config/firewall/files/firewall.config
+index 5e22f984ce..82b36c0d1e 100644
+--- a/package/network/config/firewall/files/firewall.config
++++ b/package/network/config/firewall/files/firewall.config
+@@ -3,6 +3,7 @@ config defaults
+ 	option input		ACCEPT
+ 	option output		ACCEPT
+ 	option forward		REJECT
++	option flow_offloading	1
+ # Uncomment this line to disable ipv6 rules
+ #	option disable_ipv6	1
+ 
+-- 
+2.25.1
+

@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Sat, 11 Jul 2020 13:29:45 +0800
+Subject: [PATCH] rockchip: swap wan and lan for NanoPi R2S
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ target/linux/rockchip/armv8/base-files/etc/board.d/02_network | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/linux/rockchip/armv8/base-files/etc/board.d/02_network b/target/linux/rockchip/armv8/base-files/etc/board.d/02_network
+index 48133c81a1..befded1059 100755
+--- a/target/linux/rockchip/armv8/base-files/etc/board.d/02_network
++++ b/target/linux/rockchip/armv8/base-files/etc/board.d/02_network
+@@ -9,7 +9,7 @@ rockchip_setup_interfaces()
+ 
+ 	case "$board" in
+ 	friendlyarm,nanopi-r2s)
+-		ucidef_set_interfaces_lan_wan 'eth1' 'eth0'
++		ucidef_set_interfaces_lan_wan 'eth0' 'eth1'
+ 		;;
+ 	*)
+ 		ucidef_set_interface_lan 'eth0'
+-- 
+2.25.1
+
