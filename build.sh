@@ -8,7 +8,7 @@
 set -eu
 
 rm -rf openwrt
-git clone -b master https://github.com/openwrt/openwrt.git openwrt
+git clone -b openwrt-21.02 https://github.com/openwrt/openwrt.git openwrt
 
 # customize patches
 pushd openwrt
