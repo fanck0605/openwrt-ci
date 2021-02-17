@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chuck <fanck0605@qq.com>
 Date: Sat, 4 Jul 2020 12:07:43 +0800
-Subject: [PATCH] base-files: set default ipaddr to 192.168.2.1
+Subject: [PATCH] base-files: set default ipaddr to 192.168.33.1
 
 Signed-off-by: Chuck <fanck0605@qq.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/package/base-files/files/bin/config_generate b/package/base-files/files/bin/config_generate
-index ee3958e733..cf656f7be5 100755
+index ee3958e733..3a5df94eb9 100755
 --- a/package/base-files/files/bin/config_generate
 +++ b/package/base-files/files/bin/config_generate
 @@ -89,7 +89,7 @@ generate_static_network() {
@@ -17,7 +17,7 @@ index ee3958e733..cf656f7be5 100755
  }
  
 -addr_offset=2
-+addr_offset=3
++addr_offset=34
  generate_network() {
  	local ifname macaddr protocol type ipaddr netmask vlan
  	local bridge=$2
@@ -26,7 +26,7 @@ index ee3958e733..cf656f7be5 100755
  			local ipad
  			case "$1" in
 -				lan) ipad=${ipaddr:-"192.168.1.1"} ;;
-+				lan) ipad=${ipaddr:-"192.168.2.1"} ;;
++				lan) ipad=${ipaddr:-"192.168.33.1"} ;;
  				*) ipad=${ipaddr:-"192.168.$((addr_offset++)).1"} ;;
  			esac
  

@@ -8,6 +8,6 @@
 
 ## 说明
 
-- ipv4: 192.168.2.1
+- ipv4: 192.168.33.1
 - username: root
-- password: password
+- password: fa
