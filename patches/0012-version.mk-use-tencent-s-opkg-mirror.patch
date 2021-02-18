@@ -5,8 +5,9 @@ Subject: [PATCH] version.mk: use tencent's opkg mirror
 
 Signed-off-by: Chuck <fanck0605@qq.com>
 ---
- include/version.mk | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/version.mk                 | 2 +-
+ package/base-files/image-config.in | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/include/version.mk b/include/version.mk
 index a4b47c8a57..02776bc06e 100644
@@ -21,6 +22,19 @@ index a4b47c8a57..02776bc06e 100644
  
  VERSION_DIST:=$(call qstrip,$(CONFIG_VERSION_DIST))
  VERSION_DIST:=$(if $(VERSION_DIST),$(VERSION_DIST),OpenWrt)
+diff --git a/package/base-files/image-config.in b/package/base-files/image-config.in
+index db85d96bac..6d58d7ab5c 100644
+--- a/package/base-files/image-config.in
++++ b/package/base-files/image-config.in
+@@ -183,7 +183,7 @@ if VERSIONOPT
+ 	config VERSION_REPO
+ 		string
+ 		prompt "Release repository"
+-		default "https://downloads.openwrt.org/releases/21.02-SNAPSHOT"
++		default "https://mirrors.cloud.tencent.com/openwrt/releases/21.02-SNAPSHOT"
+ 		help
+ 			This is the repository address embedded in the image, it defaults
+ 			to the trunk snapshot repo; the url may contain the following placeholders:
 -- 
 2.25.1
 
