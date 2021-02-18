@@ -1,0 +1,51 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Thu, 18 Feb 2021 14:32:21 +0800
+Subject: [PATCH] kernel: add "model name" in /proc/cpuinfo for arm 64bit tasks
+ also
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ ...d-model-name-in-proc-cpuinfo-for-64b.patch | 30 +++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+ create mode 100644 target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64b.patch
+
+diff --git a/target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64b.patch b/target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64b.patch
+new file mode 100644
+index 0000000000..e9053dd097
+--- /dev/null
++++ b/target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64b.patch
+@@ -0,0 +1,30 @@
++From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
++From: Sumit Gupta <sumitg@nvidia.com>
++Date: Mon, 29 Aug 2016 14:32:25 +0530
++Subject: [PATCH] arm64: cpuinfo: Add "model name" in /proc/cpuinfo for 64bit
++ tasks also
++
++Removed restriction of displaying model name for 32 bit tasks only.
++Because of this Processor details were not displayed in
++"System setting -> Details" in Ubuntu model name display is generic
++and can be printed for 64 bit also.
++
++model name : ARMv8 Processor rev X (v8l)
++
++Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
++---
++ arch/arm64/kernel/cpuinfo.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++--- a/arch/arm64/kernel/cpuinfo.c
+++++ b/arch/arm64/kernel/cpuinfo.c
++@@ -139,8 +139,7 @@ static int c_show(struct seq_file *m, void *v)
++ 		 * "processor".  Give glibc what it expects.
++ 		 */
++ 		seq_printf(m, "processor\t: %d\n", i);
++-		if (compat)
++-			seq_printf(m, "model name\t: ARMv8 Processor rev %d (%s)\n",
+++		seq_printf(m, "model name\t: ARMv8 Processor rev %d (%s)\n",
++ 				   MIDR_REVISION(midr), COMPAT_ELF_PLATFORM);
++ 
++ 		seq_printf(m, "BogoMIPS\t: %lu.%02lu\n",
+-- 
+2.25.1
+
