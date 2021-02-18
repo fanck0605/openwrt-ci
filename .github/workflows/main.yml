@@ -42,10 +42,12 @@ jobs:
           sudo -E apt clean
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
+          df -h
 
       - name: Build OpenWrt
         run: |
           ./build.sh
+          df -h
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
