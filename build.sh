@@ -61,9 +61,8 @@ svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/lean/l
 # luci-app-oled
 git clone --depth 1 https://github.com/NateLol/luci-app-oled.git lean/luci-app-oled
 # luci-app-unblockmusic
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-unblockmusic lean/luci-app-unblockmusic
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusic lean/UnblockNeteaseMusic
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/UnblockNeteaseMusicGo lean/UnblockNeteaseMusicGo
+svn co https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/luci-app-unblockneteasemusic lean/luci-app-unblockneteasemusic
+svn co https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/UnblockNeteaseMusic lean/UnblockNeteaseMusic
 # luci-app-autoreboot
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-autoreboot lean/luci-app-autoreboot
 # luci-app-vsftpd
