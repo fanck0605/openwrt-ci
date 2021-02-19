@@ -53,7 +53,7 @@ index 17fb3910b..feb469aaa 100755
  }
  
 diff --git a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
-index ea8f2bb23..5f1a3c8c4 100644
+index ea8f2bb23..8f8058b96 100644
 --- a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
 +++ b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
 @@ -13,6 +13,11 @@ var callSystemInfo = rpc.declare({
@@ -90,7 +90,7 @@ index ea8f2bb23..5f1a3c8c4 100644
  			_('Hostname'),         boardinfo.hostname,
  			_('Model'),            boardinfo.model,
  			_('Architecture'),     boardinfo.system,
-+			_('CPU Information'),         cpuinfo.freq + ', ' + cpuinfo.temp,
++			_('CPU Information'),         cpuinfo.freq && cpuinfo.temp ? cpuinfo.freq + ', ' + cpuinfo.temp : null,
  			_('Firmware Version'), (L.isObject(boardinfo.release) ? boardinfo.release.description + ' / ' : '') + (luciversion || ''),
  			_('Kernel Version'),   boardinfo.kernel,
  			_('Local Time'),       datestr,
