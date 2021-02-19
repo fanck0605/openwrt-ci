@@ -13,7 +13,6 @@ git clone -b openwrt-21.02 https://github.com/openwrt/openwrt.git openwrt
 # customize patches
 pushd openwrt
 git am -3 ../patches/*.patch
-wget -qO- https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/3875.patch | patch -p1
 popd
 
 # initialize feeds
