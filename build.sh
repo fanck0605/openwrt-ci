@@ -16,7 +16,7 @@ git am -3 ../patches/*.patch
 popd
 
 # initialize feeds
-feed_list=$(ls -l patches | awk '/^d/ { print $NF }')
+feed_list=$(cd patches && find * -type d)
 pushd openwrt
 # clone feeds
 ./scripts/feeds update -a
@@ -106,6 +106,6 @@ popd
 # package output files
 archive_tag=OpenWrt_$(date +%Y%m%d)_NanoPi-R2S
 pushd openwrt/bin/targets/*/*
-tar zcf $archive_tag.tar.gz $(ls -l | awk '/^-/ { print $NF }')
+tar -zcf $archive_tag.tar.gz *
 popd
 mv openwrt/bin/targets/*/*/$archive_tag.tar.gz .
