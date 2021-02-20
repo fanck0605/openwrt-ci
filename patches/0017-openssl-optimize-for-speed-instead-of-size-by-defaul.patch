@@ -1,0 +1,51 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Sat, 20 Feb 2021 17:09:49 +0800
+Subject: [PATCH] openssl: optimize for speed instead of size by default
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ package/libs/openssl/Config.in | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/package/libs/openssl/Config.in b/package/libs/openssl/Config.in
+index d1281ec6fa..3ab5fbd199 100644
+--- a/package/libs/openssl/Config.in
++++ b/package/libs/openssl/Config.in
+@@ -4,7 +4,7 @@ comment "Build Options"
+ 
+ config OPENSSL_OPTIMIZE_SPEED
+ 	bool
+-	default y if x86_64 || i386
++	default y
+ 	prompt "Enable optimization for speed instead of size"
+ 	select OPENSSL_WITH_ASM
+ 	help
+@@ -16,7 +16,7 @@ config OPENSSL_OPTIMIZE_SPEED
+ 
+ config OPENSSL_WITH_ASM
+ 	bool
+-	default y if !SMALL_FLASH || !arm
++	default y
+ 	prompt "Compile with optimized assembly code"
+ 	depends on !arc
+ 	help
+@@ -247,6 +247,7 @@ config OPENSSL_ENGINE
+ 
+ config OPENSSL_ENGINE_BUILTIN
+ 	bool "Build chosen engines into libcrypto"
++	default y
+ 	depends on OPENSSL_ENGINE
+ 	help
+ 		This builds all chosen engines into libcrypto.so, instead of building
+@@ -256,6 +257,7 @@ config OPENSSL_ENGINE_BUILTIN
+ 
+ config OPENSSL_ENGINE_BUILTIN_AFALG
+ 	bool
++	default y
+ 	prompt "Acceleration support through AF_ALG sockets engine"
+ 	depends on OPENSSL_ENGINE_BUILTIN && KERNEL_AIO
+ 	select PACKAGE_libopenssl-conf
+-- 
+2.25.1
+
