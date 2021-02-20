@@ -1,0 +1,36 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Sat, 12 Sep 2020 20:22:21 +0800
+Subject: [PATCH] base-files: set default shell to bash instead of ash
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ include/target.mk                   | 1 +
+ package/base-files/files/etc/passwd | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/include/target.mk b/include/target.mk
+index bca38bcf3b..0d4c6b8e12 100644
+--- a/include/target.mk
++++ b/include/target.mk
+@@ -12,6 +12,7 @@ DEVICE_TYPE?=router
+ # Default packages - the really basic set
+ DEFAULT_PACKAGES:=\
+ 	base-files \
++	bash \
+ 	ca-bundle \
+ 	dropbear \
+ 	fstools \
+diff --git a/package/base-files/files/etc/passwd b/package/base-files/files/etc/passwd
+index 1d06a80361..c3a083d7c9 100644
+--- a/package/base-files/files/etc/passwd
++++ b/package/base-files/files/etc/passwd
+@@ -1,4 +1,4 @@
+-root:x:0:0:root:/root:/bin/ash
++root:x:0:0:root:/root:/bin/bash
+ daemon:*:1:1:daemon:/var:/bin/false
+ ftp:*:55:55:ftp:/home/ftp:/bin/false
+ network:*:101:101:network:/var:/bin/false
+-- 
+2.25.1
+
