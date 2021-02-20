@@ -1,0 +1,39 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Sat, 20 Feb 2021 17:38:40 +0800
+Subject: [PATCH] target.mk: update some default packages
+
+- add luci
+- add luci-compat
+- replace dnsmasq with dnsmasq-full
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ include/target.mk | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/include/target.mk b/include/target.mk
+index 0d4c6b8e12..569a04ce0e 100644
+--- a/include/target.mk
++++ b/include/target.mk
+@@ -19,6 +19,8 @@ DEFAULT_PACKAGES:=\
+ 	libc \
+ 	libgcc \
+ 	libustream-wolfssl \
++	luci \
++	luci-compat \
+ 	logd \
+ 	mtd \
+ 	netifd \
+@@ -44,7 +46,7 @@ DEFAULT_PACKAGES.nas:=\
+ 	mdadm
+ # For router targets
+ DEFAULT_PACKAGES.router:=\
+-	dnsmasq \
++	dnsmasq-full \
+ 	firewall \
+ 	ip6tables \
+ 	iptables \
+-- 
+2.25.1
+
