@@ -5,20 +5,20 @@ Subject: [PATCH] rockchip: rk3328: enable i2c0 on NanoPi R2S
 
 Signed-off-by: Chuck <fanck0605@qq.com>
 ---
- ...enable-i2c0-on-FriendlyARM-NanoPi-R2.patch | 22 +++++++++++++++++++
+ ...8-add-i2c0-controller-for-nanopi-r2s.patch | 22 +++++++++++++++++++
  1 file changed, 22 insertions(+)
- create mode 100644 target/linux/rockchip/patches-5.4/201-rockchip-rk3328-enable-i2c0-on-FriendlyARM-NanoPi-R2.patch
+ create mode 100644 target/linux/rockchip/patches-5.4/201-rockchip-rk3328-add-i2c0-controller-for-nanopi-r2s.patch
 
-diff --git a/target/linux/rockchip/patches-5.4/201-rockchip-rk3328-enable-i2c0-on-FriendlyARM-NanoPi-R2.patch b/target/linux/rockchip/patches-5.4/201-rockchip-rk3328-enable-i2c0-on-FriendlyARM-NanoPi-R2.patch
+diff --git a/target/linux/rockchip/patches-5.4/201-rockchip-rk3328-add-i2c0-controller-for-nanopi-r2s.patch b/target/linux/rockchip/patches-5.4/201-rockchip-rk3328-add-i2c0-controller-for-nanopi-r2s.patch
 new file mode 100644
-index 0000000000..4c01abe138
+index 0000000000..a2cd99aff9
 --- /dev/null
-+++ b/target/linux/rockchip/patches-5.4/201-rockchip-rk3328-enable-i2c0-on-FriendlyARM-NanoPi-R2.patch
++++ b/target/linux/rockchip/patches-5.4/201-rockchip-rk3328-add-i2c0-controller-for-nanopi-r2s.patch
 @@ -0,0 +1,22 @@
 +From 3b7eb946b1d640d684a921e53e1e50985ab7eb89 Mon Sep 17 00:00:00 2001
 +From: QiuSimons <QiuSimons@github.com>
 +Date: Tue, 4 Aug 2020 20:17:53 +0800
-+Subject: [PATCH] rockchip: rk3328: enable i2c0 on FriendlyARM NanoPi R2S
++Subject: [PATCH] rockchip: rk3328: add i2c0 controller for nanopi r2s
 +
 +---
 + arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s.dts | 4 ++++
