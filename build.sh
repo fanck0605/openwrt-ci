@@ -54,8 +54,6 @@ svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/ctcgfw
 svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/ctcgfw/filebrowser custom/filebrowser
 # luci-app-arpbind
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-arpbind custom/luci-app-arpbind
-# coremark
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/coremark custom/coremark
 # luci-app-xlnetacc
 svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/lean/luci-app-xlnetacc custom/luci-app-xlnetacc
 # luci-app-oled
