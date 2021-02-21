@@ -12,7 +12,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
 
 diff --git a/target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64b.patch b/target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64b.patch
 new file mode 100644
-index 0000000000..e9053dd097
+index 0000000000..f840fbae81
 --- /dev/null
 +++ b/target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64b.patch
 @@ -0,0 +1,30 @@
@@ -36,7 +36,7 @@ index 0000000000..e9053dd097
 +
 +--- a/arch/arm64/kernel/cpuinfo.c
 ++++ b/arch/arm64/kernel/cpuinfo.c
-+@@ -139,8 +139,7 @@ static int c_show(struct seq_file *m, void *v)
++@@ -139,8 +139,7 @@ static int c_show(struct seq_file *m, vo
 + 		 * "processor".  Give glibc what it expects.
 + 		 */
 + 		seq_printf(m, "processor\t: %d\n", i);

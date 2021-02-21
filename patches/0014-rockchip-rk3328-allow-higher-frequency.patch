@@ -11,7 +11,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
 
 diff --git a/target/linux/rockchip/patches-5.4/991-arm64-dts-rockchip-add-more-cpu-operating-points-for.patch b/target/linux/rockchip/patches-5.4/991-arm64-dts-rockchip-add-more-cpu-operating-points-for.patch
 new file mode 100644
-index 0000000000..f59d3a412b
+index 0000000000..e5a5d19273
 --- /dev/null
 +++ b/target/linux/rockchip/patches-5.4/991-arm64-dts-rockchip-add-more-cpu-operating-points-for.patch
 @@ -0,0 +1,39 @@
@@ -37,7 +37,7 @@ index 0000000000..f59d3a412b
 +
 +--- a/arch/arm64/boot/dts/rockchip/rk3328.dtsi
 ++++ b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
-+@@ -123,6 +123,16 @@
++@@ -140,6 +140,16 @@
 + 			opp-microvolt = <1300000>;
 + 			clock-latency-ns = <40000>;
 + 		};

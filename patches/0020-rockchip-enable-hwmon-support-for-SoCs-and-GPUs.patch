@@ -11,7 +11,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
 
 diff --git a/target/linux/rockchip/patches-5.4/008-thermal-rockchip-Enable-hwmon-support-for-SoCs-and-G.patch b/target/linux/rockchip/patches-5.4/008-thermal-rockchip-Enable-hwmon-support-for-SoCs-and-G.patch
 new file mode 100644
-index 0000000000..619c6a7ab6
+index 0000000000..7b15680052
 --- /dev/null
 +++ b/target/linux/rockchip/patches-5.4/008-thermal-rockchip-Enable-hwmon-support-for-SoCs-and-G.patch
 @@ -0,0 +1,53 @@
@@ -43,7 +43,7 @@ index 0000000000..619c6a7ab6
 + /**
 +  * The max sensors is two in rockchip SoCs.
 +  * Two sensors: CPU and GPU sensor.
-+@@ -1321,8 +1323,15 @@ static int rockchip_thermal_probe(struct platform_device *pdev)
++@@ -1321,8 +1323,15 @@ static int rockchip_thermal_probe(struct
 + 
 + 	thermal->chip->control(thermal->regs, true);
 + 
@@ -60,7 +60,7 @@ index 0000000000..619c6a7ab6
 + 
 + 	platform_set_drvdata(pdev, thermal);
 + 
-+@@ -1344,6 +1353,7 @@ static int rockchip_thermal_remove(struct platform_device *pdev)
++@@ -1344,6 +1353,7 @@ static int rockchip_thermal_remove(struc
 + 	for (i = 0; i < thermal->chip->chn_num; i++) {
 + 		struct rockchip_thermal_sensor *sensor = &thermal->sensors[i];
 + 
