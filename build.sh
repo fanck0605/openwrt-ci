@@ -71,6 +71,10 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-netdata 
 # ddns-scripts
 svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/lean/ddns-scripts_aliyun custom/ddns-scripts_aliyun
 svn co https://github.com/immortalwrt/immortalwrt/branches/master/package/lean/ddns-scripts_dnspod custom/ddns-scripts_dnspod
+
+find -maxdepth 3 -name .svn | xargs rm -rf
+find -maxdepth 3 -name .git | xargs rm -rf
+
 popd
 
 # zh_cn to zh_Hans
