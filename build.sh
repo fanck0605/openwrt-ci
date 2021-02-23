@@ -2,38 +2,41 @@
 #
 # This is free software, license use GPLv3.
 #
-# Copyright (c) 2020, Chuck <fanck0605@qq.com>
+# Copyright (c) 2021, Chuck <fanck0605@qq.com>
 #
 
 set -eu
 
+proj_dir=$(pwd)
+
+# clone openwrt
+cd "$proj_dir"
 rm -rf openwrt
 git clone -b openwrt-21.02 https://github.com/openwrt/openwrt.git openwrt
 
-# customize patches
-pushd openwrt
-cat ../patches/*.patch | patch -p1
-popd
+# patch openwrt
+cd "$proj_dir/openwrt"
+cat "$proj_dir/patches"/*.patch | patch -p1
 
-# initialize feeds
-feed_list=$(cd patches && find * -type d)
-pushd openwrt
+# obtain feed list
+cd "$proj_dir/openwrt"
+feed_list=$(awk '/^src-git/ { print $2 }' feeds.conf.default)
+
 # clone feeds
+cd "$proj_dir/openwrt"
 ./scripts/feeds update -a
-# patching
-pushd feeds
-for feed in $feed_list ; do
-  [ -d $feed ] && {
-    pushd $feed
-    cat ../../../patches/$feed/*.patch | patch -p1
-    popd
-  }
+
+# patch feeds
+for feed in $feed_list; do
+  [ -d "$proj_dir/patches/$feed" ] &&
+    {
+      cd "$proj_dir/openwrt/feeds/$feed"
+      cat "$proj_dir/patches/$feed"/*.patch | patch -p1
+    }
 done
-popd
-popd
 
 # addition packages
-pushd openwrt/package
+cd "$proj_dir/openwrt/package"
 # luci-app-helloworld
 svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus custom/luci-app-ssr-plus
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shadowsocksr-libev custom/shadowsocksr-libev
@@ -72,41 +75,33 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-netdata 
 svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-21.02/package/lean/ddns-scripts_aliyun custom/ddns-scripts_aliyun
 svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-21.02/package/lean/ddns-scripts_dnspod custom/ddns-scripts_dnspod
 
+# clean up packages
+cd "$proj_dir/openwrt/package"
 find . -name .svn -exec rm -rf {} +
 find . -name .git -exec rm -rf {} +
 
-popd
-
 # zh_cn to zh_Hans
-pushd openwrt/package
-../../scripts/convert_translation.sh
-popd
+cd "$proj_dir/openwrt/package"
+"$proj_dir/scripts/convert_translation.sh"
 
 # create acl files
-pushd openwrt
-../scripts/create_acl_for_luci.sh -a
-popd
+cd "$proj_dir/openwrt"
+"$proj_dir/scripts/create_acl_for_luci.sh" -a
 
-#install packages
-pushd openwrt
+# install packages
+cd "$proj_dir/openwrt"
 ./scripts/feeds install -a
-popd
 
 # customize configs
-pushd openwrt
-cat ../config.seed > .config
+cd "$proj_dir/openwrt"
+cat "$proj_dir/config.seed" >.config
 make defconfig
-popd
 
 # build openwrt
-pushd openwrt
+cd "$proj_dir/openwrt"
 make download -j8
 make -j$(($(nproc) + 1)) || make -j1 V=s
-popd
 
-# package output files
-archive_tag=OpenWrt_$(date +%Y%m%d)_NanoPi-R2S
-pushd openwrt/bin/targets/*/*
-tar -zcf $archive_tag.tar.gz *
-popd
-mv openwrt/bin/targets/*/*/$archive_tag.tar.gz .
+# copy output files
+cd "$proj_dir"
+cp -a openwrt/bin/targets/*/* artifact
