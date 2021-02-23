@@ -49,8 +49,13 @@ jobs:
           ./build.sh
           df -h
 
-      - name: Upload Artifacts
+      - name: Assemble Artifact
+        id: assemble_artifact
+        run: |
+          echo "##[set-output name=artifact_name;]OpenWrt_$(date +%Y%m%d)_NanoPi-R2S"
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: OpenWrt
-          path: OpenWrt_*_NanoPi-R2S.tar.gz
+          name: ${{ steps.assemble_artifact.outputs.artifact_name }}
+          path: artifact
