@@ -1,3 +1,4 @@
 /.idea/
+/artifact/
 /openwrt/
-/OpenWrt_*_NanoPi-R2S.tar.gz
+/OpenWrt_*_NanoPi-R2S*
