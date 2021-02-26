@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Fri, 26 Feb 2021 22:49:13 +0800
+Subject: [PATCH] curl: default use openssl instead of wolfssl
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ net/curl/Config.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/curl/Config.in b/net/curl/Config.in
+index 0c4fcb7cf..212275397 100644
+--- a/net/curl/Config.in
++++ b/net/curl/Config.in
+@@ -4,7 +4,7 @@ comment "SSL support"
+ 
+ choice
+ 	prompt "Selected SSL library"
+-	default LIBCURL_WOLFSSL
++	default LIBCURL_OPENSSL
+ 
+ 	config LIBCURL_MBEDTLS
+ 		bool "mbed TLS"
+-- 
+2.25.1
+

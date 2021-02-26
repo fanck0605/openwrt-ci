@@ -1,0 +1,27 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck <fanck0605@qq.com>
+Date: Fri, 26 Feb 2021 22:42:35 +0800
+Subject: [PATCH] target.mk: use libustream-openssl instead of
+ libustream-wolfssl
+
+Signed-off-by: Chuck <fanck0605@qq.com>
+---
+ include/target.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/target.mk b/include/target.mk
+index 569a04ce0e..2ae1ee5779 100644
+--- a/include/target.mk
++++ b/include/target.mk
+@@ -18,7 +18,7 @@ DEFAULT_PACKAGES:=\
+ 	fstools \
+ 	libc \
+ 	libgcc \
+-	libustream-wolfssl \
++	libustream-openssl \
+ 	luci \
+ 	luci-compat \
+ 	logd \
+-- 
+2.25.1
+
