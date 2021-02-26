@@ -10,7 +10,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  2 files changed, 11 insertions(+)
 
 diff --git a/modules/luci-base/po/zh_Hans/base.po b/modules/luci-base/po/zh_Hans/base.po
-index 2bb85bdfa..2235684ee 100644
+index 0fca9c3fa..c6aa91992 100644
 --- a/modules/luci-base/po/zh_Hans/base.po
 +++ b/modules/luci-base/po/zh_Hans/base.po
 @@ -498,6 +498,12 @@ msgstr "额外的 HOSTS 文件"
