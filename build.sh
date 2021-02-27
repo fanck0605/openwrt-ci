@@ -17,6 +17,7 @@ git clone -b openwrt-21.02 https://github.com/openwrt/openwrt.git openwrt
 # patch openwrt
 cd "$proj_dir/openwrt"
 cat "$proj_dir/patches"/*.patch | patch -p1
+wget -qO- https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/3940.patch | patch -p1
 
 # obtain feed list
 cd "$proj_dir/openwrt"
