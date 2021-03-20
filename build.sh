@@ -46,6 +46,7 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/microsocks custom
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dns2socks custom/dns2socks
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/simple-obfs custom/simple-obfs
 svn co https://github.com/fw876/helloworld/trunk/tcping custom/tcping
+svn co https://github.com/fw876/helloworld/trunk/shadowsocks-rust custom/shadowsocks-rust
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/v2ray-plugin custom/v2ray-plugin
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/trojan custom/trojan
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/ipt2socks custom/ipt2socks
