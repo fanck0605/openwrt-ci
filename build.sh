@@ -55,8 +55,8 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/redsocks2 custom/
 # luci-app-openclash
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash custom/luci-app-openclash
 # luci-app-filebrowser
-svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-21.02/package/ctcgfw/luci-app-filebrowser custom/luci-app-filebrowser
-svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-21.02/package/ctcgfw/filebrowser custom/filebrowser
+svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-filebrowser custom/luci-app-filebrowser
+svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/utils/filebrowser custom/filebrowser
 # luci-app-arpbind
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-arpbind custom/luci-app-arpbind
 # luci-app-xlnetacc
