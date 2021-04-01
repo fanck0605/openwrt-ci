@@ -1,4 +1,4 @@
-From 8ee7e66612286b11879e3e6786cfaa81a0bd5367 Mon Sep 17 00:00:00 2001
+From 1e4fb71e6421ef6b36275ef03dc7bf001ac62664 Mon Sep 17 00:00:00 2001
 From: Chuck <fanck0605@qq.com>
 Date: Wed, 15 Jul 2020 14:20:39 +0800
 Subject: [PATCH] rk3328: nanopi-r2s: swap wan and lan
@@ -9,13 +9,13 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/linux/rockchip/armv8/base-files/etc/board.d/02_network b/target/linux/rockchip/armv8/base-files/etc/board.d/02_network
-index 4849b877e..17ca0996d 100644
+index df276da74..e9c8fdf01 100755
 --- a/target/linux/rockchip/armv8/base-files/etc/board.d/02_network
 +++ b/target/linux/rockchip/armv8/base-files/etc/board.d/02_network
-@@ -10,7 +10,7 @@ rockchip_setup_interfaces()
- 	case "$board" in
+@@ -11,7 +11,7 @@ rockchip_setup_interfaces()
  	friendlyarm,nanopi-r2s|\
- 	friendlyarm,nanopi-r4s)
+ 	friendlyarm,nanopi-r4s|\
+ 	xunlong,orangepi-r1-plus)
 -		ucidef_set_interfaces_lan_wan 'eth1' 'eth0'
 +		ucidef_set_interfaces_lan_wan 'eth0' 'eth1'
  		;;
