@@ -17,10 +17,10 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  create mode 100644 target/linux/rockchip/patches-5.4/802-arm64-dts-rockchip-add-hardware-random-number-genera.patch
 
 diff --git a/target/linux/rockchip/armv8/config-5.4 b/target/linux/rockchip/armv8/config-5.4
-index bea1dbc741..b63144dba8 100644
+index 1627fb6f15..563b843190 100644
 --- a/target/linux/rockchip/armv8/config-5.4
 +++ b/target/linux/rockchip/armv8/config-5.4
-@@ -184,6 +184,8 @@ CONFIG_HUGETLB_PAGE=y
+@@ -183,6 +183,8 @@ CONFIG_HUGETLB_PAGE=y
  CONFIG_HWMON=y
  CONFIG_HWSPINLOCK=y
  CONFIG_HW_CONSOLE=y
