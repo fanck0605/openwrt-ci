@@ -40,7 +40,7 @@ done
 cd "$proj_dir/openwrt/package"
 # luci-app-helloworld
 svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus custom/luci-app-ssr-plus
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/shadowsocksr-libev custom/shadowsocksr-libev
+svn co https://github.com/fw876/helloworld/trunk/shadowsocksr-libev custom/shadowsocksr-libev
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/pdnsd-alt custom/pdnsd-alt
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/microsocks custom/microsocks
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dns2socks custom/dns2socks
