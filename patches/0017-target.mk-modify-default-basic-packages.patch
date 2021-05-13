@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chuck <fanck0605@qq.com>
 Date: Sat, 20 Feb 2021 17:38:40 +0800
-Subject: [PATCH] target.mk: update some default packages
+Subject: [PATCH] target.mk: modify default basic packages
 
 - add luci
 - add luci-compat
