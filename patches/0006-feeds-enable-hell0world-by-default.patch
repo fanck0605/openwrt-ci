@@ -5,19 +5,18 @@ Subject: [PATCH] feeds: enable hell0world by default
 
 Signed-off-by: Chuck <fanck0605@qq.com>
 ---
- feeds.conf.default | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ feeds.conf.default | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/feeds.conf.default b/feeds.conf.default
-index bae9813cf..1be7d70a5 100644
+index 416da4b0c..e0474e71d 100644
 --- a/feeds.conf.default
 +++ b/feeds.conf.default
-@@ -8,4 +8,4 @@ src-git freifunk https://github.com/freifunk/openwrt-packages.git
- #src-git management https://github.com/openwrt-management/packages.git
+@@ -6,3 +6,4 @@ src-git telephony https://git.openwrt.org/feed/telephony.git
+ #src-git targets https://github.com/openwrt/targets.git
  #src-git oldpackages http://git.openwrt.org/packages.git
  #src-link custom /usr/src/openwrt/custom-feed
--#src-git helloworld https://github.com/fw876/helloworld
 +src-git helloworld https://github.com/fw876/helloworld
--- 
-2.17.1
+--
+2.30.1
 
