@@ -38,20 +38,6 @@ done
 
 # addition packages
 cd "$proj_dir/openwrt/package"
-# luci-app-helloworld
-svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus custom/luci-app-ssr-plus
-svn co https://github.com/fw876/helloworld/trunk/shadowsocksr-libev custom/shadowsocksr-libev
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/pdnsd-alt custom/pdnsd-alt
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/microsocks custom/microsocks
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/dns2socks custom/dns2socks
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/simple-obfs custom/simple-obfs
-svn co https://github.com/fw876/helloworld/trunk/tcping custom/tcping
-svn co https://github.com/fw876/helloworld/trunk/shadowsocks-rust custom/shadowsocks-rust
-svn co https://github.com/fw876/helloworld/trunk/v2ray-plugin custom/v2ray-plugin
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/trojan custom/trojan
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/ipt2socks custom/ipt2socks
-svn co https://github.com/fw876/helloworld/trunk/naiveproxy custom/naiveproxy
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/redsocks2 custom/redsocks2
 # luci-app-openclash
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash custom/luci-app-openclash
 # luci-app-arpbind
