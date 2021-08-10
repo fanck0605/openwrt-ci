@@ -32,6 +32,19 @@ apply_patches() {
 	return 0
 }
 
+download_clash_core() { (
+	cd "$1"
+	mkdir -p etc/openclash/core
+	cd etc/openclash/core
+	premium_version=$(curl -sL https://github.com/vernesong/OpenClash/raw/master/core_version | sed -n 2p)
+	curl -sL https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-armv8.tar.gz | tar -xOz >clash
+	curl -sL https://github.com/vernesong/OpenClash/releases/download/TUN-Premium/clash-linux-armv8-"$premium_version".gz | zcat >clash_tun
+	curl -sL https://github.com/vernesong/OpenClash/releases/download/TUN/clash-linux-armv8.tar.gz | tar -xOz >clash_game
+	chmod +x clash
+	chmod +x clash_tun
+	chmod +x clash_game
+); }
+
 proj_dir=$(pwd)
 
 # clone openwrt
@@ -60,6 +73,7 @@ done
 cd "$proj_dir/openwrt/package"
 # luci-app-openclash
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash custom/luci-app-openclash
+download_clash_core custom/luci-app-openclash/root
 # luci-app-arpbind
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-arpbind custom/luci-app-arpbind
 # luci-app-xlnetacc
