@@ -7,6 +7,16 @@
 
 set -eu
 
+maintain=0
+
+while getopts 'm' opt; do
+	case $opt in
+	m)
+		maintain=1
+		;;
+	esac
+done
+
 proj_dir=$(pwd)
 
 # clone openwrt
@@ -31,6 +41,7 @@ for feed in $feed_list; do
 	[ -d "$proj_dir/patches/$feed" ] &&
 		{
 			cd "$proj_dir/openwrt/feeds/$feed"
+			[ $maintain -ne 0 ] && git fetch --unshallow
 			cat "$proj_dir/patches/$feed"/*.patch | patch -p1
 		}
 done
@@ -78,6 +89,8 @@ cd "$proj_dir/openwrt/package"
 # create acl files
 cd "$proj_dir/openwrt"
 "$proj_dir/scripts/create_acl_for_luci.sh" -a
+
+[ $maintain -ne 0 ] && exit 0
 
 # install packages
 cd "$proj_dir/openwrt"
