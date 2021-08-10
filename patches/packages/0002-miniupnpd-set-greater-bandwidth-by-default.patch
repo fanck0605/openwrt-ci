@@ -21,7 +21,7 @@ index e8788ee35..0e4dc131d 100644
 -	option download		1024
 -	option upload		512
 +	option download		20480
-+	option upload		2048
++	option upload		10240
  #by default, looked up dynamically from ubus
  #	option external_iface	wan
  	option internal_iface	lan
