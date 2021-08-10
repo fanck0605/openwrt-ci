@@ -1,4 +1,5 @@
+*.patch~
 /.idea/
 /artifact/
 /openwrt/
-/OpenWrt_*_NanoPi-R2S*
+series

@@ -17,6 +17,17 @@ while getopts 'm' opt; do
 	esac
 done
 
+apply_patches() {
+	ln -sf "$1" patches
+	find patches/ -maxdepth 1 -name '*.patch' -printf '%f\n' | sort >patches/series
+	quilt push -a
+	[ $maintain -ne 0 ] &&
+		while IFS= read -r patch; do
+			quilt refresh -p ab --no-timestamps --no-index -f "$patch"
+		done <patches/series
+	return 0
+}
+
 proj_dir=$(pwd)
 
 # clone openwrt
@@ -26,7 +37,7 @@ git clone -b openwrt-21.02 https://github.com/openwrt/openwrt.git openwrt
 
 # patch openwrt
 cd "$proj_dir/openwrt"
-cat "$proj_dir/patches"/*.patch | patch -p1
+apply_patches ../patches
 
 # obtain feed list
 cd "$proj_dir/openwrt"
@@ -41,8 +52,7 @@ for feed in $feed_list; do
 	[ -d "$proj_dir/patches/$feed" ] &&
 		{
 			cd "$proj_dir/openwrt/feeds/$feed"
-			[ $maintain -ne 0 ] && git fetch --unshallow
-			cat "$proj_dir/patches/$feed"/*.patch | patch -p1
+			apply_patches ../../../patches/"$feed"
 		}
 done
 
