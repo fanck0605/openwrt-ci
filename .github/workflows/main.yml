@@ -34,8 +34,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo du -xh --exclude=/{proc,sys,dev} / | grep -E '^[0-9.]*?[GTPEZY]'
-          docker image prune -a -f
-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          sudo rm -rf /usr/local/lib/android
           sudo -E apt update
           sudo -E apt install build-essential ccache ecj fastjar file g++ gawk gettext git java-propose-classpath libelf-dev libncurses5-dev libncursesw5-dev libssl-dev python python2.7-dev python3 unzip wget python3-distutils python3-setuptools python3-dev rsync subversion swig time xsltproc zlib1g-dev
           sudo -E apt autoremove --purge
