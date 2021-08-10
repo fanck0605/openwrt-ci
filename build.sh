@@ -50,10 +50,10 @@ cd "$proj_dir/openwrt"
 # patch feeds
 cd "$proj_dir/openwrt"
 awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
-	[ -d "$proj_dir/patches/$feed" ] && {
+	if [ -d "$proj_dir/patches/$feed" ]; then
 		cd "$proj_dir/openwrt/feeds/$feed"
 		apply_patches ../../../patches/"$feed"
-	}
+	fi
 done
 
 # addition packages
