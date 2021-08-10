@@ -16,14 +16,11 @@ on:
     types: [started]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-20.04
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
-
       - name: Checkout Project
         uses: actions/checkout@v2
         with:
@@ -35,12 +32,12 @@ jobs:
         run: |
           sudo du -xh --exclude=/{proc,sys,dev} / | grep -E '^[0-9.]*?[GTPEZY]'
           sudo rm -rf /usr/local/lib/android
-          sudo -E apt update
-          sudo -E apt install build-essential ccache ecj fastjar file g++ gawk gettext git java-propose-classpath libelf-dev libncurses5-dev libncursesw5-dev libssl-dev python python2.7-dev python3 unzip wget python3-distutils python3-setuptools python3-dev rsync subversion swig time xsltproc zlib1g-dev
-          sudo -E apt autoremove --purge
-          sudo -E apt clean
-          git config --global user.name "GitHub"
-          git config --global user.email "noreply@github.com"
+          sudo apt-get update
+          sudo apt-get install build-essential ccache ecj fastjar file g++ gawk gettext git java-propose-classpath libelf-dev libncurses5-dev libncursesw5-dev libssl-dev python python2.7-dev python3 unzip wget python3-distutils python3-setuptools python3-dev rsync subversion swig time xsltproc zlib1g-dev
+          sudo apt-get autoremove --purge
+          sudo apt-get clean
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
           df -h
 
       - name: Build OpenWrt
