@@ -7,12 +7,12 @@
 
 set -eu
 
-maintain=0
+maintain=false
 
 while getopts 'm' opt; do
 	case $opt in
 	m)
-		maintain=1
+		maintain=true
 		;;
 	*)
 		echo "usage: $0 [-m]"
@@ -25,7 +25,7 @@ apply_patches() {
 	ln -sf "$1" patches
 	find patches/ -maxdepth 1 -name '*.patch' -printf '%f\n' | sort >patches/series
 	quilt push -a
-	[ $maintain -ne 0 ] &&
+	$maintain &&
 		while IFS= read -r patch; do
 			quilt refresh -p ab --no-timestamps --no-index -f "$patch"
 		done <patches/series
@@ -114,7 +114,7 @@ cd "$proj_dir/openwrt/package"
 cd "$proj_dir/openwrt"
 "$proj_dir/scripts/create_acl_for_luci.sh" -a
 
-[ $maintain -ne 0 ] && exit 0
+$maintain && exit 0
 
 # install packages
 cd "$proj_dir/openwrt"
