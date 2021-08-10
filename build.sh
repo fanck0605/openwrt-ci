@@ -14,6 +14,10 @@ while getopts 'm' opt; do
 	m)
 		maintain=1
 		;;
+	*)
+		echo "usage: $0 [-m]"
+		exit 1
+		;;
 	esac
 done
 
