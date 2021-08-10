@@ -10,8 +10,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  net/miniupnpd/files/upnpd.config | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/net/miniupnpd/files/upnpd.config b/net/miniupnpd/files/upnpd.config
-index e8788ee35..0e4dc131d 100644
 --- a/net/miniupnpd/files/upnpd.config
 +++ b/net/miniupnpd/files/upnpd.config
 @@ -4,8 +4,8 @@ config upnpd config
@@ -25,6 +23,3 @@ index e8788ee35..0e4dc131d 100644
  #by default, looked up dynamically from ubus
  #	option external_iface	wan
  	option internal_iface	lan
--- 
-2.25.1
-

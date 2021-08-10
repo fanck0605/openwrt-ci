@@ -8,8 +8,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  package/kernel/linux/files/sysctl-nf-conntrack.conf | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/package/kernel/linux/files/sysctl-nf-conntrack.conf b/package/kernel/linux/files/sysctl-nf-conntrack.conf
-index 37baf5fd6f..4a3f8bfc61 100644
 --- a/package/kernel/linux/files/sysctl-nf-conntrack.conf
 +++ b/package/kernel/linux/files/sysctl-nf-conntrack.conf
 @@ -3,7 +3,7 @@
@@ -21,6 +19,3 @@ index 37baf5fd6f..4a3f8bfc61 100644
  net.netfilter.nf_conntrack_tcp_timeout_established=7440
  net.netfilter.nf_conntrack_udp_timeout=60
  net.netfilter.nf_conntrack_udp_timeout_stream=180
--- 
-2.25.1
-

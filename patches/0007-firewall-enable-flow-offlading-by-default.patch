@@ -8,8 +8,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  package/network/config/firewall/files/firewall.config | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/package/network/config/firewall/files/firewall.config b/package/network/config/firewall/files/firewall.config
-index 5e22f984ce..82b36c0d1e 100644
 --- a/package/network/config/firewall/files/firewall.config
 +++ b/package/network/config/firewall/files/firewall.config
 @@ -3,6 +3,7 @@ config defaults
@@ -20,6 +18,3 @@ index 5e22f984ce..82b36c0d1e 100644
  # Uncomment this line to disable ipv6 rules
  #	option disable_ipv6	1
  
--- 
-2.25.1
-

@@ -8,11 +8,9 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  include/target.mk | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/target.mk b/include/target.mk
-index 7526224972..bca38bcf3b 100644
 --- a/include/target.mk
 +++ b/include/target.mk
-@@ -191,7 +191,7 @@ LINUX_RECONF_DIFF = $(SCRIPT_DIR)/kconfig.pl - '>' $(call __linux_confcmd,$(filt
+@@ -191,7 +191,7 @@ LINUX_RECONF_DIFF = $(SCRIPT_DIR)/kconfi
  ifeq ($(DUMP),1)
    BuildTarget=$(BuildTargets/DumpCurrent)
  
@@ -21,6 +19,3 @@ index 7526224972..bca38bcf3b 100644
    ifneq ($(findstring mips,$(ARCH)),)
      ifneq ($(findstring mips64,$(ARCH)),)
        CPU_TYPE ?= mips64
--- 
-2.25.1
-

@@ -10,9 +10,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 30 insertions(+)
  create mode 100644 target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64b.patch
 
-diff --git a/target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64b.patch b/target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64b.patch
-new file mode 100644
-index 0000000000..f840fbae81
 --- /dev/null
 +++ b/target/linux/generic/hack-5.4/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64b.patch
 @@ -0,0 +1,30 @@
@@ -46,6 +43,3 @@ index 0000000000..f840fbae81
 + 				   MIDR_REVISION(midr), COMPAT_ELF_PLATFORM);
 + 
 + 		seq_printf(m, "BogoMIPS\t: %lu.%02lu\n",
--- 
-2.25.1
-

@@ -8,9 +8,6 @@ Subject: [PATCH] rockchip: rk3328: add CPU idle state
  1 file changed, 69 insertions(+)
  create mode 100644 target/linux/rockchip/patches-5.4/007-arm64-dts-rockchip-Add-RK3328-idle-state.patch
 
-diff --git a/target/linux/rockchip/patches-5.4/007-arm64-dts-rockchip-Add-RK3328-idle-state.patch b/target/linux/rockchip/patches-5.4/007-arm64-dts-rockchip-Add-RK3328-idle-state.patch
-new file mode 100644
-index 0000000000..3494b06cf6
 --- /dev/null
 +++ b/target/linux/rockchip/patches-5.4/007-arm64-dts-rockchip-Add-RK3328-idle-state.patch
 @@ -0,0 +1,69 @@
@@ -83,6 +80,3 @@ index 0000000000..3494b06cf6
 + 		l2: l2-cache0 {
 + 			compatible = "cache";
 + 		};
--- 
-2.25.1
-

@@ -10,8 +10,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  package/base-files/image-config.in           | 4 ++--
  3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/package/base-files/Makefile b/package/base-files/Makefile
-index 8a1ddf96f5..435c73f131 100644
 --- a/package/base-files/Makefile
 +++ b/package/base-files/Makefile
 @@ -82,9 +82,9 @@ define ImageConfigOptions
@@ -26,8 +24,6 @@ index 8a1ddf96f5..435c73f131 100644
  	echo 'pi_preinit_net_messages="$(CONFIG_TARGET_PREINIT_SHOW_NETMSG)"' >>$(1)/lib/preinit/00_preinit.conf
  	echo 'pi_preinit_no_failsafe_netmsg="$(CONFIG_TARGET_PREINIT_SUPPRESS_FAILSAFE_NETMSG)"' >>$(1)/lib/preinit/00_preinit.conf
  	echo 'pi_preinit_no_failsafe="$(CONFIG_TARGET_PREINIT_DISABLE_FAILSAFE)"' >>$(1)/lib/preinit/00_preinit.conf
-diff --git a/package/base-files/files/bin/config_generate b/package/base-files/files/bin/config_generate
-index ee3958e733..3a5df94eb9 100755
 --- a/package/base-files/files/bin/config_generate
 +++ b/package/base-files/files/bin/config_generate
 @@ -89,7 +89,7 @@ generate_static_network() {
@@ -37,9 +33,9 @@ index ee3958e733..3a5df94eb9 100755
 -addr_offset=2
 +addr_offset=34
  generate_network() {
- 	local ifname macaddr protocol type ipaddr netmask vlan
+ 	local ports device macaddr protocol type ipaddr netmask vlan
  	local bridge=$2
-@@ -140,7 +140,7 @@ generate_network() {
+@@ -161,7 +161,7 @@ generate_network() {
  		static)
  			local ipad
  			case "$1" in
@@ -48,8 +44,6 @@ index ee3958e733..3a5df94eb9 100755
  				*) ipad=${ipaddr:-"192.168.$((addr_offset++)).1"} ;;
  			esac
  
-diff --git a/package/base-files/image-config.in b/package/base-files/image-config.in
-index 1f06332b00..db85d96bac 100644
 --- a/package/base-files/image-config.in
 +++ b/package/base-files/image-config.in
 @@ -76,7 +76,7 @@ config TARGET_PREINIT_IFNAME
@@ -70,6 +64,3 @@ index 1f06332b00..db85d96bac 100644
  	help
  		Broadcast address to which to send preinit network messages, as
  		as failsafe messages
--- 
-2.25.1
-

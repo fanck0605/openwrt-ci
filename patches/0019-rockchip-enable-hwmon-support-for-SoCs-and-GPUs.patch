@@ -9,9 +9,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 53 insertions(+)
  create mode 100644 target/linux/rockchip/patches-5.4/008-thermal-rockchip-Enable-hwmon-support-for-SoCs-and-G.patch
 
-diff --git a/target/linux/rockchip/patches-5.4/008-thermal-rockchip-Enable-hwmon-support-for-SoCs-and-G.patch b/target/linux/rockchip/patches-5.4/008-thermal-rockchip-Enable-hwmon-support-for-SoCs-and-G.patch
-new file mode 100644
-index 0000000000..7b15680052
 --- /dev/null
 +++ b/target/linux/rockchip/patches-5.4/008-thermal-rockchip-Enable-hwmon-support-for-SoCs-and-G.patch
 @@ -0,0 +1,53 @@
@@ -68,6 +65,3 @@ index 0000000000..7b15680052
 + 		rockchip_thermal_toggle_sensor(sensor, false);
 + 	}
 + 
--- 
-2.25.1
-

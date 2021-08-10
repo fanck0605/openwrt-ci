@@ -8,8 +8,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  package/network/services/dropbear/files/dropbear.config | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/package/network/services/dropbear/files/dropbear.config b/package/network/services/dropbear/files/dropbear.config
-index 2139ba0bbe..e2a936d7af 100644
 --- a/package/network/services/dropbear/files/dropbear.config
 +++ b/package/network/services/dropbear/files/dropbear.config
 @@ -2,4 +2,5 @@ config dropbear
@@ -18,6 +16,3 @@ index 2139ba0bbe..e2a936d7af 100644
  	option Port         '22'
 +	option Interface 'lan'
  #	option BannerFile   '/etc/banner'
--- 
-2.25.1
-

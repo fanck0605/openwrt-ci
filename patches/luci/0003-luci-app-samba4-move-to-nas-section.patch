@@ -8,8 +8,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  .../root/usr/share/luci/menu.d/luci-app-samba4.json             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json b/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
-index 81897f188..82966dabb 100644
 --- a/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 +++ b/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 @@ -1,5 +1,5 @@
@@ -19,6 +17,3 @@ index 81897f188..82966dabb 100644
  		"title": "Network Shares",
  		"action": {
  			"type": "view",
--- 
-2.25.1
-

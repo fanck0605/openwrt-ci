@@ -8,8 +8,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  package/libs/openssl/Config.in | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/package/libs/openssl/Config.in b/package/libs/openssl/Config.in
-index d1281ec6fa..3ab5fbd199 100644
 --- a/package/libs/openssl/Config.in
 +++ b/package/libs/openssl/Config.in
 @@ -4,7 +4,7 @@ comment "Build Options"
@@ -46,6 +44,3 @@ index d1281ec6fa..3ab5fbd199 100644
  	prompt "Acceleration support through AF_ALG sockets engine"
  	depends on OPENSSL_ENGINE_BUILTIN && KERNEL_AIO
  	select PACKAGE_libopenssl-conf
--- 
-2.25.1
-

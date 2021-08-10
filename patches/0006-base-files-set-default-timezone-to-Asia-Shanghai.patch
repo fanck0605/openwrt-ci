@@ -8,11 +8,9 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  package/base-files/files/bin/config_generate | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/package/base-files/files/bin/config_generate b/package/base-files/files/bin/config_generate
-index 3a5df94eb9..dcc166e11d 100755
 --- a/package/base-files/files/bin/config_generate
 +++ b/package/base-files/files/bin/config_generate
-@@ -281,7 +281,8 @@ generate_static_system() {
+@@ -302,7 +302,8 @@ generate_static_system() {
  		delete system.@system[0]
  		add system system
  		set system.@system[-1].hostname='OpenWrt'
@@ -22,6 +20,3 @@ index 3a5df94eb9..dcc166e11d 100755
  		set system.@system[-1].ttylogin='0'
  		set system.@system[-1].log_size='64'
  		set system.@system[-1].urandom_seed='0'
--- 
-2.25.1
-

@@ -9,9 +9,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 39 insertions(+)
  create mode 100644 target/linux/rockchip/patches-5.4/991-arm64-dts-rockchip-add-more-cpu-operating-points-for.patch
 
-diff --git a/target/linux/rockchip/patches-5.4/991-arm64-dts-rockchip-add-more-cpu-operating-points-for.patch b/target/linux/rockchip/patches-5.4/991-arm64-dts-rockchip-add-more-cpu-operating-points-for.patch
-new file mode 100644
-index 0000000000..e5a5d19273
 --- /dev/null
 +++ b/target/linux/rockchip/patches-5.4/991-arm64-dts-rockchip-add-more-cpu-operating-points-for.patch
 @@ -0,0 +1,39 @@
@@ -54,6 +51,3 @@ index 0000000000..e5a5d19273
 + 	};
 + 
 + 	amba {
--- 
-2.25.1
-

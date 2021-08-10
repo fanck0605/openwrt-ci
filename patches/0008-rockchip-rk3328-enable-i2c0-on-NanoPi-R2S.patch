@@ -9,9 +9,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  1 file changed, 22 insertions(+)
  create mode 100644 target/linux/rockchip/patches-5.4/201-rockchip-rk3328-add-i2c0-controller-for-nanopi-r2s.patch
 
-diff --git a/target/linux/rockchip/patches-5.4/201-rockchip-rk3328-add-i2c0-controller-for-nanopi-r2s.patch b/target/linux/rockchip/patches-5.4/201-rockchip-rk3328-add-i2c0-controller-for-nanopi-r2s.patch
-new file mode 100644
-index 0000000000..a2cd99aff9
 --- /dev/null
 +++ b/target/linux/rockchip/patches-5.4/201-rockchip-rk3328-add-i2c0-controller-for-nanopi-r2s.patch
 @@ -0,0 +1,22 @@
@@ -37,6 +34,3 @@ index 0000000000..a2cd99aff9
 + &i2c1 {
 + 	status = "okay";
 + 
--- 
-2.25.1
-

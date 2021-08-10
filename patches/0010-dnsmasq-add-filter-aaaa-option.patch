@@ -11,8 +11,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  3 files changed, 69 insertions(+)
  create mode 100644 package/network/services/dnsmasq/patches/900-add-filter-aaaa-option.patch
 
-diff --git a/package/network/services/dnsmasq/files/dhcp.conf b/package/network/services/dnsmasq/files/dhcp.conf
-index 8c42ef782e..6d929a9e57 100644
 --- a/package/network/services/dnsmasq/files/dhcp.conf
 +++ b/package/network/services/dnsmasq/files/dhcp.conf
 @@ -21,6 +21,7 @@ config dnsmasq
@@ -23,11 +21,9 @@ index 8c42ef782e..6d929a9e57 100644
  
  config dhcp lan
  	option interface	lan
-diff --git a/package/network/services/dnsmasq/files/dnsmasq.init b/package/network/services/dnsmasq/files/dnsmasq.init
-index 680e72f9e7..c998aa3ac5 100644
 --- a/package/network/services/dnsmasq/files/dnsmasq.init
 +++ b/package/network/services/dnsmasq/files/dnsmasq.init
-@@ -893,6 +893,7 @@ dnsmasq_start()
+@@ -901,6 +901,7 @@ dnsmasq_start()
  	append_bool "$cfg" sequential_ip "--dhcp-sequential-ip"
  	append_bool "$cfg" allservers "--all-servers"
  	append_bool "$cfg" noping "--no-ping"
@@ -35,9 +31,6 @@ index 680e72f9e7..c998aa3ac5 100644
  	append_bool "$cfg" rapidcommit "--dhcp-rapid-commit"
  	append_bool "$cfg" scriptarp "--script-arp"
  
-diff --git a/package/network/services/dnsmasq/patches/900-add-filter-aaaa-option.patch b/package/network/services/dnsmasq/patches/900-add-filter-aaaa-option.patch
-new file mode 100644
-index 0000000000..3ff21a7990
 --- /dev/null
 +++ b/package/network/services/dnsmasq/patches/900-add-filter-aaaa-option.patch
 @@ -0,0 +1,67 @@
@@ -108,6 +101,3 @@ index 0000000000..3ff21a7990
 +       if (!ans)
 + 	return 0; /* failed to answer a question */
 +     }
--- 
-2.25.1
-

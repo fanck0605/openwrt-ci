@@ -9,11 +9,9 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  .../htdocs/luci-static/resources/view/network/dhcp.js       | 5 +++++
  2 files changed, 11 insertions(+)
 
-diff --git a/modules/luci-base/po/zh_Hans/base.po b/modules/luci-base/po/zh_Hans/base.po
-index 0fca9c3fa..c6aa91992 100644
 --- a/modules/luci-base/po/zh_Hans/base.po
 +++ b/modules/luci-base/po/zh_Hans/base.po
-@@ -498,6 +498,12 @@ msgstr "额外的 HOSTS 文件"
+@@ -531,6 +531,12 @@ msgstr "额外的 HOSTS 文件"
  msgid "Additional servers file"
  msgstr "额外的 SERVERS 文件"
  
@@ -26,8 +24,6 @@ index 0fca9c3fa..c6aa91992 100644
  #: modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/30_network.js:34
  #: modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/30_network.js:35
  #: modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/30_network.js:36
-diff --git a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js
-index c2a77f2b0..9a1a4380c 100644
 --- a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js
 +++ b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js
 @@ -199,6 +199,11 @@ return view.extend({
@@ -42,6 +38,3 @@ index c2a77f2b0..9a1a4380c 100644
  		o = s.taboption('advanced', form.Flag, 'quietdhcp',
  			_('Suppress logging'),
  			_('Suppress logging of the routine operation of these protocols'));
--- 
-2.25.1
-
