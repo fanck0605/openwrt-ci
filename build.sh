@@ -28,11 +28,11 @@ cd "$proj_dir/openwrt"
 
 # patch feeds
 for feed in $feed_list; do
-  [ -d "$proj_dir/patches/$feed" ] &&
-    {
-      cd "$proj_dir/openwrt/feeds/$feed"
-      cat "$proj_dir/patches/$feed"/*.patch | patch -p1
-    }
+	[ -d "$proj_dir/patches/$feed" ] &&
+		{
+			cd "$proj_dir/openwrt/feeds/$feed"
+			cat "$proj_dir/patches/$feed"/*.patch | patch -p1
+		}
 done
 
 # addition packages
@@ -95,4 +95,4 @@ make -j$(($(nproc) + 1)) || make -j1 V=s
 
 # copy output files
 cd "$proj_dir"
-cp -a openwrt/bin/targets/*/* artifact
+cp -rf openwrt/bin/targets/*/* artifact
