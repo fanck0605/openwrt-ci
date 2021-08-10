@@ -32,18 +32,29 @@ apply_patches() {
 	return 0
 }
 
-download_clash_core() { (
-	cd "$1"
-	mkdir -p etc/openclash/core
-	cd etc/openclash/core
+download_clash_core() {
+	local orig_dir
+	orig_dir=$(pwd)
+	local clash_home=$orig_dir/$1/etc/openclash
+	local cpu_arch=$2
+
+	mkdir -p "$clash_home"
+	cd "$clash_home"
+	echo "Downloading GeoIP database..."
+	curl -sL https://github.com/clashdev/geolite.clash.dev/raw/gh-pages/Country.mmdb >Country.mmdb
+
+	mkdir -p "$clash_home"/core
+	cd "$clash_home"/core
+	echo "Downloading Clash core..."
+	local premium_version
 	premium_version=$(curl -sL https://github.com/vernesong/OpenClash/raw/master/core_version | sed -n 2p)
-	curl -sL https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-"$2".tar.gz | tar -xOz >clash
-	curl -sL https://github.com/vernesong/OpenClash/releases/download/TUN-Premium/clash-linux-"$2"-"$premium_version".gz | zcat >clash_tun
-	curl -sL https://github.com/vernesong/OpenClash/releases/download/TUN/clash-linux-"$2".tar.gz | tar -xOz >clash_game
-	chmod +x clash
-	chmod +x clash_tun
-	chmod +x clash_game
-); }
+	curl -sL https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-"$cpu_arch".tar.gz | tar -xOz >clash
+	curl -sL https://github.com/vernesong/OpenClash/releases/download/TUN-Premium/clash-linux-"$cpu_arch"-"$premium_version".gz | zcat >clash_tun
+	curl -sL https://github.com/vernesong/OpenClash/releases/download/TUN/clash-linux-"$cpu_arch".tar.gz | tar -xOz >clash_game
+	chmod +x clash{,_tun,_game}
+
+	cd "$orig_dir"
+}
 
 proj_dir=$(pwd)
 
