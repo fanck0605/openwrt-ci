@@ -127,6 +127,7 @@ cd "$PROJ_DIR/openwrt/package"
 # create acl files
 cd "$PROJ_DIR/openwrt"
 "$PROJ_DIR/scripts/create_acl_for_luci.sh" -a
+"$PROJ_DIR/scripts/create_acl_for_luci.sh" -c
 
 $MAINTAIN && exit 0
 
