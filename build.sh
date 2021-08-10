@@ -7,12 +7,15 @@
 
 set -eu
 
-maintain=false
+PROJ_DIR=$(pwd)
+readonly PROJ_DIR
+
+MAINTAIN=false
 
 while getopts 'm' opt; do
 	case $opt in
 	m)
-		maintain=true
+		MAINTAIN=true
 		;;
 	*)
 		echo "usage: $0 [-m]"
@@ -21,11 +24,13 @@ while getopts 'm' opt; do
 	esac
 done
 
+readonly MAINTAIN
+
 apply_patches() {
 	ln -sf "$1" patches
 	find patches/ -maxdepth 1 -name '*.patch' -printf '%f\n' | sort >patches/series
 	quilt push -a
-	$maintain &&
+	$MAINTAIN &&
 		while IFS= read -r patch; do
 			quilt refresh -p ab --no-timestamps --no-index -f "$patch"
 		done <patches/series
@@ -56,32 +61,30 @@ download_clash_core() {
 	cd "$orig_dir"
 }
 
-proj_dir=$(pwd)
-
 # clone openwrt
-cd "$proj_dir"
+cd "$PROJ_DIR"
 rm -rf openwrt
 git clone -b v21.02.0-rc4 https://github.com/openwrt/openwrt.git openwrt
 
 # patch openwrt
-cd "$proj_dir/openwrt"
+cd "$PROJ_DIR/openwrt"
 apply_patches ../patches
 
 # clone feeds
-cd "$proj_dir/openwrt"
+cd "$PROJ_DIR/openwrt"
 ./scripts/feeds update -a
 
 # patch feeds
-cd "$proj_dir/openwrt"
+cd "$PROJ_DIR/openwrt"
 awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
-	if [ -d "$proj_dir/patches/$feed" ]; then
-		cd "$proj_dir/openwrt/feeds/$feed"
+	if [ -d "$PROJ_DIR/patches/$feed" ]; then
+		cd "$PROJ_DIR/openwrt/feeds/$feed"
 		apply_patches ../../../patches/"$feed"
 	fi
 done
 
 # addition packages
-cd "$proj_dir/openwrt/package"
+cd "$PROJ_DIR/openwrt/package"
 # luci-app-openclash
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash custom/luci-app-openclash
 download_clash_core custom/luci-app-openclash/root armv8
@@ -113,34 +116,34 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-uugamebo
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/uugamebooster custom/uugamebooster
 
 # clean up packages
-cd "$proj_dir/openwrt/package"
+cd "$PROJ_DIR/openwrt/package"
 find . -name .svn -exec rm -rf {} +
 find . -name .git -exec rm -rf {} +
 
 # zh_cn to zh_Hans
-cd "$proj_dir/openwrt/package"
-"$proj_dir/scripts/convert_translation.sh"
+cd "$PROJ_DIR/openwrt/package"
+"$PROJ_DIR/scripts/convert_translation.sh"
 
 # create acl files
-cd "$proj_dir/openwrt"
-"$proj_dir/scripts/create_acl_for_luci.sh" -a
+cd "$PROJ_DIR/openwrt"
+"$PROJ_DIR/scripts/create_acl_for_luci.sh" -a
 
-$maintain && exit 0
+$MAINTAIN && exit 0
 
 # install packages
-cd "$proj_dir/openwrt"
+cd "$PROJ_DIR/openwrt"
 ./scripts/feeds install -a
 
 # customize configs
-cd "$proj_dir/openwrt"
-cat "$proj_dir/config.seed" >.config
+cd "$PROJ_DIR/openwrt"
+cat "$PROJ_DIR/config.seed" >.config
 make defconfig
 
 # build openwrt
-cd "$proj_dir/openwrt"
+cd "$PROJ_DIR/openwrt"
 make download -j8
 make -j$(($(nproc) + 1)) || make -j1 V=s
 
 # copy output files
-cd "$proj_dir"
+cd "$PROJ_DIR"
 cp -rf openwrt/bin/targets/*/* artifact
