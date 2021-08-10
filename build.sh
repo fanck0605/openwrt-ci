@@ -39,21 +39,17 @@ git clone -b v21.02.0-rc4 https://github.com/openwrt/openwrt.git openwrt
 cd "$proj_dir/openwrt"
 apply_patches ../patches
 
-# obtain feed list
-cd "$proj_dir/openwrt"
-feed_list=$(awk '/^src-git/ { print $2 }' feeds.conf.default)
-
 # clone feeds
 cd "$proj_dir/openwrt"
 ./scripts/feeds update -a
 
 # patch feeds
-for feed in $feed_list; do
-	[ -d "$proj_dir/patches/$feed" ] &&
-		{
-			cd "$proj_dir/openwrt/feeds/$feed"
-			apply_patches ../../../patches/"$feed"
-		}
+cd "$proj_dir/openwrt"
+awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
+	[ -d "$proj_dir/patches/$feed" ] && {
+		cd "$proj_dir/openwrt/feeds/$feed"
+		apply_patches ../../../patches/"$feed"
+	}
 done
 
 # addition packages
