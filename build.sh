@@ -37,28 +37,44 @@ apply_patches() {
 	return 0
 }
 
-download_clash_core() {
-	local orig_dir
-	orig_dir=$(pwd)
-	local clash_home=$orig_dir/$1/etc/openclash
-	local cpu_arch=$2
+fetch_clash_download_urls() {
+	local -r CPU_ARCH=$1
 
-	mkdir -p "$clash_home"
-	cd "$clash_home"
+	echo >&2 "Fetching Clash download urls..."
+	local LATEST_VERSIONS
+	readarray -t LATEST_VERSIONS < <(curl -sL https://github.com/vernesong/OpenClash/raw/master/core_version)
+	readonly LATEST_VERSIONS
+
+	echo https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-"$CPU_ARCH".tar.gz
+	echo https://github.com/vernesong/OpenClash/releases/download/TUN-Premium/clash-linux-"$CPU_ARCH"-"${LATEST_VERSIONS[1]}".gz
+	echo https://github.com/vernesong/OpenClash/releases/download/TUN/clash-linux-"$CPU_ARCH".tar.gz
+
+	return 0
+}
+
+download_clash_files() {
+	local -r WORKING_DIR=$(pwd)/${1%/}
+	local -r CLASH_HOME=$WORKING_DIR/etc/openclash
+	local -r CPU_ARCH=$2
+
+	local -r GEOIP_DOWNLOAD_URL=https://github.com/clashdev/geolite.clash.dev/raw/gh-pages/Country.mmdb
+
+	local CLASH_DOWNLOAD_URLS
+	readarray -t CLASH_DOWNLOAD_URLS < <(fetch_clash_download_urls "$CPU_ARCH")
+	readonly CLASH_DOWNLOAD_URLS
+
+	mkdir -p "$CLASH_HOME"
 	echo "Downloading GeoIP database..."
-	curl -sL https://github.com/clashdev/geolite.clash.dev/raw/gh-pages/Country.mmdb >Country.mmdb
+	curl -sL "$GEOIP_DOWNLOAD_URL" >"$CLASH_HOME"/Country.mmdb
 
-	mkdir -p "$clash_home"/core
-	cd "$clash_home"/core
+	mkdir -p "$CLASH_HOME"/core
 	echo "Downloading Clash core..."
-	local premium_version
-	premium_version=$(curl -sL https://github.com/vernesong/OpenClash/raw/master/core_version | sed -n 2p)
-	curl -sL https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-"$cpu_arch".tar.gz | tar -xOz >clash
-	curl -sL https://github.com/vernesong/OpenClash/releases/download/TUN-Premium/clash-linux-"$cpu_arch"-"$premium_version".gz | zcat >clash_tun
-	curl -sL https://github.com/vernesong/OpenClash/releases/download/TUN/clash-linux-"$cpu_arch".tar.gz | tar -xOz >clash_game
-	chmod +x clash{,_tun,_game}
+	curl -sL "${CLASH_DOWNLOAD_URLS[0]}" | tar -xOz >"$CLASH_HOME"/core/clash
+	curl -sL "${CLASH_DOWNLOAD_URLS[1]}" | zcat >"$CLASH_HOME"/core/clash_tun
+	curl -sL "${CLASH_DOWNLOAD_URLS[2]}" | tar -xOz >"$CLASH_HOME"/core/clash_game
+	chmod +x "$CLASH_HOME"/core/clash{,_tun,_game}
 
-	cd "$orig_dir"
+	return 0
 }
 
 # clone openwrt
@@ -87,7 +103,7 @@ done
 cd "$PROJ_DIR/openwrt/package"
 # luci-app-openclash
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash custom/luci-app-openclash
-download_clash_core custom/luci-app-openclash/root armv8
+download_clash_files custom/luci-app-openclash/root armv8
 # luci-app-arpbind
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-arpbind custom/luci-app-arpbind
 # luci-app-xlnetacc
