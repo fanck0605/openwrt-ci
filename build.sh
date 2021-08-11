@@ -30,10 +30,12 @@ apply_patches() {
 	ln -sf "$1" patches
 	find patches/ -maxdepth 1 -name '*.patch' -printf '%f\n' | sort >patches/series
 	quilt push -a
-	$MAINTAIN &&
+	if $MAINTAIN; then
+		local patch
 		while IFS= read -r patch; do
 			quilt refresh -p ab --no-timestamps --no-index -f "$patch"
 		done <patches/series
+	fi
 	return 0
 }
 
