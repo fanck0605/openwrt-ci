@@ -151,8 +151,8 @@ svn co https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/UnblockNet
 svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-autoreboot feeds/luci/applications/luci-app-autoreboot
 # luci-app-vsftpd
 svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-vsftpd feeds/luci/applications/luci-app-vsftpd
-rm -rf ./feeds/packages/net/vsftpd-alt
-svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/vsftpd feeds/packages/net/vsftpd-alt
+rm -rf ./feeds/packages/net/vsftpd
+svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/vsftpd feeds/packages/net/vsftpd
 # luci-app-netdata
 svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-netdata feeds/luci/applications/luci-app-netdata
 # ddns-scripts
