@@ -148,7 +148,7 @@ git clone --depth 1 https://github.com/NateLol/luci-app-oled.git package/custom/
 svn co https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/luci-app-unblockneteasemusic package/custom/luci-app-unblockneteasemusic
 svn co https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/UnblockNeteaseMusic package/custom/UnblockNeteaseMusic
 # luci-app-autoreboot
-svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-autoreboot feeds/luci/applications/luci-app-autoreboot
+svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-autoreboot feeds/luci/applications/luci-app-autoreboot
 # luci-app-vsftpd
 svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-vsftpd feeds/luci/applications/luci-app-vsftpd
 rm -rf ./feeds/packages/net/vsftpd
@@ -161,8 +161,8 @@ svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-s
 # luci-theme-argon
 git clone -b master --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/custom/luci-theme-argon
 # luci-app-uugamebooster
-svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-uugamebooster feeds/luci/applications/luci-app-uugamebooster
-svn co https://github.com/coolsnowwolf/packages/trunk/net/uugamebooster feeds/packages/net/uugamebooster
+svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-uugamebooster feeds/luci/applications/luci-app-uugamebooster
+svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/uugamebooster feeds/packages/net/uugamebooster
 
 # install packages
 cd "$PROJ_DIR/openwrt"
