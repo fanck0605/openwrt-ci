@@ -94,7 +94,7 @@ if [ -d "./openwrt" ] && [ -d "./openwrt/.git" ]; then
 	find ./!(.git|feeds) -name .git -exec rm -rf {} +
 	git fetch origin "$VERSION"
 	git reset --hard "$VERSION"
-	git clean -dfxe /feeds
+	git clean -dfx
 	popd
 else
 	rm -rf openwrt
