@@ -100,36 +100,35 @@ awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
 done
 
 # addition packages
-cd "$PROJ_DIR/openwrt/package"
+cd "$PROJ_DIR/openwrt"
 # luci-app-openclash
-svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash custom/luci-app-openclash
-download_clash_files custom/luci-app-openclash/root armv8
+svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/custom/luci-app-openclash
+download_clash_files package/custom/luci-app-openclash/root armv8
 # luci-app-arpbind
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-arpbind custom/luci-app-arpbind
+svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-arpbind feeds/luci/applications/luci-app-arpbind
 # luci-app-xlnetacc
-svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-xlnetacc custom/luci-app-xlnetacc
-sed -i 's#../../luci.mk#$(TOPDIR)/feeds/luci/luci.mk#g' custom/luci-app-xlnetacc/Makefile
+svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-xlnetacc feeds/luci/applications/luci-app-xlnetacc
 # luci-app-oled
-git clone --depth 1 https://github.com/NateLol/luci-app-oled.git custom/luci-app-oled
+git clone --depth 1 https://github.com/NateLol/luci-app-oled.git package/custom/luci-app-oled
 # luci-app-unblockmusic
-svn co https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/luci-app-unblockneteasemusic custom/luci-app-unblockneteasemusic
-svn co https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/UnblockNeteaseMusic custom/UnblockNeteaseMusic
+svn co https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/luci-app-unblockneteasemusic package/custom/luci-app-unblockneteasemusic
+svn co https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/UnblockNeteaseMusic package/custom/UnblockNeteaseMusic
 # luci-app-autoreboot
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-autoreboot custom/luci-app-autoreboot
+svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-autoreboot feeds/luci/applications/luci-app-autoreboot
 # luci-app-vsftpd
-svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-vsftpd custom/luci-app-vsftpd
-sed -i 's#../../luci.mk#$(TOPDIR)/feeds/luci/luci.mk#g' custom/luci-app-vsftpd/Makefile
-svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/vsftpd-alt custom/vsftpd-alt
+svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-vsftpd feeds/luci/applications/luci-app-vsftpd
+rm -rf ./feeds/packages/net/vsftpd-alt
+svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/vsftpd feeds/packages/net/vsftpd-alt
 # luci-app-netdata
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-netdata custom/luci-app-netdata
+svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-netdata feeds/luci/applications/luci-app-netdata
 # ddns-scripts
-svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-scripts_aliyun custom/ddns-scripts_aliyun
-svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-scripts_dnspod custom/ddns-scripts_dnspod
+svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-scripts_aliyun feeds/packages/net/ddns-scripts_aliyun
+svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-scripts_dnspod feeds/packages/net/ddns-scripts_dnspod
 # luci-theme-argon
-git clone -b master --depth 1 https://github.com/jerrykuku/luci-theme-argon.git custom/luci-theme-argon
+git clone -b master --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/custom/luci-theme-argon
 # luci-app-uugamebooster
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-uugamebooster custom/luci-app-uugamebooster
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/uugamebooster custom/uugamebooster
+svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-uugamebooster feeds/luci/applications/luci-app-uugamebooster
+svn co https://github.com/coolsnowwolf/packages/trunk/net/uugamebooster feeds/packages/net/uugamebooster
 
 # clean up packages
 cd "$PROJ_DIR/openwrt/package"
