@@ -81,8 +81,16 @@ download_clash_files() {
 
 # clone openwrt
 cd "$PROJ_DIR"
-rm -rf openwrt
-git clone -b v21.02.0-rc4 https://github.com/openwrt/openwrt.git openwrt
+if [ -d "./openwrt" ] && [ -d "./openwrt/.git" ]; then
+	pushd ./openwrt
+	git reset --hard
+	git clean -dfxe /feeds
+	git pull
+	popd
+else
+	rm -rf openwrt
+	git clone -b v21.02.0-rc4 https://github.com/openwrt/openwrt.git openwrt
+fi
 
 # patch openwrt
 cd "$PROJ_DIR/openwrt"
@@ -90,6 +98,14 @@ apply_patches ../patches
 
 # clone feeds
 cd "$PROJ_DIR/openwrt"
+awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
+	if [ -d "./feeds/$feed" ]; then
+		pushd "./feeds/$feed"
+		git reset --hard
+		git clean -dfx
+		popd
+	fi
+done
 ./scripts/feeds update -a
 
 # patch feeds
