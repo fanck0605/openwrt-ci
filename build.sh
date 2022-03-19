@@ -166,6 +166,8 @@ svn co https://github.com/coolsnowwolf/packages/trunk/net/uugamebooster feeds/pa
 
 # install packages
 cd "$PROJ_DIR/openwrt"
+# 在添加自定义软件包后必须再次 update
+./scripts/feeds update -a
 ./scripts/feeds install -a
 
 # zh_cn to zh_Hans
