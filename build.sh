@@ -130,11 +130,6 @@ git clone -b master --depth 1 https://github.com/jerrykuku/luci-theme-argon.git 
 svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-uugamebooster feeds/luci/applications/luci-app-uugamebooster
 svn co https://github.com/coolsnowwolf/packages/trunk/net/uugamebooster feeds/packages/net/uugamebooster
 
-# clean up packages
-cd "$PROJ_DIR/openwrt/package"
-find . -name .svn -exec rm -rf {} +
-find . -name .git -exec rm -rf {} +
-
 # zh_cn to zh_Hans
 cd "$PROJ_DIR/openwrt/package"
 "$PROJ_DIR/scripts/convert_translation.sh"
