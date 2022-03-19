@@ -12,13 +12,18 @@ readonly PROJ_DIR
 
 MAINTAIN=false
 
-while getopts 'm' opt; do
+VERSION=v21.02.0-rc4
+
+while getopts 'mv:' opt; do
 	case $opt in
 	m)
 		MAINTAIN=true
 		;;
+	v)
+		VERSION="$OPTARG"
+		;;
 	*)
-		echo "usage: $0 [-m]"
+		echo "usage: $0 [-mv]"
 		exit 1
 		;;
 	esac
@@ -85,13 +90,13 @@ echo "Initializing OpenWrt source..."
 echo "Current directory: ""$(pwd)"
 if [ -d "./openwrt" ] && [ -d "./openwrt/.git" ]; then
 	pushd ./openwrt
-	git reset --hard
+	git fetch origin "$VERSION"
+	git reset --hard "$VERSION"
 	git clean -dfxe /feeds
-	git pull
 	popd
 else
 	rm -rf openwrt
-	git clone -b v21.02.0-rc4 https://github.com/openwrt/openwrt.git openwrt
+	git clone -b "$VERSION" https://github.com/openwrt/openwrt.git openwrt
 fi
 
 # patch openwrt
