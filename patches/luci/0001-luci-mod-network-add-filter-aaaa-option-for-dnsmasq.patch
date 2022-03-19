@@ -26,7 +26,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  #: modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/30_network.js:36
 --- a/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js
 +++ b/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js
-@@ -199,6 +199,11 @@ return view.extend({
+@@ -288,6 +288,11 @@ return view.extend({
  		s.taboption('files', form.DynamicList, 'addnhosts',
  			_('Additional Hosts files')).optional = true;
  

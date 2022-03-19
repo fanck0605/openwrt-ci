@@ -13,7 +13,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
 
 --- a/modules/luci-base/po/zh_Hans/base.po
 +++ b/modules/luci-base/po/zh_Hans/base.po
-@@ -1138,6 +1138,12 @@ msgstr "CA 证书，如果留空，则�
+@@ -1133,6 +1133,12 @@ msgstr "CA 证书，如果留空，则�
  msgid "CLAT configuration failed"
  msgstr "CLAT 配置失败"
  
@@ -28,7 +28,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  msgstr "CPU 使用率（%）"
 --- a/modules/luci-base/root/usr/libexec/rpcd/luci
 +++ b/modules/luci-base/root/usr/libexec/rpcd/luci
-@@ -612,6 +612,19 @@ local methods = {
+@@ -613,6 +613,19 @@ local methods = {
  			end
  			return { result = res }
  		end
@@ -80,15 +80,15 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  
  		luciversion = luciversion.filter(function(l) {
  			return l.match(/^\s*(luciname|luciversion)\s*=/);
-@@ -54,6 +61,7 @@ return baseclass.extend({
- 			_('Hostname'),         boardinfo.hostname,
+@@ -55,6 +62,7 @@ return baseclass.extend({
  			_('Model'),            boardinfo.model,
  			_('Architecture'),     boardinfo.system,
+ 			_('Target Platform'),  (L.isObject(boardinfo.release) ? boardinfo.release.target : ''),
 +			_('CPU Status'),       cpuinfo.freq && cpuinfo.temp && cpuinfo.freq + ', ' + cpuinfo.temp,
  			_('Firmware Version'), (L.isObject(boardinfo.release) ? boardinfo.release.description + ' / ' : '') + (luciversion || ''),
  			_('Kernel Version'),   boardinfo.kernel,
  			_('Local Time'),       datestr,
-@@ -62,7 +70,8 @@ return baseclass.extend({
+@@ -63,7 +71,8 @@ return baseclass.extend({
  				systeminfo.load[0] / 65535.0,
  				systeminfo.load[1] / 65535.0,
  				systeminfo.load[2] / 65535.0

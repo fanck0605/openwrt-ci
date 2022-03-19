@@ -13,7 +13,7 @@ readonly PROJ_DIR
 
 MAINTAIN=false
 
-VERSION=v21.02.0-rc4
+VERSION=v21.02.2
 
 while getopts 'mv:' opt; do
 	case $opt in

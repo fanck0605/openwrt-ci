@@ -23,7 +23,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  	option interface	lan
 --- a/package/network/services/dnsmasq/files/dnsmasq.init
 +++ b/package/network/services/dnsmasq/files/dnsmasq.init
-@@ -901,6 +901,7 @@ dnsmasq_start()
+@@ -918,6 +918,7 @@ dnsmasq_start()
  	append_bool "$cfg" sequential_ip "--dhcp-sequential-ip"
  	append_bool "$cfg" allservers "--all-servers"
  	append_bool "$cfg" noping "--no-ping"
