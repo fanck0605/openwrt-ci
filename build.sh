@@ -108,9 +108,10 @@ echo "OpenWrt 源码初始化完毕"
 
 # patch openwrt
 cd "$PROJ_DIR/openwrt"
-echo "Patching OpenWrt source..."
-echo "Current directory: ""$(pwd)"
+echo "开始修补 OpenWrt 源码"
+echo "当前目录: ""$(pwd)"
 apply_patches ../patches
+echo "OpenWrt 源码修补完毕"
 
 # clone feeds
 cd "$PROJ_DIR/openwrt"
