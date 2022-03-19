@@ -87,19 +87,24 @@ download_clash_files() {
 
 # clone openwrt
 cd "$PROJ_DIR"
-echo "Initializing OpenWrt source..."
-echo "Current directory: ""$(pwd)"
+echo "开始初始化 OpenWrt 源码"
+echo "当前目录: ""$(pwd)"
 if [ -d "./openwrt" ] && [ -d "./openwrt/.git" ]; then
+	echo "OpenWrt 源码已存在"
 	pushd ./openwrt
+	echo "开始清理 OpenWrt 源码"
 	find ./!(.git|feeds) -name .git -exec rm -rf {} +
+	git clean -dfx
+	echo "开始更新 OpenWrt 源码"
 	git fetch origin "$VERSION"
 	git reset --hard "$VERSION"
-	git clean -dfx
 	popd
 else
-	rm -rf openwrt
+	echo "OpenWrt 源码不存在"
+	echo "开始克隆 OpenWrt 源码"
 	git clone -b "$VERSION" https://github.com/openwrt/openwrt.git openwrt
 fi
+echo "OpenWrt 源码初始化完毕"
 
 # patch openwrt
 cd "$PROJ_DIR/openwrt"
