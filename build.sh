@@ -81,6 +81,8 @@ download_clash_files() {
 
 # clone openwrt
 cd "$PROJ_DIR"
+echo "Initializing OpenWrt source..."
+echo "Current directory: ""$(pwd)"
 if [ -d "./openwrt" ] && [ -d "./openwrt/.git" ]; then
 	pushd ./openwrt
 	git reset --hard
@@ -94,10 +96,14 @@ fi
 
 # patch openwrt
 cd "$PROJ_DIR/openwrt"
+echo "Patching OpenWrt source..."
+echo "Current directory: ""$(pwd)"
 apply_patches ../patches
 
 # clone feeds
 cd "$PROJ_DIR/openwrt"
+echo "Initializing OpenWrt feeds..."
+echo "Current directory: ""$(pwd)"
 awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
 	if [ -d "./feeds/$feed" ]; then
 		pushd "./feeds/$feed"
@@ -109,6 +115,8 @@ done
 ./scripts/feeds update -a
 
 # patch feeds
+echo "Patching OpenWrt feeds..."
+echo "Current directory: ""$(pwd)"
 cd "$PROJ_DIR/openwrt"
 awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
 	if [ -d "$PROJ_DIR/patches/$feed" ]; then
