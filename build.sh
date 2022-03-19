@@ -6,6 +6,7 @@
 #
 
 set -eu
+shopt -s extglob
 
 PROJ_DIR=$(pwd)
 readonly PROJ_DIR
@@ -90,6 +91,7 @@ echo "Initializing OpenWrt source..."
 echo "Current directory: ""$(pwd)"
 if [ -d "./openwrt" ] && [ -d "./openwrt/.git" ]; then
 	pushd ./openwrt
+	find ./!(.git|feeds) -name .git -exec rm -rf {} +
 	git fetch origin "$VERSION"
 	git reset --hard "$VERSION"
 	git clean -dfxe /feeds
@@ -112,6 +114,7 @@ echo "Current directory: ""$(pwd)"
 awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
 	if [ -d "./feeds/$feed" ]; then
 		pushd "./feeds/$feed"
+		find ./!(.git) -name .git -exec rm -rf {} +
 		git reset --hard
 		git clean -dfx
 		popd
