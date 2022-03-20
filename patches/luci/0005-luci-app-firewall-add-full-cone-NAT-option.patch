@@ -1,0 +1,13 @@
+--- a/applications/luci-app-firewall/htdocs/luci-static/resources/view/firewall/zones.js
++++ b/applications/luci-app-firewall/htdocs/luci-static/resources/view/firewall/zones.js
+@@ -167,6 +167,10 @@ return view.extend({
+ 			return null;
+ 		};
+ 
++		o = s.taboption('general', form.Flag, 'fullcone', _('Full Cone'));
++		o.editable = true;
++		o.depends('masq', '1');
++
+ 		o = s.taboption('general', form.Flag, 'mtu_fix', _('MSS clamping'));
+ 		o.modalonly = true;
+ 

@@ -1,0 +1,21 @@
+--- a/package/network/config/firewall/Makefile
++++ b/package/network/config/firewall/Makefile
+@@ -28,7 +28,7 @@ define Package/firewall
+   SECTION:=net
+   CATEGORY:=Base system
+   TITLE:=OpenWrt C Firewall
+-  DEPENDS:=+libubox +libubus +libuci +libip4tc +IPV6:libip6tc +libxtables +kmod-ipt-core +kmod-ipt-conntrack +IPV6:kmod-nf-conntrack6 +kmod-ipt-nat
++  DEPENDS:=+libubox +libubus +libuci +libip4tc +IPV6:libip6tc +libxtables +kmod-ipt-core +kmod-ipt-conntrack +IPV6:kmod-nf-conntrack6 +kmod-ipt-nat +iptables-mod-fullconenat
+ endef
+ 
+ define Package/firewall/description
+--- a/package/network/config/firewall/files/firewall.config
++++ b/package/network/config/firewall/files/firewall.config
+@@ -22,6 +22,7 @@ config zone
+ 	option output		ACCEPT
+ 	option forward		REJECT
+ 	option masq		1
++	option fullcone		1
+ 	option mtu_fix		1
+ 
+ config forwarding
