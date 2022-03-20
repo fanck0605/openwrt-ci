@@ -32,15 +32,22 @@ done
 
 readonly MAINTAIN
 
+refresh_patches() {
+	pushd "$1"
+	local patch
+	while IFS= read -r patch; do
+		quilt refresh -p ab --no-timestamps --no-index -f "$patch"
+	done <patches/series
+	popd
+	return 0
+}
+
 apply_patches() {
 	ln -sf "$1" patches
 	find patches/ -maxdepth 1 -name '*.patch' -printf '%f\n' | sort >patches/series
 	quilt push -a
 	if $MAINTAIN; then
-		local patch
-		while IFS= read -r patch; do
-			quilt refresh -p ab --no-timestamps --no-index -f "$patch"
-		done <patches/series
+		refresh_patches ./
 	fi
 	return 0
 }
