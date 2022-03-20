@@ -110,7 +110,7 @@ echo "OpenWrt 源码初始化完毕"
 cd "$PROJ_DIR/openwrt"
 echo "开始修补 OpenWrt 源码"
 echo "当前目录: ""$(pwd)"
-apply_patches "$PROJ_DIR/patches"
+apply_patches ../patches
 echo "OpenWrt 源码修补完毕"
 
 # clone feeds
@@ -134,9 +134,8 @@ echo "Current directory: ""$(pwd)"
 cd "$PROJ_DIR/openwrt"
 awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
 	if [ -d "$PROJ_DIR/patches/$feed" ]; then
-		pushd "./feeds/$feed"
-		apply_patches "$PROJ_DIR/patches/$feed"
-		popd
+		cd "$PROJ_DIR/openwrt/feeds/$feed"
+		apply_patches ../../../patches/"$feed"
 	fi
 done
 
