@@ -28,11 +28,15 @@ jobs:
         with:
           ref: openwrt-21.02
 
+      - name: Show large directories
+        run: |
+          df -h
+          sudo du -xh --exclude=/{proc,sys,dev} / | grep -E '^[0-9.]*?[GTPEZY]'
+
       - name: Initialize Environment
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo du -xh --exclude=/{proc,sys,dev} / | grep -E '^[0-9.]*?[GTPEZY]'
           sudo rm -rf /usr/local/lib/android
           sudo apt-get update
           sudo apt-get install build-essential ccache ecj fastjar file g++ gawk gettext git java-propose-classpath libelf-dev libncurses5-dev libncursesw5-dev libssl-dev python python2.7-dev python3 unzip wget python3-distutils python3-setuptools python3-dev quilt rsync subversion swig time xsltproc zlib1g-dev
@@ -40,6 +44,9 @@ jobs:
           sudo apt-get clean
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+
+      - name: Show disk space usage
+        run: |
           df -h
 
       - name: Build OpenWrt
