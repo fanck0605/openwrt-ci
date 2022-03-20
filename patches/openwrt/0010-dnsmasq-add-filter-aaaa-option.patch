@@ -17,17 +17,18 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  	#list bogusnxdomain     '64.94.110.11'
  	option localservice	1  # disable to allow DNS requests from non-local subnets
  	option ednspacket_max	1232
-+	option filteraaaa	1
++	option filter_aaaa	1
  
  config dhcp lan
  	option interface	lan
 --- a/package/network/services/dnsmasq/files/dnsmasq.init
 +++ b/package/network/services/dnsmasq/files/dnsmasq.init
-@@ -918,6 +918,7 @@ dnsmasq_start()
- 	append_bool "$cfg" sequential_ip "--dhcp-sequential-ip"
- 	append_bool "$cfg" allservers "--all-servers"
- 	append_bool "$cfg" noping "--no-ping"
-+	append_bool "$cfg" filteraaaa "--filter-aaaa"
+@@ -921,6 +921,8 @@ dnsmasq_start()
  	append_bool "$cfg" rapidcommit "--dhcp-rapid-commit"
  	append_bool "$cfg" scriptarp "--script-arp"
  
++	append_bool "$cfg" filter_aaaa "--filter-aaaa"
++
+ 	append_parm "$cfg" logfacility "--log-facility"
+ 
+ 	append_parm "$cfg" cachesize "--cache-size"
