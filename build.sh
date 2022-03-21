@@ -104,12 +104,16 @@ prepare() {
 		# 防止暂存区文件影响 checkout
 		git reset --hard HEAD
 		echo "开始更新 OpenWrt 源码"
+		# FIXME: 这个实现太丑陋了, 快来修复一下
 		if [[ "$VERSION" =~ ^v[0-9.rc-]+$ ]]; then
 			git fetch origin "tags/$VERSION:tags/$VERSION"
+			git checkout "tags/$VERSION"
+		elif [ "$(git branch | awk '/^\*/ { print $2 }')" = "$VERSION" ]; then
+			git pull
 		else
 			git fetch origin "$VERSION:$VERSION"
+			git checkout "$VERSION"
 		fi
-		git checkout "$VERSION"
 		popd
 	else
 		echo "OpenWrt 源码不存在"
