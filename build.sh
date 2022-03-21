@@ -41,26 +41,6 @@ refresh() {
 	done
 }
 
-while getopts 'mrv:' opt; do
-	case $opt in
-	m)
-		prepare
-		exit 0
-		;;
-	v)
-		VERSION="$OPTARG"
-		;;
-	r)
-		refresh
-		exit 0
-		;;
-	*)
-		echo "usage: $0 [-mv]"
-		exit 1
-		;;
-	esac
-done
-
 apply_patches() {
 	ln -sf "$1" patches
 	find patches/ -maxdepth 1 -name '*.patch' -printf '%f\n' | sort >patches/series
@@ -237,6 +217,26 @@ build() {
 
 	return 0
 }
+
+while getopts 'mrv:' opt; do
+	case $opt in
+	m)
+		prepare
+		exit 0
+		;;
+	v)
+		VERSION="$OPTARG"
+		;;
+	r)
+		refresh
+		exit 0
+		;;
+	*)
+		echo "usage: $0 [-mv]"
+		exit 1
+		;;
+	esac
+done
 
 prepare
 build
