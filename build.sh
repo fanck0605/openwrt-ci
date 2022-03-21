@@ -104,7 +104,11 @@ prepare() {
 		# 防止暂存区文件影响 checkout
 		git reset --hard HEAD
 		echo "开始更新 OpenWrt 源码"
-		git fetch origin "$VERSION:$VERSION"
+		if [[ "$VERSION" =~ ^v[0-9.rc-]+$ ]]; then
+			git fetch origin "tags/$VERSION:tags/$VERSION"
+		else
+			git fetch origin "$VERSION:$VERSION"
+		fi
 		git checkout "$VERSION"
 		popd
 	else
