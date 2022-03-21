@@ -199,12 +199,12 @@ cd "$PROJ_DIR/openwrt"
 "$PROJ_DIR/scripts/create_acl_for_luci.sh" -a
 "$PROJ_DIR/scripts/create_acl_for_luci.sh" -c
 
-$MAINTAIN && exit 0
-
 # customize configs
 cd "$PROJ_DIR/openwrt"
 cat "$PROJ_DIR/config.seed" >.config
 make defconfig
+
+$MAINTAIN && exit 0
 
 # build openwrt
 cd "$PROJ_DIR/openwrt"
