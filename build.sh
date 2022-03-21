@@ -108,11 +108,9 @@ prepare() {
 		if [[ "$VERSION" =~ ^v[0-9.rc-]+$ ]]; then
 			git fetch origin "tags/$VERSION:tags/$VERSION"
 			git checkout "tags/$VERSION"
-		elif [ "$(git branch | awk '/^\*/ { print $2 }')" = "$VERSION" ]; then
-			git pull
 		else
-			git fetch origin "$VERSION:$VERSION"
-			git checkout "$VERSION"
+			git fetch origin "heads/$VERSION:remotes/origin/$VERSION"
+			git checkout -B "$VERSION" "remotes/origin/$VERSION"
 		fi
 		popd
 	else
