@@ -15,13 +15,45 @@ MAINTAIN=false
 
 VERSION=v21.02.2
 
-while getopts 'mv:' opt; do
+refresh_patches() {
+	local patch
+	while IFS= read -r patch; do
+		quilt refresh -p ab --no-timestamps --no-index -f "$patch"
+	done <patches/series
+
+	return 0
+}
+
+refresh() {
+	cd "$PROJ_DIR/files/openwrt"
+	find -- * -type f -exec cp "$PROJ_DIR"/openwrt/{} ./{} \;
+	cd "$PROJ_DIR/openwrt"
+	refresh_patches
+
+	cd "$PROJ_DIR/openwrt"
+	awk '/^src-git/ { print $2 }' ./feeds.conf.default | while IFS= read -r feed; do
+		if [ -d "$PROJ_DIR/files/$feed" ]; then
+			cd "$PROJ_DIR/files/$feed"
+			find -- * -type f -exec cp "$PROJ_DIR"/openwrt/feeds/"$feed"/{} ./{} \;
+		fi
+		if [ -d "$PROJ_DIR/patches/$feed" ]; then
+			cd "$PROJ_DIR/openwrt/feeds/$feed"
+			refresh_patches
+		fi
+	done
+}
+
+while getopts 'mrv:' opt; do
 	case $opt in
 	m)
 		MAINTAIN=true
 		;;
 	v)
 		VERSION="$OPTARG"
+		;;
+	r)
+		refresh
+		exit 0
 		;;
 	*)
 		echo "usage: $0 [-mv]"
@@ -32,22 +64,12 @@ done
 
 readonly MAINTAIN
 
-refresh_patches() {
-	pushd "$1"
-	local patch
-	while IFS= read -r patch; do
-		quilt refresh -p ab --no-timestamps --no-index -f "$patch"
-	done <patches/series
-	popd
-	return 0
-}
-
 apply_patches() {
 	ln -sf "$1" patches
 	find patches/ -maxdepth 1 -name '*.patch' -printf '%f\n' | sort >patches/series
 	quilt push -a
 	if $MAINTAIN; then
-		refresh_patches ./
+		refresh_patches
 	fi
 	return 0
 }
