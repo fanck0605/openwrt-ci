@@ -101,9 +101,11 @@ prepare() {
 		echo "开始清理 OpenWrt 源码"
 		find ./!(.git|feeds) -name .git -exec rm -rf {} +
 		git clean -dfx
+		# 防止暂存区文件影响 checkout
+		git reset --hard HEAD
 		echo "开始更新 OpenWrt 源码"
-		git fetch origin "$VERSION"
-		git reset --hard "$VERSION"
+		git fetch origin "$VERSION:$VERSION"
+		git checkout "$VERSION"
 		popd
 	else
 		echo "OpenWrt 源码不存在"
