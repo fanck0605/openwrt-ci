@@ -106,11 +106,11 @@ prepare() {
 		echo "开始更新 OpenWrt 源码"
 		# FIXME: 这个实现太丑陋了, 快来修复一下
 		if [[ "$VERSION" =~ ^v[0-9.rc-]+$ ]]; then
-			git fetch origin "tags/$VERSION:tags/$VERSION"
-			git checkout "tags/$VERSION"
+			git fetch origin "refs/tags/$VERSION:refs/tags/$VERSION"
+			git checkout "refs/tags/$VERSION"
 		else
-			git fetch origin "heads/$VERSION:remotes/origin/$VERSION"
-			git checkout -B "$VERSION" "remotes/origin/$VERSION"
+			git fetch origin "refs/heads/$VERSION:refs/remotes/origin/$VERSION"
+			git checkout -B "$VERSION" "refs/remotes/origin/$VERSION"
 		fi
 		popd
 	else
