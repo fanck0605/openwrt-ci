@@ -13,6 +13,7 @@ readonly PROJ_DIR
 
 VERSION=v21.02.2
 MANUAL=false
+ORIGIN=origin
 
 refresh_patches() {
 	local patch
@@ -106,11 +107,11 @@ prepare() {
 		echo "开始更新 OpenWrt 源码"
 		# FIXME: 这个实现太丑陋了, 快来修复一下
 		if [[ "$VERSION" =~ ^v[0-9.rc-]+$ ]]; then
-			git fetch origin "refs/tags/$VERSION:refs/tags/$VERSION"
+			git fetch "$ORIGIN" "refs/tags/$VERSION:refs/tags/$VERSION"
 			git checkout "refs/tags/$VERSION"
 		else
-			git fetch origin "refs/heads/$VERSION:refs/remotes/origin/$VERSION"
-			git checkout -B "$VERSION" "refs/remotes/origin/$VERSION"
+			git fetch "$ORIGIN" "refs/heads/$VERSION:refs/remotes/$ORIGIN/$VERSION"
+			git checkout -B "$VERSION" "refs/remotes/$ORIGIN/$VERSION"
 		fi
 		popd
 	else
@@ -227,13 +228,16 @@ build() {
 	return 0
 }
 
-while getopts 'mrv:' opt; do
+while getopts 'mrv:o:' opt; do
 	case $opt in
 	m)
 		MANUAL=true
 		;;
 	v)
-		VERSION="$OPTARG"
+		VERSION=$OPTARG
+		;;
+	o)
+		ORIGIN=$OPTARG
 		;;
 	r)
 		refresh
