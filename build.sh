@@ -12,6 +12,7 @@ PROJ_DIR=$(pwd)
 readonly PROJ_DIR
 
 VERSION=v21.02.2
+MANUAL=false
 
 refresh_patches() {
 	local patch
@@ -221,8 +222,7 @@ build() {
 while getopts 'mrv:' opt; do
 	case $opt in
 	m)
-		prepare
-		exit 0
+		MANUAL=true
 		;;
 	v)
 		VERSION="$OPTARG"
@@ -239,4 +239,5 @@ while getopts 'mrv:' opt; do
 done
 
 prepare
-build
+
+$MANUAL || build
