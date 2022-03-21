@@ -11,8 +11,6 @@ shopt -s extglob
 PROJ_DIR=$(pwd)
 readonly PROJ_DIR
 
-MAINTAIN=false
-
 VERSION=v21.02.2
 
 refresh_patches() {
@@ -46,7 +44,8 @@ refresh() {
 while getopts 'mrv:' opt; do
 	case $opt in
 	m)
-		MAINTAIN=true
+		prepare
+		exit 0
 		;;
 	v)
 		VERSION="$OPTARG"
@@ -62,15 +61,11 @@ while getopts 'mrv:' opt; do
 	esac
 done
 
-readonly MAINTAIN
-
 apply_patches() {
 	ln -sf "$1" patches
 	find patches/ -maxdepth 1 -name '*.patch' -printf '%f\n' | sort >patches/series
 	quilt push -a
-	if $MAINTAIN; then
-		refresh_patches
-	fi
+
 	return 0
 }
 
@@ -244,7 +239,4 @@ build() {
 }
 
 prepare
-
-$MAINTAIN && exit 0
-
 build
