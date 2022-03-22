@@ -2,11 +2,16 @@ From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chuck <fanck0605@qq.com>
 Date: Sat, 20 Feb 2021 17:09:49 +0800
 Subject: [PATCH] openssl: optimize for speed instead of size
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+对于大多数软路由设备来说，牺牲一点存储空间来换取性能是值得的。即使带来的提升可能并不大，但是大多数设备也并不缺那点空间。
 
 Signed-off-by: Chuck <fanck0605@qq.com>
 ---
- package/libs/openssl/Config.in | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ package/libs/openssl/Config.in | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 --- a/package/libs/openssl/Config.in
 +++ b/package/libs/openssl/Config.in
@@ -15,7 +20,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  config OPENSSL_OPTIMIZE_SPEED
  	bool
 -	default y if x86_64 || i386
-+	default y
++	default y if !SMALL_FLASH
  	prompt "Enable optimization for speed instead of size"
  	select OPENSSL_WITH_ASM
  	help
@@ -24,23 +29,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  config OPENSSL_WITH_ASM
  	bool
 -	default y if !SMALL_FLASH || !arm
-+	default y
++	default y if !SMALL_FLASH
  	prompt "Compile with optimized assembly code"
  	depends on !arc
  	help
-@@ -247,6 +247,7 @@ config OPENSSL_ENGINE
- 
- config OPENSSL_ENGINE_BUILTIN
- 	bool "Build chosen engines into libcrypto"
-+	default y
- 	depends on OPENSSL_ENGINE
- 	help
- 		This builds all chosen engines into libcrypto.so, instead of building
-@@ -256,6 +257,7 @@ config OPENSSL_ENGINE_BUILTIN
- 
- config OPENSSL_ENGINE_BUILTIN_AFALG
- 	bool
-+	default y
- 	prompt "Acceleration support through AF_ALG sockets engine"
- 	depends on OPENSSL_ENGINE_BUILTIN && KERNEL_AIO
- 	select PACKAGE_libopenssl-conf
