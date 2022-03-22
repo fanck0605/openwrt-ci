@@ -25,18 +25,18 @@ refresh_patches() {
 }
 
 refresh() {
-	cd "$PROJ_DIR/files/openwrt"
+	cd "$PROJ_DIR/trunk/files"
 	find -- * -type f -exec cp "$PROJ_DIR"/openwrt/{} ./{} \;
 	cd "$PROJ_DIR/openwrt"
 	refresh_patches
 
 	cd "$PROJ_DIR/openwrt"
 	awk '/^src-git/ { print $2 }' ./feeds.conf.default | while IFS= read -r feed; do
-		if [ -d "$PROJ_DIR/files/$feed" ]; then
-			cd "$PROJ_DIR/files/$feed"
+		if [ -d "$PROJ_DIR/$feed/files" ]; then
+			cd "$PROJ_DIR/$feed/files"
 			find -- * -type f -exec cp "$PROJ_DIR"/openwrt/feeds/"$feed"/{} ./{} \;
 		fi
-		if [ -d "$PROJ_DIR/patches/$feed" ]; then
+		if [ -d "$PROJ_DIR/$feed/patches" ]; then
 			cd "$PROJ_DIR/openwrt/feeds/$feed"
 			refresh_patches
 		fi
@@ -125,9 +125,9 @@ prepare() {
 	cd "$PROJ_DIR/openwrt"
 	echo "开始修补 OpenWrt 源码"
 	echo "当前目录: ""$(pwd)"
-	cp -lr "$PROJ_DIR/files/openwrt"/* ./
+	cp -lr "$PROJ_DIR/trunk/files"/* ./
 	# 因为使用了软链接, 尽量使用相对目录
-	apply_patches ../patches/openwrt
+	apply_patches ../trunk/patches
 	echo "OpenWrt 源码修补完毕"
 
 	# clone feeds
@@ -150,14 +150,14 @@ prepare() {
 	echo "Current directory: ""$(pwd)"
 	cd "$PROJ_DIR/openwrt"
 	awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
-		if [ -d "$PROJ_DIR/files/$feed" ]; then
+		if [ -d "$PROJ_DIR/$feed/files" ]; then
 			cd "$PROJ_DIR/openwrt/feeds/$feed"
-			cp -lr "$PROJ_DIR/files/$feed"/* ./
+			cp -lr "$PROJ_DIR/$feed/files"/* ./
 		fi
-		if [ -d "$PROJ_DIR/patches/$feed" ]; then
+		if [ -d "$PROJ_DIR/$feed/patches" ]; then
 			cd "$PROJ_DIR/openwrt/feeds/$feed"
 			# 因为使用了软链接, 尽量使用相对目录
-			apply_patches ../../../patches/"$feed"
+			apply_patches ../../../"$feed"/patches
 		fi
 	done
 
