@@ -15,11 +15,11 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  msgid "Additional servers file"
  msgstr "额外的 SERVERS 文件"
  
-+msgid "Filter IPv6 Records"
-+msgstr "过滤 IPv6 记录"
++msgid "Filter IPv6"
++msgstr "过滤 IPv6"
 +
-+msgid "Filter IPv6(AAAA) Records during DNS resolution"
-+msgstr "在域名解析时，过滤 IPv6(AAAA) 记录"
++msgid "Filter AAAA records during domain name resolution"
++msgstr "在域名解析时，过滤 AAAA 记录"
 +
  #: modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/30_network.js:34
  #: modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/30_network.js:35
@@ -31,8 +31,8 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  			_('Additional Hosts files')).optional = true;
  
 +		o = s.taboption('advanced', form.Flag, 'filter_aaaa',
-+			_('Filter IPv6 Records'),
-+			_('Filter IPv6(AAAA) Records during DNS resolution'));
++			_('Filter IPv6'),
++			_('Filter AAAA records during domain name resolution'));
 +		o.optional = true;
 +
  		o = s.taboption('advanced', form.Flag, 'quietdhcp',
