@@ -135,6 +135,8 @@ prepare() {
 		fi
 	done
 	./scripts/feeds update -a
+	# 再次清除缓存, 防止后面 update -i 出错
+	git clean -dfx
 
 	# addition packages
 	cd "$PROJ_DIR/openwrt"
