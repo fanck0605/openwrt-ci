@@ -71,7 +71,7 @@ download_clash_files() {
 	local -r CLASH_HOME=$WORKING_DIR/etc/openclash
 	local -r CPU_ARCH=$2
 
-	local -r GEOIP_DOWNLOAD_URL=https://github.com/clashdev/geolite.clash.dev/raw/gh-pages/Country.mmdb
+	local -r GEOIP_DOWNLOAD_URL=https://github.com/alecthw/mmdb_china_ip_list/raw/release/lite/Country.mmdb
 
 	local CLASH_DOWNLOAD_URLS
 	readarray -t CLASH_DOWNLOAD_URLS < <(fetch_clash_download_urls "$CPU_ARCH")
