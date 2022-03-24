@@ -5,7 +5,7 @@
 # Copyright (c) 2021, Chuck <fanck0605@qq.com>
 #
 
-set -eu
+set -euo pipefail
 shopt -s extglob
 
 PROJ_DIR=$(pwd)
