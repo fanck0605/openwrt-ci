@@ -121,15 +121,6 @@ prepare() {
 	fi
 	echo "OpenWrt 源码初始化完毕"
 
-	# patch openwrt
-	cd "$PROJ_DIR/openwrt"
-	echo "开始修补 OpenWrt 源码"
-	echo "当前目录: ""$(pwd)"
-	cp -lr "$PROJ_DIR/trunk/files"/* ./
-	# 因为使用了软链接, 尽量使用相对目录
-	apply_patches ../trunk/patches
-	echo "OpenWrt 源码修补完毕"
-
 	# clone feeds
 	cd "$PROJ_DIR/openwrt"
 	echo "Initializing OpenWrt feeds..."
@@ -144,22 +135,6 @@ prepare() {
 		fi
 	done
 	./scripts/feeds update -a
-
-	# patch feeds
-	echo "Patching OpenWrt feeds..."
-	echo "Current directory: ""$(pwd)"
-	cd "$PROJ_DIR/openwrt"
-	awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
-		if [ -d "$PROJ_DIR/$feed/files" ]; then
-			cd "$PROJ_DIR/openwrt/feeds/$feed"
-			cp -lr "$PROJ_DIR/$feed/files"/* ./
-		fi
-		if [ -d "$PROJ_DIR/$feed/patches" ]; then
-			cd "$PROJ_DIR/openwrt/feeds/$feed"
-			# 因为使用了软链接, 尽量使用相对目录
-			apply_patches ../../../"$feed"/patches
-		fi
-	done
 
 	# addition packages
 	cd "$PROJ_DIR/openwrt"
@@ -191,11 +166,36 @@ prepare() {
 	# luci-app-uugamebooster
 	svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-uugamebooster feeds/luci/applications/luci-app-uugamebooster
 	svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/uugamebooster feeds/packages/net/uugamebooster
+	
+	# patch openwrt
+	cd "$PROJ_DIR/openwrt"
+	echo "开始修补 OpenWrt 源码"
+	echo "当前目录: ""$(pwd)"
+	cp -lr "$PROJ_DIR/trunk/files"/* ./
+	# 因为使用了软链接, 尽量使用相对目录
+	apply_patches ../trunk/patches
+	echo "OpenWrt 源码修补完毕"
+
+	# patch feeds
+	echo "Patching OpenWrt feeds..."
+	echo "Current directory: ""$(pwd)"
+	cd "$PROJ_DIR/openwrt"
+	awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
+		if [ -d "$PROJ_DIR/$feed/files" ]; then
+			cd "$PROJ_DIR/openwrt/feeds/$feed"
+			cp -lr "$PROJ_DIR/$feed/files"/* ./
+		fi
+		if [ -d "$PROJ_DIR/$feed/patches" ]; then
+			cd "$PROJ_DIR/openwrt/feeds/$feed"
+			# 因为使用了软链接, 尽量使用相对目录
+			apply_patches ../../../"$feed"/patches
+		fi
+	done
 
 	# install packages
 	cd "$PROJ_DIR/openwrt"
 	# 在添加自定义软件包后必须再次 update
-	./scripts/feeds update -a
+	./scripts/feeds update -i
 	./scripts/feeds install -a
 
 	# zh_cn to zh_Hans
