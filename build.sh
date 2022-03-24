@@ -167,7 +167,7 @@ prepare() {
 	svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/custom/luci-app-openclash
 	download_clash_files package/custom/luci-app-openclash/root armv8
 	# luci-app-arpbind
-	svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-arpbind feeds/luci/applications/luci-app-arpbind
+	svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-arpbind feeds/luci/applications/luci-app-arpbind
 	# luci-app-xlnetacc
 	svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-xlnetacc feeds/luci/applications/luci-app-xlnetacc
 	# luci-app-oled
@@ -182,7 +182,7 @@ prepare() {
 	rm -rf ./feeds/packages/net/vsftpd
 	svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/vsftpd feeds/packages/net/vsftpd
 	# luci-app-netdata
-	svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-netdata feeds/luci/applications/luci-app-netdata
+	svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-netdata feeds/luci/applications/luci-app-netdata
 	# ddns-scripts
 	svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-scripts_aliyun feeds/packages/net/ddns-scripts_aliyun
 	svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-scripts_dnspod feeds/packages/net/ddns-scripts_dnspod
