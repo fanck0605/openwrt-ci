@@ -100,7 +100,6 @@ prepare() {
 		echo "OpenWrt 源码已存在"
 		pushd ./openwrt
 		echo "开始清理 OpenWrt 源码"
-		find ./!(.git|feeds) -name .git -exec rm -rf {} +
 		git clean -dfx
 		# 防止暂存区文件影响 checkout
 		git reset --hard HEAD
@@ -128,7 +127,6 @@ prepare() {
 	awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
 		if [ -d "./feeds/$feed" ]; then
 			pushd "./feeds/$feed"
-			find ./!(.git) -name .git -exec rm -rf {} +
 			git reset --hard
 			git clean -dfx
 			popd
@@ -141,33 +139,35 @@ prepare() {
 	# addition packages
 	cd "$PROJ_DIR/openwrt"
 	# luci-app-openclash
-	svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/custom/luci-app-openclash
+	svn export https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/custom/luci-app-openclash
 	download_clash_files package/custom/luci-app-openclash/root armv8
 	# luci-app-arpbind
-	svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-arpbind feeds/luci/applications/luci-app-arpbind
+	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-arpbind feeds/luci/applications/luci-app-arpbind
 	# luci-app-xlnetacc
-	svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-xlnetacc feeds/luci/applications/luci-app-xlnetacc
+	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-xlnetacc feeds/luci/applications/luci-app-xlnetacc
 	# luci-app-oled
 	git clone --depth 1 https://github.com/NateLol/luci-app-oled.git package/custom/luci-app-oled
+	rm -rf ./package/custom/luci-app-oled/.git
 	# luci-app-unblockmusic
-	svn co https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/luci-app-unblockneteasemusic package/custom/luci-app-unblockneteasemusic
-	svn co https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/UnblockNeteaseMusic package/custom/UnblockNeteaseMusic
+	svn export https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/luci-app-unblockneteasemusic package/custom/luci-app-unblockneteasemusic
+	svn export https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/UnblockNeteaseMusic package/custom/UnblockNeteaseMusic
 	# luci-app-autoreboot
-	svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-autoreboot feeds/luci/applications/luci-app-autoreboot
+	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-autoreboot feeds/luci/applications/luci-app-autoreboot
 	# luci-app-vsftpd
-	svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-vsftpd feeds/luci/applications/luci-app-vsftpd
+	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-vsftpd feeds/luci/applications/luci-app-vsftpd
 	rm -rf ./feeds/packages/net/vsftpd
-	svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/vsftpd feeds/packages/net/vsftpd
+	svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/vsftpd feeds/packages/net/vsftpd
 	# luci-app-netdata
-	svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-netdata feeds/luci/applications/luci-app-netdata
+	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-netdata feeds/luci/applications/luci-app-netdata
 	# ddns-scripts
-	svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-scripts_aliyun feeds/packages/net/ddns-scripts_aliyun
-	svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-scripts_dnspod feeds/packages/net/ddns-scripts_dnspod
+	svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-scripts_aliyun feeds/packages/net/ddns-scripts_aliyun
+	svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-scripts_dnspod feeds/packages/net/ddns-scripts_dnspod
 	# luci-theme-argon
 	git clone -b master --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/custom/luci-theme-argon
+	rm -rf ./package/custom/luci-theme-argon/.git
 	# luci-app-uugamebooster
-	svn co https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-uugamebooster feeds/luci/applications/luci-app-uugamebooster
-	svn co https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/uugamebooster feeds/packages/net/uugamebooster
+	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-uugamebooster feeds/luci/applications/luci-app-uugamebooster
+	svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/uugamebooster feeds/packages/net/uugamebooster
 	
 	# patch openwrt
 	cd "$PROJ_DIR/openwrt"
