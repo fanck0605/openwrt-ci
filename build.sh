@@ -66,7 +66,7 @@ fetch_clash_download_urls() {
 
 	echo >&2 "Fetching Clash download urls..."
 	local LATEST_VERSIONS
-	readarray -t LATEST_VERSIONS < <(curl -sL https://github.com/vernesong/OpenClash/raw/master/core_version)
+	readarray -t LATEST_VERSIONS <<<"$(curl -sL https://github.com/vernesong/OpenClash/raw/master/core_version)"
 	readonly LATEST_VERSIONS
 
 	echo https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-"$CPU_ARCH".tar.gz
@@ -84,7 +84,7 @@ download_clash_files() {
 	local -r GEOIP_DOWNLOAD_URL=https://github.com/alecthw/mmdb_china_ip_list/raw/release/lite/Country.mmdb
 
 	local CLASH_DOWNLOAD_URLS
-	readarray -t CLASH_DOWNLOAD_URLS < <(fetch_clash_download_urls "$CPU_ARCH")
+	readarray -t CLASH_DOWNLOAD_URLS <<<"$(fetch_clash_download_urls "$CPU_ARCH")"
 	readonly CLASH_DOWNLOAD_URLS
 
 	mkdir -p "$CLASH_HOME"
@@ -176,7 +176,7 @@ prepare() {
 	# luci-app-uugamebooster
 	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-uugamebooster feeds/luci/applications/luci-app-uugamebooster
 	svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/uugamebooster feeds/packages/net/uugamebooster
-	
+
 	# patch openwrt
 	cd "$PROJ_DIR/openwrt"
 	echo "开始修补 OpenWrt 源码"
