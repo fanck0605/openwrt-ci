@@ -55,7 +55,7 @@ make -j$(($(nproc) + 1))
 
 ```
 cd ../
-./build.sh
+./build.sh -b
 ```
 
 **注意:** 多次使用 `build.sh` 将会**清除**您对 openwrt 源码的改动
