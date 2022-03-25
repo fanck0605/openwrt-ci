@@ -16,6 +16,7 @@ MANUAL=false
 ORIGIN=origin
 RESTORE=false
 REFRESH=false
+BUILD=false
 NO_OPTS=true
 
 refresh_patches() {
@@ -273,7 +274,7 @@ build() {
 	return 0
 }
 
-while getopts 'msrv:o:' opt; do
+while getopts 'msrbv:o:' opt; do
 	NO_OPTS=false
 	case $opt in
 	m)
@@ -291,8 +292,11 @@ while getopts 'msrv:o:' opt; do
 	s)
 		RESTORE=true
 		;;
+	b)
+		BUILD=true
+		;;
 	*)
-		echo "usage: $0 [-mr] [-v version] [-o origin]"
+		echo "usage: $0 [-msrb] [-v version] [-o origin]"
 		exit 1
 		;;
 	esac
@@ -306,6 +310,10 @@ if $MANUAL; then
 	patch_source
 
 	prepare_build
+fi
+
+if $BUILD; then
+	build
 fi
 
 if $RESTORE; then
