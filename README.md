@@ -39,13 +39,23 @@ sudo apt install build-essential ccache ecj fastjar file g++ gawk gettext git ja
 
 通过 `./build.sh -m` 可以初始化 OpenWrt 源码，这将自动下载一些常用第三方软件包, 并且~~负~~优化部分 OpenWrt 的配置。
 
+```
+./build.sh -m
+```
+
 初始化完毕后后，你可以手动选择需要的软件包进行编译。
 
 ```
-./build.sh -m
 cd ./openwrt
 make menuconfig
 make -j$(($(nproc) + 1))
+```
+
+也可以使用 `./build.sh -b` 来替代 `make -j`，这将会先执行 make download 再进行编译，再网络环境较差的地方可以提高编译成功率。
+
+```
+cd ../
+./build.sh
 ```
 
 **注意:** 多次使用 `build.sh` 将会**清除**您对 openwrt 源码的改动
