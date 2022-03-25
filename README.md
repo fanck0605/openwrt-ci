@@ -18,7 +18,7 @@
 
 ### 1.  安装依赖
 
-**注意：**相比 OpenWrt 的官方版本多了 `quilt` 这个软件包
+**注意:** 相比 OpenWrt 的官方版本多了 `quilt` 这个软件包
 
 ```
 sudo apt update
@@ -48,4 +48,4 @@ make menuconfig
 make -j$(($(nproc) + 1))
 ```
 
-**注意：**多次使用 `build.sh` 将会**清除**您对 openwrt 源码的改动
+**注意:** 多次使用 `build.sh` 将会**清除**您对 openwrt 源码的改动
