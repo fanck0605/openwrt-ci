@@ -45,8 +45,8 @@ refresh() {
 
 restore_quilt() {
 	cd "$PROJ_DIR"/
-	ln -s ./truck/patches ./openwrt/patches
-	mv ./truck/.pc ./openwrt/
+	ln -s ./trunk/patches ./openwrt/patches
+	mv ./trunk/.pc ./openwrt/
 
 	awk '/^src-git/ { print $2 }' ./openwrt/feeds.conf.default | while IFS= read -r feed; do
 		if [ -d "./$feed/patches" ]; then
