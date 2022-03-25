@@ -16,10 +16,16 @@ MANUAL=false
 ORIGIN=origin
 
 refresh_patches() {
+	ln -s "$1"/patches ./patches
+	mv "$1"/.pc ./
+
 	local patch
 	while IFS= read -r patch; do
 		quilt refresh -p ab --no-timestamps --no-index -f "$patch"
 	done <patches/series
+
+	mv ./.pc "$1"/
+	rm -f patches
 
 	return 0
 }
@@ -28,7 +34,7 @@ refresh() {
 	cd "$PROJ_DIR/trunk/files"
 	find -- * -type f -exec cp "$PROJ_DIR"/openwrt/{} ./{} \;
 	cd "$PROJ_DIR/openwrt"
-	refresh_patches
+	refresh_patches ../trunk
 
 	cd "$PROJ_DIR/openwrt"
 	awk '/^src-git/ { print $2 }' ./feeds.conf.default | while IFS= read -r feed; do
@@ -38,15 +44,19 @@ refresh() {
 		fi
 		if [ -d "$PROJ_DIR/$feed/patches" ]; then
 			cd "$PROJ_DIR/openwrt/feeds/$feed"
-			refresh_patches
+			refresh_patches ../../../"$feed"
 		fi
 	done
 }
 
 apply_patches() {
-	ln -sf "$1" patches
+	ln -s "$1"/patches ./patches
 	find patches/ -maxdepth 1 -name '*.patch' -printf '%f\n' | sort >patches/series
 	quilt push -a
+
+	rm -rf "$1"/.pc
+	mv ./.pc "$1"/
+	rm -f patches
 
 	return 0
 }
@@ -173,7 +183,7 @@ prepare() {
 	echo "当前目录: ""$(pwd)"
 	cp -lr "$PROJ_DIR/trunk/files"/* ./
 	# 因为使用了软链接, 尽量使用相对目录
-	apply_patches ../trunk/patches
+	apply_patches ../trunk
 	echo "OpenWrt 源码修补完毕"
 
 	# patch feeds
@@ -188,7 +198,7 @@ prepare() {
 		if [ -d "$PROJ_DIR/$feed/patches" ]; then
 			cd "$PROJ_DIR/openwrt/feeds/$feed"
 			# 因为使用了软链接, 尽量使用相对目录
-			apply_patches ../../../"$feed"/patches
+			apply_patches ../../../"$feed"
 		fi
 	done
 
