@@ -14,6 +14,9 @@ readonly PROJ_DIR
 VERSION=openwrt-21.02
 MANUAL=false
 ORIGIN=origin
+RESTORE=false
+REFRESH=false
+NO_OPTS=true
 
 refresh_patches() {
 	local patch
@@ -270,7 +273,8 @@ build() {
 	return 0
 }
 
-while getopts 'mrv:o:' opt; do
+while getopts 'msrv:o:' opt; do
+	NO_OPTS=false
 	case $opt in
 	m)
 		MANUAL=true
@@ -282,8 +286,10 @@ while getopts 'mrv:o:' opt; do
 		ORIGIN=$OPTARG
 		;;
 	r)
-		refresh
-		exit 0
+		REFRESH=true
+		;;
+	s)
+		RESTORE=true
 		;;
 	*)
 		echo "usage: $0 [-mr] [-v version] [-o origin]"
@@ -292,16 +298,32 @@ while getopts 'mrv:o:' opt; do
 	esac
 done
 
-init_trunk
-
-init_packages
-
-patch_source
-
-prepare_build
-
 if $MANUAL; then
+	init_trunk
+
+	init_packages
+
+	patch_source
+
+	prepare_build
+fi
+
+if $RESTORE; then
 	restore_quilt
-else
+fi
+
+if $REFRESH; then
+	refresh
+fi
+
+if $NO_OPTS; then
+	init_trunk
+
+	init_packages
+
+	patch_source
+
+	prepare_build
+
 	build
 fi
