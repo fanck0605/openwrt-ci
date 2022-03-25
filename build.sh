@@ -49,17 +49,21 @@ refresh() {
 }
 
 restore_quilt() {
-	cd "$PROJ_DIR"/
-	ln -s ./trunk/patches ./openwrt/patches
-	mv ./trunk/.pc ./openwrt/
+	echo '恢复 quilt 临时文件'
+	cd "$PROJ_DIR"
+	if [ -d ./trunk/patches ]; then
+		ln -s ../trunk/patches ./openwrt/patches
+		mv ./trunk/.pc ./openwrt/
+	fi
 
 	local feed
 	while IFS= read -r feed; do
 		if [ -d "./$feed/patches" ]; then
-			ln -s ./"$feed"/patches ./openwrt/feeds/"$feed"/patches
+			ln -s ../../../"$feed"/patches ./openwrt/feeds/"$feed"/patches
 			mv ./"$feed"/.pc ./openwrt/feeds/"$feed"/
 		fi
 	done <<<"$(awk '/^src-git/ { print $2 }' ./openwrt/feeds.conf.default)"
+	echo 'quilt 临时文件恢复完毕'
 }
 
 apply_patches() {
