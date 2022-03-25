@@ -269,4 +269,8 @@ done
 
 prepare
 
-$MANUAL && restore_quilt || build
+if $MANUAL; then
+	restore_quilt
+else
+	build
+fi
