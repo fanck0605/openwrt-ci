@@ -31,7 +31,8 @@ refresh() {
 	refresh_patches ../trunk
 
 	cd "$PROJ_DIR/openwrt"
-	awk '/^src-git/ { print $2 }' ./feeds.conf.default | while IFS= read -r feed; do
+	local feed
+	while IFS= read -r feed; do
 		if [ -d "$PROJ_DIR/$feed/files" ]; then
 			cd "$PROJ_DIR/$feed/files"
 			find -- * -type f -exec cp "$PROJ_DIR"/openwrt/feeds/"$feed"/{} ./{} \;
@@ -40,7 +41,7 @@ refresh() {
 			cd "$PROJ_DIR/openwrt/feeds/$feed"
 			refresh_patches ../../../"$feed"
 		fi
-	done
+	done <<<"$(awk '/^src-git/ { print $2 }' ./feeds.conf.default)"
 }
 
 restore_quilt() {
@@ -48,17 +49,18 @@ restore_quilt() {
 	ln -s ./trunk/patches ./openwrt/patches
 	mv ./trunk/.pc ./openwrt/
 
-	awk '/^src-git/ { print $2 }' ./openwrt/feeds.conf.default | while IFS= read -r feed; do
+	local feed
+	while IFS= read -r feed; do
 		if [ -d "./$feed/patches" ]; then
 			ln -s ./"$feed"/patches ./openwrt/feeds/"$feed"/patches
 			mv ./"$feed"/.pc ./openwrt/feeds/"$feed"/
 		fi
-	done
+	done <<<"$(awk '/^src-git/ { print $2 }' ./openwrt/feeds.conf.default)"
 }
 
 apply_patches() {
 	ln -s "$1"/patches ./patches
-	find patches/ -maxdepth 1 -name '*.patch' -printf '%f\n' | sort >patches/series
+	sort <<<"$(find patches/ -maxdepth 1 -name '*.patch' -printf '%f\n')" >patches/series
 	quilt push -a
 
 	rm -rf "$1"/.pc
@@ -141,14 +143,15 @@ prepare() {
 	cd "$PROJ_DIR/openwrt"
 	echo "Initializing OpenWrt feeds..."
 	echo "Current directory: ""$(pwd)"
-	awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
+	local feed
+	while IFS= read -r feed; do
 		if [ -d "./feeds/$feed" ]; then
 			pushd "./feeds/$feed"
 			git reset --hard
 			git clean -dfx
 			popd
 		fi
-	done
+	done <<<"$(awk '/^src-git/ { print $2 }' ./feeds.conf.default)"
 	./scripts/feeds update -a
 	# 再次清除缓存, 防止后面 update -i 出错
 	git clean -dfx
@@ -197,7 +200,8 @@ prepare() {
 	echo "Patching OpenWrt feeds..."
 	echo "Current directory: ""$(pwd)"
 	cd "$PROJ_DIR/openwrt"
-	awk '/^src-git/ { print $2 }' feeds.conf.default | while IFS= read -r feed; do
+	local feed
+	while IFS= read -r feed; do
 		if [ -d "$PROJ_DIR/$feed/files" ]; then
 			cd "$PROJ_DIR/openwrt/feeds/$feed"
 			cp -lr "$PROJ_DIR/$feed/files"/* ./
@@ -207,7 +211,7 @@ prepare() {
 			# 因为使用了软链接, 尽量使用相对目录
 			apply_patches ../../../"$feed"
 		fi
-	done
+	done <<<"$(awk '/^src-git/ { print $2 }' ./feeds.conf.default)"
 
 	# install packages
 	cd "$PROJ_DIR/openwrt"
