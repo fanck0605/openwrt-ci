@@ -110,6 +110,8 @@ download_clash_files() {
 	return 0
 }
 
+# 初始化 OpenWrt 主干代码, 包括 OpenWrt 本身以及官方 feeds
+# 注意: feeds 仅克隆了源码, 需要使用 ./script/feeds update -i 来生成索引才能使用
 init_trunk() {
 	# clone openwrt
 	cd "$PROJ_DIR"
@@ -157,6 +159,8 @@ init_trunk() {
 	git clean -dfx
 }
 
+# 初始化第三方软件包, 可以在这里自行添加需要的软件包
+# 如需继续修改第三方软件包, 可以在下面的阶段进行 patch
 init_packages() {
 	# addition packages
 	cd "$PROJ_DIR/openwrt"
@@ -200,6 +204,7 @@ init_packages() {
 	"$PROJ_DIR/scripts/create_acl_for_luci.sh" -c
 }
 
+# 这里将会读取项目根目录下的额外文件和补丁文件, 并将修改合并到源码上
 patch_source() {
 	# patch openwrt
 	cd "$PROJ_DIR/openwrt"
@@ -228,6 +233,7 @@ patch_source() {
 	done <<<"$(awk '/^src-git/ { print $2 }' ./feeds.conf.default)"
 }
 
+# 这里将安装 feeds 中所有的软件包, 并读取 config.seed 来生成默认配置文件
 prepare_build() {
 	# install packages
 	cd "$PROJ_DIR/openwrt"
@@ -243,7 +249,7 @@ prepare_build() {
 	return 0
 }
 
-# build openwrt
+# 编译完成后将会把编译结果复制到项目根目录的 artifact 文件夹中
 build() {
 	cd "$PROJ_DIR/openwrt"
 
@@ -272,7 +278,7 @@ while getopts 'mrv:o:' opt; do
 		exit 0
 		;;
 	*)
-		echo "usage: $0 [-mv]"
+		echo "usage: $0 [-mr] [-v version] [-o origin]"
 		exit 1
 		;;
 	esac
