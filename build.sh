@@ -28,7 +28,7 @@ refresh() {
 	cd "$PROJ_DIR/trunk/files"
 	find -- * -type f -exec cp "$PROJ_DIR"/openwrt/{} ./{} \;
 	cd "$PROJ_DIR/openwrt"
-	refresh_patches ../trunk
+	refresh_patches
 
 	cd "$PROJ_DIR/openwrt"
 	local feed
@@ -39,7 +39,7 @@ refresh() {
 		fi
 		if [ -d "$PROJ_DIR/$feed/patches" ]; then
 			cd "$PROJ_DIR/openwrt/feeds/$feed"
-			refresh_patches ../../../"$feed"
+			refresh_patches
 		fi
 	done <<<"$(awk '/^src-git/ { print $2 }' ./feeds.conf.default)"
 }
@@ -110,7 +110,7 @@ download_clash_files() {
 	return 0
 }
 
-prepare() {
+init_trunk() {
 	# clone openwrt
 	cd "$PROJ_DIR"
 	echo "开始初始化 OpenWrt 源码"
@@ -155,7 +155,9 @@ prepare() {
 	./scripts/feeds update -a
 	# 再次清除缓存, 防止后面 update -i 出错
 	git clean -dfx
+}
 
+init_packages() {
 	# addition packages
 	cd "$PROJ_DIR/openwrt"
 	# luci-app-openclash
@@ -187,6 +189,18 @@ prepare() {
 	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-uugamebooster feeds/luci/applications/luci-app-uugamebooster
 	svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/uugamebooster feeds/packages/net/uugamebooster
 
+	# 注意下面的脚本不会影响克隆到 feeds 的源码
+	# zh_cn to zh_Hans
+	cd "$PROJ_DIR/openwrt/package"
+	"$PROJ_DIR/scripts/convert_translation.sh"
+
+	# create acl files
+	cd "$PROJ_DIR/openwrt"
+	"$PROJ_DIR/scripts/create_acl_for_luci.sh" -a
+	"$PROJ_DIR/scripts/create_acl_for_luci.sh" -c
+}
+
+patch_source() {
 	# patch openwrt
 	cd "$PROJ_DIR/openwrt"
 	echo "开始修补 OpenWrt 源码"
@@ -212,21 +226,14 @@ prepare() {
 			apply_patches ../../../"$feed"
 		fi
 	done <<<"$(awk '/^src-git/ { print $2 }' ./feeds.conf.default)"
+}
 
+prepare_build() {
 	# install packages
 	cd "$PROJ_DIR/openwrt"
 	# 在添加自定义软件包后必须再次 update
 	./scripts/feeds update -i
 	./scripts/feeds install -a
-
-	# zh_cn to zh_Hans
-	cd "$PROJ_DIR/openwrt/package"
-	"$PROJ_DIR/scripts/convert_translation.sh"
-
-	# create acl files
-	cd "$PROJ_DIR/openwrt"
-	"$PROJ_DIR/scripts/create_acl_for_luci.sh" -a
-	"$PROJ_DIR/scripts/create_acl_for_luci.sh" -c
 
 	# customize configs
 	cd "$PROJ_DIR/openwrt"
@@ -271,7 +278,13 @@ while getopts 'mrv:o:' opt; do
 	esac
 done
 
-prepare
+init_trunk
+
+init_packages
+
+patch_source
+
+prepare_build
 
 if $MANUAL; then
 	restore_quilt
