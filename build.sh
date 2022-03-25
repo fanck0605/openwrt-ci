@@ -16,16 +16,10 @@ MANUAL=false
 ORIGIN=origin
 
 refresh_patches() {
-	ln -s "$1"/patches ./patches
-	mv "$1"/.pc ./
-
 	local patch
 	while IFS= read -r patch; do
 		quilt refresh -p ab --no-timestamps --no-index -f "$patch"
 	done <patches/series
-
-	mv ./.pc "$1"/
-	rm -f patches
 
 	return 0
 }
@@ -45,6 +39,19 @@ refresh() {
 		if [ -d "$PROJ_DIR/$feed/patches" ]; then
 			cd "$PROJ_DIR/openwrt/feeds/$feed"
 			refresh_patches ../../../"$feed"
+		fi
+	done
+}
+
+restore_quilt() {
+	cd "$PROJ_DIR"/
+	ln -s ./truck/patches ./openwrt/patches
+	mv ./truck/.pc ./openwrt/
+
+	awk '/^src-git/ { print $2 }' ./openwrt/feeds.conf.default | while IFS= read -r feed; do
+		if [ -d "./$feed/patches" ]; then
+			ln -s ./"$feed"/patches ./openwrt/feeds/"$feed"/patches
+			mv ./"$feed"/.pc ./openwrt/feeds/"$feed"/
 		fi
 	done
 }
@@ -262,4 +269,4 @@ done
 
 prepare
 
-$MANUAL || build
+$MANUAL && restore_quilt || build
