@@ -11,7 +11,7 @@ shopt -s extglob
 PROJ_DIR=$(pwd)
 readonly PROJ_DIR
 
-VERSION=v21.02.2
+VERSION=openwrt-21.02
 MANUAL=false
 ORIGIN=origin
 
