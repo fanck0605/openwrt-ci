@@ -13,22 +13,19 @@ Signed-off-by: Chuck <fanck0605@qq.com>
 
 --- a/modules/luci-base/po/zh_Hans/base.po
 +++ b/modules/luci-base/po/zh_Hans/base.po
-@@ -1140,6 +1140,12 @@ msgstr "CA 证书，如果留空，则�
+@@ -1140,6 +1140,9 @@ msgstr "CA 证书，如果留空，则�
  msgid "CLAT configuration failed"
  msgstr "CLAT 配置失败"
  
 +msgid "CPU Status"
 +msgstr "CPU 状态"
 +
-+msgid "CPU Usage"
-+msgstr "CPU 使用率"
-+
  #: modules/luci-mod-status/htdocs/luci-static/resources/view/status/processes.js:72
  msgid "CPU usage (%)"
  msgstr "CPU 使用率（%）"
 --- a/modules/luci-base/root/usr/libexec/rpcd/luci
 +++ b/modules/luci-base/root/usr/libexec/rpcd/luci
-@@ -613,6 +613,19 @@ local methods = {
+@@ -613,6 +613,18 @@ local methods = {
  			end
  			return { result = res }
  		end
@@ -41,7 +38,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
 +
 +			cpuinfo.freq = sys.exec([[awk '{ printf("%d MHz", $0 / 1000) }' /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq]])
 +			cpuinfo.temp = sys.exec([[awk '{ printf("%.1f °C", $0 / 1000) }' /sys/class/thermal/thermal_zone0/temp]])
-+			cpuinfo.usage = sys.exec([[top -n1 | awk '/^CPU/ { printf("%d%%", 100 - $8) }']])
 +
 +			return cpuinfo
 +		end
@@ -88,16 +84,6 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  			_('Firmware Version'), (L.isObject(boardinfo.release) ? boardinfo.release.description + ' / ' : '') + (luciversion || ''),
  			_('Kernel Version'),   boardinfo.kernel,
  			_('Local Time'),       datestr,
-@@ -63,7 +71,8 @@ return baseclass.extend({
- 				systeminfo.load[0] / 65535.0,
- 				systeminfo.load[1] / 65535.0,
- 				systeminfo.load[2] / 65535.0
--			) : null
-+			) : null,
-+			_('CPU Usage'),        cpuinfo.usage
- 		];
- 
- 		var table = E('table', { 'class': 'table' });
 --- a/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
 +++ b/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
 @@ -3,7 +3,7 @@
