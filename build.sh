@@ -90,9 +90,8 @@ fetch_clash_download_urls() {
 	readarray -t LATEST_VERSIONS <<<"$(curl -sL https://github.com/vernesong/OpenClash/raw/master/core_version)"
 	readonly LATEST_VERSIONS
 
-	echo https://github.com/vernesong/OpenClash/releases/download/Clash/clash-linux-"$CPU_ARCH".tar.gz
-	echo https://github.com/vernesong/OpenClash/releases/download/TUN-Premium/clash-linux-"$CPU_ARCH"-"${LATEST_VERSIONS[1]}".gz
-	echo https://github.com/vernesong/OpenClash/releases/download/TUN/clash-linux-"$CPU_ARCH".tar.gz
+	echo https://github.com/vernesong/OpenClash/raw/master/core-lateset/dev/clash-linux-"$CPU_ARCH".tar.gz
+	echo https://github.com/vernesong/OpenClash/raw/master/core-lateset/premium/clash-linux-"$CPU_ARCH"-"${LATEST_VERSIONS[1]}".gz
 
 	return 0
 }
@@ -113,11 +112,11 @@ download_clash_files() {
 	curl -sL "$GEOIP_DOWNLOAD_URL" >"$CLASH_HOME"/Country.mmdb
 
 	mkdir -p "$CLASH_HOME"/core
-	echo "Downloading Clash core..."
+	echo "Download ${CLASH_DOWNLOAD_URLS[0]}"
 	curl -sL "${CLASH_DOWNLOAD_URLS[0]}" | tar -xOz >"$CLASH_HOME"/core/clash
+	echo "Download ${CLASH_DOWNLOAD_URLS[1]}"
 	curl -sL "${CLASH_DOWNLOAD_URLS[1]}" | zcat >"$CLASH_HOME"/core/clash_tun
-	curl -sL "${CLASH_DOWNLOAD_URLS[2]}" | tar -xOz >"$CLASH_HOME"/core/clash_game
-	chmod +x "$CLASH_HOME"/core/clash{,_tun,_game}
+	chmod +x "$CLASH_HOME"/core/clash{,_tun}
 
 	return 0
 }
