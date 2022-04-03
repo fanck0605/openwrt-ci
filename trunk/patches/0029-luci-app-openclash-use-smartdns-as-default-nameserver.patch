@@ -1,0 +1,97 @@
+--- a/package/custom/luci-app-openclash/root/etc/config/openclash
++++ b/package/custom/luci-app-openclash/root/etc/config/openclash
+@@ -14,7 +14,7 @@ config openclash 'config'
+ 	option cn_port '9090'
+ 	option dashboard_password '123456'
+ 	option rule_source '0'
+-	option enable_custom_dns '0'
++	option enable_custom_dns '1'
+ 	option ipv6_enable '0'
+ 	option ipv6_dns '0'
+ 	option enable_custom_clash_rules '0'
+@@ -44,7 +44,7 @@ config openclash 'config'
+ 	option tolerance '0'
+ 	option store_fakeip '1'
+ 	option custom_fallback_filter '0'
+-	option append_wan_dns '1'
++	option append_wan_dns '0'
+ 	option stream_domains_prefetch '0'
+ 	option stream_auto_select '0'
+ 	option dns_remote '1'
+@@ -58,7 +58,7 @@ config openclash 'config'
+ 	option chnr6_custom_url 'https://ispip.clang.cn/all_cn_ipv6.txt'
+ 	
+ config dns_servers
+-	option enabled '0'
++	option enabled '1'
+ 	option group 'nameserver'
+ 	option ip '127.0.0.1'
+ 	option port '6053'
+@@ -68,13 +68,13 @@ config dns_servers
+ 	option group 'nameserver'
+ 	option type 'udp'
+ 	option ip '114.114.114.114'
+-	option enabled '1'
++	option enabled '0'
+ 
+ config dns_servers
+ 	option group 'nameserver'
+ 	option type 'udp'
+ 	option ip '119.29.29.29'
+-	option enabled '1'
++	option enabled '0'
+ 
+ config dns_servers
+ 	option group 'nameserver'
+@@ -92,19 +92,19 @@ config dns_servers
+ 	option type 'https'
+ 	option ip 'doh.pub/dns-query'
+ 	option group 'nameserver'
+-	option enabled '1'
++	option enabled '0'
+ 
+ config dns_servers
+ 	option type 'https'
+ 	option ip 'dns.alidns.com/dns-query'
+ 	option group 'nameserver'
+-	option enabled '1'
++	option enabled '0'
+ 
+ config dns_servers
+ 	option type 'https'
+ 	option group 'fallback'
+ 	option ip 'dns.cloudflare.com/dns-query'
+-	option enabled '1'
++	option enabled '0'
+ 
+ config dns_servers
+ 	option group 'fallback'
+@@ -158,19 +158,19 @@ config dns_servers
+ 	option group 'fallback'
+ 	option type 'https'
+ 	option ip 'public.dns.iij.jp/dns-query'
+-	option enabled '1'
++	option enabled '0'
+ 
+ config dns_servers
+ 	option group 'fallback'
+ 	option type 'https'
+ 	option ip 'jp.tiar.app/dns-query'
+-	option enabled '1'
++	option enabled '0'
+ 
+ config dns_servers
+ 	option group 'fallback'
+ 	option type 'https'
+ 	option ip 'jp.tiarap.org/dns-query'
+-	option enabled '1'
++	option enabled '0'
+ 
+ config dns_servers
+ 	option group 'fallback'
+@@ -182,4 +182,4 @@ config dns_servers
+ 	option group 'fallback'
+ 	option ip 'dot.tiar.app'
+ 	option type 'tls'
+-	option enabled '1'
++	option enabled '0'
