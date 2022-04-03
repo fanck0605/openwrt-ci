@@ -1,0 +1,19 @@
+--- a/net/smartdns/Makefile
++++ b/net/smartdns/Makefile
+@@ -6,13 +6,13 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=smartdns
+-PKG_VERSION:=1.2020.30
++PKG_VERSION:=1.2022.36
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE_PROTO:=git
+ PKG_SOURCE_URL:=https://www.github.com/pymumu/smartdns.git
+-PKG_SOURCE_VERSION:=a6fe329105c7275d4683d17e95ab9d9f93a9c863
+-PKG_MIRROR_HASH:=d5affc45a533e38ee04f3ce47b441aecf316cb9cb68ff410eede67090ec0fcc7
++PKG_SOURCE_VERSION:=1efa1942cc7afaa57d12625305469a45bca13f60
++PKG_MIRROR_HASH:=ed56937cbd83c1338e90f454e56379793673bca6e20483f816ce63e533fb1d51
+ 
+ PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
+ PKG_LICENSE:=GPL-3.0-or-later
