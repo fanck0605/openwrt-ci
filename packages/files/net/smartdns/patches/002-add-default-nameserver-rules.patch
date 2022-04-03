@@ -1,0 +1,20 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck Fan <fanck0605@qq.com>
+Date: Sun, 3 Apr 2022 17:23:45 +0800
+Subject: [PATCH] add default nameserver rules
+
+---
+ package/openwrt/custom.conf | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+--- a/package/openwrt/custom.conf
++++ b/package/openwrt/custom.conf
+@@ -11,4 +11,6 @@
+ # log-num 2
+ 
+ # List of hosts that supply bogus NX domain results 
+-# bogus-nxdomain [ip/subnet]
+\ No newline at end of file
++# bogus-nxdomain [ip/subnet]
++
++conf-file /etc/smartdns/gfwlist.conf
