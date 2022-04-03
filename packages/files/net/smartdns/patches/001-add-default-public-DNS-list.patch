@@ -50,7 +50,7 @@ Subject: [PATCH] add default public DNS list
 +
 +config server
 +	option type 'https'
-+	option ip 'https://dns.cloudflare.com/dns-query'
++	option ip 'https://cloudflare-dns.com/dns-query'
 +	option blacklist_ip '0'
 +	option enabled '1'
 +	option server_group 'foreign'
