@@ -1,0 +1,58 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Chuck Fan <fanck0605@qq.com>
+Date: Sun, 3 Apr 2022 01:46:57 +0800
+Subject: [PATCH] add default public DNS list
+
+---
+ package/openwrt/files/etc/config/smartdns | 42 +++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+
+--- a/package/openwrt/files/etc/config/smartdns
++++ b/package/openwrt/files/etc/config/smartdns
+@@ -1,3 +1,45 @@
+ config 'smartdns'
+ 	option 'enabled' '0'
++
++config server
++	option type 'udp'
++	option ip '114.114.114.114'
++	option blacklist_ip '0'
++	option enabled '1'
++	option server_group 'china'
++
++config server
++	option type 'https'
++	option ip 'https://doh.pub/dns-query'
++	option blacklist_ip '0'
++	option enabled '1'
++	option server_group 'china'
++
++config server
++	option type 'https'
++	option ip 'https://dns.alidns.com/dns-query'
++	option blacklist_ip '0'
++	option enabled '1'
++	option server_group 'china'
++
++config server
++	option type 'https'
++	option ip 'https://dns.cloudflare.com/dns-query'
++	option blacklist_ip '0'
++	option enabled '1'
++	option server_group 'foreign'
++
++config server
++	option type 'https'
++	option ip 'https://dns.google/dns-query'
++	option blacklist_ip '0'
++	option enabled '1'
++	option server_group 'foreign'
++
++config server
++	option type 'https'
++	option ip 'https://dns.quad9.net/dns-query'
++	option blacklist_ip '0'
++	option enabled '1'
++	option server_group 'foreign'
+ 	
+\ No newline at end of file
