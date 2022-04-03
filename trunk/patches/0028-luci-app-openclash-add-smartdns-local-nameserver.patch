@@ -1,0 +1,16 @@
+--- a/package/custom/luci-app-openclash/root/etc/config/openclash
++++ b/package/custom/luci-app-openclash/root/etc/config/openclash
+@@ -58,6 +58,13 @@ config openclash 'config'
+ 	option chnr6_custom_url 'https://ispip.clang.cn/all_cn_ipv6.txt'
+ 	
+ config dns_servers
++	option enabled '0'
++	option group 'nameserver'
++	option ip '127.0.0.1'
++	option port '6053'
++	option type 'udp'
++
++config dns_servers
+ 	option group 'nameserver'
+ 	option type 'udp'
+ 	option ip '114.114.114.114'
