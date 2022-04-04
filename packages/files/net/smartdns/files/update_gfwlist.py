@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import re
 import sys
@@ -10,7 +10,7 @@ gfwlist_url = 'https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.
 tlds_url = 'https://publicsuffix.org/list/public_suffix_list.dat'
 
 
-def obtain_domain(url):
+def obtain_domain(url: str):
     hostname = urlparse(url).hostname
     # convert to punycode
     return hostname.encode('idna').decode('utf-8')
@@ -30,7 +30,7 @@ def obtain_second_level_domain(domain: str, tlds: set[str]):
 
 
 def parse_tlds(content: str):
-    tlds = set()
+    tlds = set[str]()
     for line in content.splitlines(keepends=False):
         if not line:
             # ignore null or ''
@@ -44,7 +44,7 @@ def parse_tlds(content: str):
 
 
 def parse_gfwlist(content: str, tlds: set[str]):
-    domains = set()
+    domains = set[str]()
     for line in content.splitlines(keepends=False):
         if not line:
             # ignore null or ''
