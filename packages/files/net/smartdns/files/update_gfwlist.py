@@ -7,7 +7,8 @@ from urllib.parse import unquote, urlparse
 from urllib.request import urlopen
 
 gfwlist_url = 'https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt'
-tlds_url = 'https://publicsuffix.org/list/public_suffix_list.dat'
+suffixes_url = 'https://publicsuffix.org/list/public_suffix_list.dat'
+tlds_url = 'https://data.iana.org/TLD/tlds-alpha-by-domain.txt'
 
 
 def obtain_domain(url: str):
@@ -32,15 +33,33 @@ def obtain_second_level_domain(domain: str, tlds: set[str]):
 def parse_tlds(content: str):
     tlds = set[str]()
     for line in content.splitlines(keepends=False):
+        if line.startswith('#'):
+            continue
+        if not line:
+            continue
+        tlds.add(line.lower())
+    return tlds
+
+
+def parse_suffixes(content: str, tlds: set[str]):
+    oooo = {'a', 'go', 'or', 'pp'}
+    tld_pluses = set[str](tlds)
+    for line in content.splitlines(keepends=False):
         if not line:
             # ignore null or ''
             continue
         if line.startswith('//'):
             # ignore comment
             continue
-        tld = line.encode('idna').decode('utf-8')
-        tlds.add(tld)
-    return tlds
+        suffix = line.encode('idna').decode('utf-8')
+        part_list = suffix.split('.')
+        list_size = len(part_list)
+        if list_size < 2:
+            continue
+        part_list = part_list[-2:]
+        if (part_list[0] in tlds or part_list[0] in oooo) and part_list[1] in tlds:
+            tld_pluses.add('.'.join(part_list))
+    return tld_pluses
 
 
 def expend_grouped_or(regex: str):
@@ -157,15 +176,20 @@ def main():
         tlds_body = tlds_response.read().decode('utf-8')
         tlds = parse_tlds(tlds_body)
 
-        print('Downloading gfwlist from %s' % gfwlist_url)
-        with urlopen(gfwlist_url) as gfwlist_response:
-            gfwlist_body = gfwlist_response.read()
-            decoded_gfwlist = b64decode(gfwlist_body).decode('utf-8')
-            gfwlist = parse_gfwlist(decoded_gfwlist, tlds)
+        print('Downloading suffixes from %s' % suffixes_url)
+        with urlopen(suffixes_url) as suffixes_response:
+            suffixes_body = suffixes_response.read().decode('utf-8')
+            tld_pluses = parse_suffixes(suffixes_body, tlds)
 
-            with open(conf_file or 'gfwlist.conf', 'w') as f:
-                for i in sorted(gfwlist):
-                    f.write("nameserver /%s/%s\n" % (i, group_name or 'foreign'))
+            print('Downloading gfwlist from %s' % gfwlist_url)
+            with urlopen(gfwlist_url) as gfwlist_response:
+                gfwlist_body = gfwlist_response.read()
+                decoded_gfwlist = b64decode(gfwlist_body).decode('utf-8')
+                gfwlist = parse_gfwlist(decoded_gfwlist, tld_pluses)
+
+                with open(conf_file or 'gfwlist.conf', 'w') as f:
+                    for i in sorted(gfwlist):
+                        f.write("nameserver /%s/%s\n" % (i, group_name or 'foreign'))
 
 
 if __name__ == '__main__':
