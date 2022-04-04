@@ -99,3 +99,26 @@
  	option type 'tls'
 -	option enabled '1'
 +	option enabled '0'
+--- a/package/custom/luci-app-openclash/luasrc/model/cbi/openclash/settings.lua
++++ b/package/custom/luci-app-openclash/luasrc/model/cbi/openclash/settings.lua
+@@ -226,17 +226,17 @@ o.default = 1
+ 
+ o = s:taboption("dns", Flag, "enable_custom_dns", font_red..bold_on..translate("Custom DNS Setting")..bold_off..font_off)
+ o.description = font_red..bold_on..translate("Set OpenClash Upstream DNS Resolve Server")..bold_off..font_off
+-o.default = 0
++o.default = 1
+ 
+ if op_mode == "redir-host" then
+ o = s:taboption("dns", Flag, "dns_remote", font_red..bold_on..translate("DNS Remote")..bold_off..font_off)
+ o.description = font_red..bold_on..translate("Add DNS Remote Support For Redir-Host")..bold_off..font_off
+-o.default = 1
++o.default = 0
+ end
+ 
+ o = s:taboption("dns", Flag, "append_wan_dns", font_red..bold_on..translate("Append Upstream DNS")..bold_off..font_off)
+ o.description = font_red..bold_on..translate("Append The Upstream Assigned DNS And Gateway IP To The Nameserver")..bold_off..font_off
+-o.default = 1
++o.default = 0
+ 
+ if op_mode == "fake-ip" then
+ o = s:taboption("dns", Flag, "store_fakeip", font_red..bold_on..translate("Persistence Fake-IP")..bold_off..font_off)
