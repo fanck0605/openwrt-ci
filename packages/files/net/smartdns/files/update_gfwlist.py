@@ -43,6 +43,52 @@ def parse_tlds(content: str):
     return tlds
 
 
+def expend_grouped_or(regex: str):
+    m = re.match(r'(.*)(?<!\\)\((.*?)(?<!\\)\)(?![*+?{])(.*)', regex)
+
+    if not m:
+        yield regex
+        return
+
+    prefix = m.group(1)
+    items = m.group(2).split('|')
+    suffix = m.group(3)
+    for i in items:
+        yield from expend_grouped_or(prefix + i + suffix)
+
+
+def expend_rules(line: str):
+    if not line.startswith('/'):
+        yield line
+        return
+
+    raw_line = line
+    line = line[1:-1]
+    line = line.lstrip('^')
+    line = line.rstrip('$')
+    line = line.replace(r'\/', '/')
+
+    for rule in expend_grouped_or(line):
+        if r'\..*' in rule:
+            print('Ignore regex rule: ', rule)
+            continue
+
+        rule = re.sub(r'(?<!\\)\(.*(?<!\\)\)[*+?]', '', rule)
+        rule = re.sub(r'(?<!\\)\(.*(?<!\\)\){.*?}', '', rule)
+        rule = re.sub(r'(?<!\\)\[.*(?<!\\)][*+?]', '', rule)
+        rule = re.sub(r'(?<!\\)\[.*(?<!\\)]{.*?}', '', rule)
+        rule = re.sub(r'(?<!\\)\\.[*+?]', '', rule)
+        rule = re.sub(r'(?<!\\)\\.{.*?}', '', rule)
+        rule = re.sub(r'.[*+?]', '', rule)
+        rule = re.sub(r'.{.*?}', '', rule)
+        rule = rule.replace(r'\.', '.')
+
+        if raw_line != rule:
+            print('Warning: ', raw_line, ' -> ', rule)
+
+        yield rule
+
+
 def parse_gfwlist(content: str, tlds: set[str]):
     domains = set[str]()
     for line in content.splitlines(keepends=False):
@@ -59,52 +105,31 @@ def parse_gfwlist(content: str, tlds: set[str]):
             # ignore white list
             continue
 
-        if line.startswith('/'):
-            if line.find('*') >= 0 \
-                    or line.find('[') >= 0 \
-                    or line.find('|') >= 0 \
-                    or line.find('(') >= 0:
-                print('Ignore regex rule: ', line)
+        for rule in expend_rules(line):
+            rule = unquote(rule, 'utf-8')
+
+            if '.' not in rule:
+                print('Ignore keywords rule: ', rule)
                 continue
 
-            # support limit regex
-            line = replace_regex(line)
+            if rule.find('.*') >= 0:
+                print('Ignore glob rule: ', rule)
+                continue
 
-        line = unquote(line, 'utf-8')
+            rule = replace_globs(rule)
 
-        if '.' not in line:
-            print('Ignore keywords rule: ', line)
-            continue
+            rule = strip_prefix(rule)
 
-        if line.find('.*') >= 0:
-            print('Ignore glob rule: ', line)
-            continue
+            domain = obtain_domain('https://' + rule)
 
-        line = replace_globs(line)
+            sld = obtain_second_level_domain(domain, tlds)
+            if not sld:
+                print('Ignore invalid domain: ', domain)
+                continue
 
-        line = strip_prefix(line)
-
-        domain = obtain_domain('https://' + line)
-
-        sld = obtain_second_level_domain(domain, tlds)
-        if not sld:
-            print('Ignore invalid domain: ', domain)
-            continue
-
-        domains.add(sld)
+            domains.add(sld)
 
     return domains
-
-
-def replace_regex(line: str):
-    raw_line = line
-    line = re.findall('(?<=/).*(?=/)', line)[0]
-    line = line.replace(r'\/', '/')
-    line = line.replace(r'\.', '.')
-    line = re.sub(r'.\?', '', line)
-    if raw_line != line:
-        print('Warning: ', raw_line, ' -> ', line)
-    return line
 
 
 def replace_globs(line: str):
