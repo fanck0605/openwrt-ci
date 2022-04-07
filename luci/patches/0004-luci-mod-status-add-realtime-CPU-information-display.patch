@@ -13,7 +13,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
 
 --- a/modules/luci-base/po/zh_Hans/base.po
 +++ b/modules/luci-base/po/zh_Hans/base.po
-@@ -1140,6 +1140,9 @@ msgstr "CA 证书，如果留空，则�
+@@ -1133,6 +1133,9 @@ msgstr "CA 证书，如果留空，则�
  msgid "CLAT configuration failed"
  msgstr "CLAT 配置失败"
  
