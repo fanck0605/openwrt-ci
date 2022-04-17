@@ -1,0 +1,22 @@
+--- a/package/custom/luci-app-openclash/root/etc/config/openclash
++++ b/package/custom/luci-app-openclash/root/etc/config/openclash
+@@ -29,7 +29,7 @@ config openclash 'config'
+ 	option log_level 'silent'
+ 	option proxy_mode 'rule'
+ 	option intranet_allowed '1'
+-	option enable_udp_proxy '1'
++	option enable_udp_proxy '0'
+ 	option disable_udp_quic '1'
+ 	option lan_ac_mode '0'
+ 	option operation_mode 'redir-host'
+--- a/package/custom/luci-app-openclash/luasrc/model/cbi/openclash/settings.lua
++++ b/package/custom/luci-app-openclash/luasrc/model/cbi/openclash/settings.lua
+@@ -69,7 +69,7 @@ o = s:taboption("op_mode", Flag, "enable
+ o.description = translate("The Servers Must Support UDP forwarding")..", "..font_red..bold_on..translate("If Docker is Installed, UDP May Not Forward Normally")..bold_off..font_off
+ o:depends("en_mode", "redir-host")
+ o:depends("en_mode", "fake-ip")
+-o.default = 1
++o.default = 0
+ 
+ o = s:taboption("op_mode", ListValue, "stack_type", translate("Select Stack Type"))
+ o.description = translate("Select Stack Type For TUN Mode, According To The Running Speed on Your Machine")
