@@ -6,7 +6,6 @@
 #
 
 set -euo pipefail
-shopt -s extglob
 
 PROJ_DIR=$(pwd)
 readonly PROJ_DIR
