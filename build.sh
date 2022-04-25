@@ -10,7 +10,7 @@ set -euo pipefail
 PROJ_DIR=$(pwd)
 readonly PROJ_DIR
 
-VERSION=v21.02.2
+VERSION=v21.02.3
 MANUAL=false
 ORIGIN=origin
 RESTORE=false
