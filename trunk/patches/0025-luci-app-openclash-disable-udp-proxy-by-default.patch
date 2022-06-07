@@ -1,6 +1,6 @@
 --- a/package/custom/luci-app-openclash/root/etc/config/openclash
 +++ b/package/custom/luci-app-openclash/root/etc/config/openclash
-@@ -29,7 +29,7 @@ config openclash 'config'
+@@ -30,7 +30,7 @@ config openclash 'config'
  	option log_level 'silent'
  	option proxy_mode 'rule'
  	option intranet_allowed '1'

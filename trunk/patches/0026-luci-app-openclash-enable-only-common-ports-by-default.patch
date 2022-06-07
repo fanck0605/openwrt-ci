@@ -1,6 +1,6 @@
 --- a/package/custom/luci-app-openclash/root/etc/config/openclash
 +++ b/package/custom/luci-app-openclash/root/etc/config/openclash
-@@ -39,7 +39,7 @@ config openclash 'config'
+@@ -40,7 +40,7 @@ config openclash 'config'
  	option filter_aaaa_dns '0'
  	option small_flash_memory '0'
  	option interface_name '0'
