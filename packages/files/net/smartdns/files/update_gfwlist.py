@@ -8,7 +8,7 @@ from urllib.parse import unquote, urlparse
 from urllib.request import urlopen
 
 gfwlist_url = 'https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt'
-tlds_url = 'https://github.com/fanck0605/tld_spider/raw/main/tlds.json'
+tlds_url = 'https://github.com/fanck0605/tld_spider/raw/dist/tlds.json'
 
 extra_sld_parts = {'a', 'go', 'or', 'pp'}
 
