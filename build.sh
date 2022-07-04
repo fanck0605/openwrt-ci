@@ -177,13 +177,8 @@ init_packages() {
 	# luci-app-openclash
 	svn export https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/custom/luci-app-openclash
 	download_clash_files package/custom/luci-app-openclash/root armv8
-	# luci-app-arpbind
-	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-arpbind feeds/luci/applications/luci-app-arpbind
 	# luci-app-xlnetacc
 	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-xlnetacc feeds/luci/applications/luci-app-xlnetacc
-	# luci-app-oled
-	git clone --depth 1 https://github.com/NateLol/luci-app-oled.git package/custom/luci-app-oled
-	rm -rf ./package/custom/luci-app-oled/.git
 	# luci-app-unblockmusic
 	svn export https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/luci-app-unblockneteasemusic package/custom/luci-app-unblockneteasemusic
 	svn export https://github.com/cnsilvan/luci-app-unblockneteasemusic/trunk/UnblockNeteaseMusic package/custom/UnblockNeteaseMusic
