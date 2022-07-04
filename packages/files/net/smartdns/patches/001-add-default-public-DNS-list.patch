@@ -53,27 +53,27 @@ Subject: [PATCH] add default public DNS list
 +	option ip 'https://cloudflare-dns.com/dns-query'
 +	option blacklist_ip '0'
 +	option enabled '1'
-+	option server_group 'foreign'
++	option server_group 'oversea'
 +
 +config server
 +	option type 'https'
 +	option ip 'https://dns.google/dns-query'
 +	option blacklist_ip '0'
 +	option enabled '1'
-+	option server_group 'foreign'
++	option server_group 'oversea'
 +
 +config server
 +	option type 'https'
 +	option ip 'https://doh.opendns.com/dns-query'
 +	option blacklist_ip '0'
 +	option enabled '1'
-+	option server_group 'foreign'
++	option server_group 'oversea'
 +
 +config server
 +	option type 'https'
 +	option ip 'https://dns.quad9.net/dns-query'
 +	option blacklist_ip '0'
 +	option enabled '1'
-+	option server_group 'foreign'
++	option server_group 'oversea'
  	
 \ No newline at end of file

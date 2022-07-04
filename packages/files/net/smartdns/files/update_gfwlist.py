@@ -173,7 +173,7 @@ def main():
 
             with open(conf_file or 'gfwlist.conf', 'w') as f:
                 for i in sorted(gfwlist):
-                    f.write("nameserver /%s/%s\n" % (i, group_name or 'foreign'))
+                    f.write("nameserver /%s/%s\n" % (i, group_name or 'oversea'))
 
 
 if __name__ == '__main__':
