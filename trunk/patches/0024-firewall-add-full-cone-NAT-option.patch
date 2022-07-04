@@ -11,7 +11,7 @@
  define Package/firewall/description
 --- a/package/network/config/firewall/files/firewall.config
 +++ b/package/network/config/firewall/files/firewall.config
-@@ -22,6 +22,7 @@ config zone
+@@ -21,6 +21,7 @@ config zone
  	option output		ACCEPT
  	option forward		REJECT
  	option masq		1

@@ -1,0 +1,85 @@
+From 10bfa7e9748098d238918b952109ea5e9f99f1fc Mon Sep 17 00:00:00 2001
+From: Jun Zhu <zhujunsan@gmail.com>
+Date: Thu, 30 Sep 2021 14:18:55 +0800
+Subject: [PATCH] ddns-scripts: Add dnspod.cn
+
+Signed-off-by: Jun Zhu <zhujunsan@gmail.com>
+---
+ net/ddns-scripts/Makefile                     |  34 ++++-
+ .../files/usr/lib/ddns/update_dnspod_cn.sh    | 137 ++++++++++++++++++
+ .../usr/share/ddns/default/dnspod.cn.json     |   9 ++
+ 3 files changed, 179 insertions(+), 1 deletion(-)
+ create mode 100755 net/ddns-scripts/files/usr/lib/ddns/update_dnspod_cn.sh
+ create mode 100644 net/ddns-scripts/files/usr/share/ddns/default/dnspod.cn.json
+
+--- a/net/ddns-scripts/Makefile
++++ b/net/ddns-scripts/Makefile
+@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=ddns-scripts
+ PKG_VERSION:=2.8.2
+-PKG_RELEASE:=12
++PKG_RELEASE:=13
+ 
+ PKG_LICENSE:=GPL-2.0
+ 
+@@ -108,6 +108,17 @@ define Package/ddns-scripts-digitalocean
+ endef
+ 
+ 
++define Package/ddns-scripts-dnspod
++  $(call Package/ddns-scripts/Default)
++  TITLE:=Extension for dnspod.cn API
++  DEPENDS:=ddns-scripts +curl
++endef
++
++define Package/ddns-scripts-dnspod/description
++  Dynamic DNS Client scripts extension for dnspod.cn API (require curl)
++endef
++
++
+ define Package/ddns-scripts-noip
+   $(call Package/ddns-scripts/Default)
+   TITLE:=Extension for no-ip.com
+@@ -246,6 +257,7 @@ define Package/ddns-scripts-services/ins
+ 	rm $(1)/usr/share/ddns/default/freedns.42.pl.json
+ 	rm $(1)/usr/share/ddns/default/godaddy.com-v1.json
+ 	rm $(1)/usr/share/ddns/default/digitalocean.com-v2.json
++	rm $(1)/usr/share/ddns/default/dnspod.cn.json
+ 	rm $(1)/usr/share/ddns/default/no-ip.com.json
+ 	rm $(1)/usr/share/ddns/default/bind-nsupdate.json
+ 	rm $(1)/usr/share/ddns/default/route53-v1.json
+@@ -330,6 +342,25 @@ exit 0
+ endef
+ 
+ 
++define Package/ddns-scripts-dnspod/install
++	$(INSTALL_DIR) $(1)/usr/lib/ddns
++	$(INSTALL_BIN) ./files/usr/lib/ddns/update_dnspod_cn.sh \
++		$(1)/usr/lib/ddns
++
++	$(INSTALL_DIR) $(1)/usr/share/ddns/default
++	$(INSTALL_DATA) ./files/usr/share/ddns/default/dnspod.cn.json \
++		$(1)/usr/share/ddns/default/
++endef
++
++define Package/ddns-scripts-dnspod/prerm
++#!/bin/sh
++if [ -z "$${IPKG_INSTROOT}" ]; then
++	/etc/init.d/ddns stop
++fi
++exit 0
++endef
++
++
+ define Package/ddns-scripts-noip/install
+ 	$(INSTALL_DIR) $(1)/usr/lib/ddns
+ 	$(INSTALL_BIN) ./files/usr/lib/ddns/update_no-ip_com.sh \
+@@ -431,6 +462,7 @@ $(eval $(call BuildPackage,ddns-scripts-
+ $(eval $(call BuildPackage,ddns-scripts-freedns))
+ $(eval $(call BuildPackage,ddns-scripts-godaddy))
+ $(eval $(call BuildPackage,ddns-scripts-digitalocean))
++$(eval $(call BuildPackage,ddns-scripts-dnspod))
+ $(eval $(call BuildPackage,ddns-scripts-noip))
+ $(eval $(call BuildPackage,ddns-scripts-nsupdate))
+ $(eval $(call BuildPackage,ddns-scripts-route53))
