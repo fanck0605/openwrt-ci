@@ -1,0 +1,32 @@
+--- a/package/network/services/dnsmasq/files/dhcp.conf
++++ b/package/network/services/dnsmasq/files/dhcp.conf
+@@ -32,3 +32,11 @@ config dhcp lan
+ config dhcp wan
+ 	option interface	wan
+ 	option ignore	1
++
++config dhcp 'wan6'
++	option interface 'wan6'
++	option ignore '1'
++	option master '1'
++	option ra	'hybrid'
++	option dhcpv6	'hybrid'
++	option ndp	'hybrid'
+--- a/package/network/services/odhcpd/files/odhcpd.defaults
++++ b/package/network/services/odhcpd/files/odhcpd.defaults
+@@ -21,7 +21,7 @@ case "$protocol" in
+ # only enable server mode on statically addressed lan ports
+ "static")
+ 	V4MODE=server
+-	[ -e /proc/sys/net/ipv6 ] && V6MODE=server
++	[ -e /proc/sys/net/ipv6 ] && V6MODE=hybrid
+ 	;;
+ esac
+ 
+@@ -48,5 +48,6 @@ set dhcp.lan.ra=$V6MODE
+ set dhcp.lan.ra_slaac=1
+ add_list dhcp.lan.ra_flags=managed-config
+ add_list dhcp.lan.ra_flags=other-config
++set dhcp.lan.ndp=$V6MODE
+ commit dhcp
+ EOF
