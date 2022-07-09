@@ -1,0 +1,14 @@
+--- a/package/openwrt/address.conf
++++ b/package/openwrt/address.conf
+@@ -5,6 +5,11 @@
+ # address /www.example.com/-, ignore address, query from upstream, suffix 4, for ipv4, 6 for ipv6, none for all
+ # address /www.example.com/#, return SOA to client, suffix 4, for ipv4, 6 for ipv6, none for all
+ 
++address /cloudflare-dns.com/1.0.0.1
++address /dns.google/8.8.4.4
++address /doh.opendns.com/208.67.220.220
++address /dns.quad9.net/149.112.112.112
++
+ # specific ipset to domain
+ # ipset /domain/[ipset|-]
+ # ipset /www.example.com/block, set ipset with ipset name of block 
