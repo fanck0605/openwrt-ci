@@ -1,0 +1,36 @@
+--- a/package/openwrt/files/etc/init.d/smartdns
++++ b/package/openwrt/files/etc/init.d/smartdns
+@@ -259,6 +259,7 @@ load_second_server()
+ load_service()
+ {
+ 	local section="$1"
++	local BIND_ARGS=""
+ 	args=""
+ 
+ 	mkdir -p $SMARTDNS_VAR_CONF_DIR
+@@ -275,17 +276,21 @@ load_service()
+ 	config_get port "$section" "port" "6053"
+ 	config_get ipv6_server "$section" "ipv6_server" "1"
+ 	config_get tcp_server "$section" "tcp_server" "1"
++
++	config_get server_group "$section" "server_group" ""
++	[ -z "$server_group" ] || BIND_ARGS="$BIND_ARGS -group $server_group"
++
+ 	if [ "$ipv6_server" = "1" ]; then
+-		conf_append "bind" "[::]:$port"
++		conf_append "bind" "[::]:$port $BIND_ARGS"
+ 	else
+-		conf_append "bind" ":$port"
++		conf_append "bind" ":$port $BIND_ARGS"
+ 	fi
+ 
+ 	[ "$tcp_server" = "1" ] && {
+ 		if [ "$ipv6_server" = "1" ]; then
+-			conf_append "bind-tcp" "[::]:$port"
++			conf_append "bind-tcp" "[::]:$port $BIND_ARGS"
+ 		else
+-			conf_append "bind-tcp" ":$port"
++			conf_append "bind-tcp" ":$port $BIND_ARGS"
+ 		fi
+ 	}
+ 	config_get dualstack_ip_selection "$section" "dualstack_ip_selection" "0"
