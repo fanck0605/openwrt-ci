@@ -2,11 +2,14 @@ diff --git a/package/openwrt/custom.conf b/package/openwrt/custom.conf
 index 0ca62e8..ef4b561 100644
 --- a/package/openwrt/custom.conf
 +++ b/package/openwrt/custom.conf
-@@ -13,4 +13,7 @@
- # List of hosts that supply bogus NX domain results 
- # bogus-nxdomain [ip/subnet]
+@@ -11,4 +11,8 @@
+ # log-num 2
  
+ # List of hosts that supply bogus NX domain results 
+-# bogus-nxdomain [ip/subnet]
+\ No newline at end of file
++# bogus-nxdomain [ip/subnet]
++
 +conf-file /etc/smartdns/domains.china.conf
 +conf-file /etc/smartdns/google.china.conf
 +conf-file /etc/smartdns/apple.china.conf
- conf-file /etc/smartdns/gfwlist.conf
