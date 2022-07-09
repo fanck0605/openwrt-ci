@@ -6,10 +6,10 @@
  
 +address /doh.pub/1.12.12.12
 +address /dns.alidns.com/223.5.5.5
-+address /cloudflare-dns.com/1.0.0.1
-+address /dns.google/8.8.4.4
-+address /doh.opendns.com/208.67.220.220
-+address /dns.quad9.net/149.112.112.112
++address /cloudflare-dns.com/1.1.1.1
++address /dns.google/8.8.8.8
++address /doh.opendns.com/208.67.222.222
++address /dns.quad9.net/9.9.9.9
 +
  # specific ipset to domain
  # ipset /domain/[ipset|-]
