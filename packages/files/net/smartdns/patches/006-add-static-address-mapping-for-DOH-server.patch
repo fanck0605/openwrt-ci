@@ -4,6 +4,8 @@
  # address /www.example.com/-, ignore address, query from upstream, suffix 4, for ipv4, 6 for ipv6, none for all
  # address /www.example.com/#, return SOA to client, suffix 4, for ipv4, 6 for ipv6, none for all
  
++address /doh.pub/1.12.12.12
++address /dns.alidns.com/223.5.5.5
 +address /cloudflare-dns.com/1.0.0.1
 +address /dns.google/8.8.4.4
 +address /doh.opendns.com/208.67.220.220
