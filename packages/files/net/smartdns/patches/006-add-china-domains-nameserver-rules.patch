@@ -11,3 +11,12 @@
 +conf-file /etc/smartdns/domains.china.conf
 +conf-file /etc/smartdns/google.china.conf
 +conf-file /etc/smartdns/apple.china.conf
+--- a/package/openwrt/files/etc/config/smartdns
++++ b/package/openwrt/files/etc/config/smartdns
+@@ -1,5 +1,6 @@
+ config 'smartdns'
+ 	option 'enabled' '1'
++	option server_group 'oversea'
+ 
+ config server
+ 	option type 'udp'
