@@ -1,8 +1,6 @@
-diff --git a/package/openwrt/files/etc/init.d/smartdns b/package/openwrt/files/etc/init.d/smartdns
-index 2bf799e..15666e0 100644
 --- a/package/openwrt/files/etc/init.d/smartdns
 +++ b/package/openwrt/files/etc/init.d/smartdns
-@@ -381,6 +381,8 @@ start_service()
+@@ -386,6 +386,8 @@ start_service()
  {
  	config_load "smartdns"
  	config_foreach load_service "smartdns"
