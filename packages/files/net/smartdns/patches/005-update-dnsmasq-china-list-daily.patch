@@ -1,11 +1,13 @@
 --- a/package/openwrt/files/etc/init.d/smartdns
 +++ b/package/openwrt/files/etc/init.d/smartdns
-@@ -386,6 +386,8 @@ start_service()
+@@ -386,6 +386,10 @@ start_service()
  {
  	config_load "smartdns"
  	config_foreach load_service "smartdns"
-+	sed -i '/smartdns\/update_chinalist.sh/d' /etc/crontabs/root
-+	echo '0 3 * * * /usr/lib/smartdns/update_chinalist.sh' >>/etc/crontabs/root
++	grep smartdns/update_chinalist.sh /etc/crontabs/root >/dev/null || {
++		echo '0 3 * * * /usr/lib/smartdns/update_chinalist.sh' >>/etc/crontabs/root
++		/etc/init.d/cron reload
++	}
  }
  
  reload_service()
