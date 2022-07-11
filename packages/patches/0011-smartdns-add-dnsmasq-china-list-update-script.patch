@@ -9,7 +9,7 @@
    URL:=https://www.github.com/pymumu/smartdns/
  endef
  
-@@ -47,13 +47,17 @@ define Package/smartdns/conffiles
+@@ -47,13 +47,18 @@ define Package/smartdns/conffiles
  endef
  
  define Package/smartdns/install
@@ -25,6 +25,7 @@
 +	$(INSTALL_CONF) ./files/nameserver-base.china.conf $(1)/etc/smartdns/nameserver-base.china.conf
 +	$(INSTALL_CONF) ./files/nameserver-google.china.conf $(1)/etc/smartdns/nameserver-google.china.conf
 +	$(INSTALL_CONF) ./files/nameserver-apple.china.conf $(1)/etc/smartdns/nameserver-apple.china.conf
++	$(INSTALL_CONF) ./files/bogus-nxdomain.china.conf $(1)/etc/smartdns/bogus-nxdomain.china.conf
  endef
  
  $(eval $(call BuildPackage,smartdns))
