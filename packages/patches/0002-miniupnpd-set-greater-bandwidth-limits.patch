@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chuck <fanck0605@qq.com>
 Date: Mon, 13 Apr 2020 17:10:35 +0800
-Subject: [PATCH] miniupnpd: set greater bandwidth by default
+Subject: [PATCH] miniupnpd: set greater bandwidth limits
 
 By 2020, bandwidth has already started at 200Mbps.
 
@@ -18,8 +18,8 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  	option log_output	0
 -	option download		1024
 -	option upload		512
-+	option download		20480
-+	option upload		10240
++	option download		12800
++	option upload		2560
  #by default, looked up dynamically from ubus
  #	option external_iface	wan
  	option internal_iface	lan

@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Chuck <fanck0605@qq.com>
 Date: Fri, 26 Feb 2021 22:49:13 +0800
-Subject: [PATCH] curl: default use openssl instead of wolfssl
+Subject: [PATCH] curl: use openssl instead of wolfssl by default
 
 Signed-off-by: Chuck <fanck0605@qq.com>
 ---
