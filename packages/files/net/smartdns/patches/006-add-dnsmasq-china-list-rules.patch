@@ -1,6 +1,6 @@
 --- a/package/openwrt/custom.conf
 +++ b/package/openwrt/custom.conf
-@@ -11,4 +11,8 @@
+@@ -11,4 +11,10 @@
  # log-num 2
  
  # List of hosts that supply bogus NX domain results 
@@ -11,6 +11,8 @@
 +conf-file /etc/smartdns/base.china.conf
 +conf-file /etc/smartdns/google.china.conf
 +conf-file /etc/smartdns/apple.china.conf
++
++conf-file /etc/smartdns/bogus-nxdomain.china.conf
 --- a/package/openwrt/files/etc/config/smartdns
 +++ b/package/openwrt/files/etc/config/smartdns
 @@ -1,5 +1,6 @@
