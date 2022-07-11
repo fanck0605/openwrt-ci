@@ -8,9 +8,9 @@
 \ No newline at end of file
 +# bogus-nxdomain [ip/subnet]
 +
-+conf-file /etc/smartdns/nameserver-base.china.conf
-+conf-file /etc/smartdns/nameserver-google.china.conf
-+conf-file /etc/smartdns/nameserver-apple.china.conf
++conf-file /etc/smartdns/base.china.conf
++conf-file /etc/smartdns/google.china.conf
++conf-file /etc/smartdns/apple.china.conf
 +
 +conf-file /etc/smartdns/bogus-nxdomain.china.conf
 --- a/package/openwrt/files/etc/config/smartdns
