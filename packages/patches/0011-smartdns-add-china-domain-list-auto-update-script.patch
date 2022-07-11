@@ -18,7 +18,7 @@
  	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/blacklist-ip.conf $(1)/etc/smartdns/blacklist-ip.conf
  	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/custom.conf $(1)/etc/smartdns/custom.conf
  	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/files/etc/config/smartdns $(1)/etc/config/smartdns
-+	$(INSTALL_CONF) ./files/domains.china.conf $(1)/etc/smartdns/domains.china.conf
++	$(INSTALL_CONF) ./files/base.china.conf $(1)/etc/smartdns/base.china.conf
 +	$(INSTALL_CONF) ./files/google.china.conf $(1)/etc/smartdns/google.china.conf
 +	$(INSTALL_CONF) ./files/apple.china.conf $(1)/etc/smartdns/apple.china.conf
  endef
