@@ -12,7 +12,7 @@
 --- a/package/custom/luci-app-openclash/luasrc/model/cbi/openclash/settings.lua
 +++ b/package/custom/luci-app-openclash/luasrc/model/cbi/openclash/settings.lua
 @@ -69,7 +69,7 @@ o = s:taboption("op_mode", Flag, "enable
- o.description = translate("The Servers Must Support UDP forwarding")..", "..font_red..bold_on..translate("If Docker is Installed, UDP May Not Forward Normally")..bold_off..font_off
+ o.description = translate("The Servers Must Support UDP forwarding").."<br>"..font_red..bold_on.."1."..translate("If Docker is Installed, UDP May Not Forward Normally").."<br>2."..translate("In Fake-ip Mode, Even If This Option is Turned Off, Domain Type Connections Still Pass Through The Core For The Availability")..bold_off..font_off
  o:depends("en_mode", "redir-host")
  o:depends("en_mode", "fake-ip")
 -o.default = 1

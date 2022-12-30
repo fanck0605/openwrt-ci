@@ -1,7 +1,7 @@
 --- a/package/custom/luci-app-openclash/root/etc/config/openclash
 +++ b/package/custom/luci-app-openclash/root/etc/config/openclash
-@@ -62,6 +62,13 @@ config openclash 'config'
- 	option chnr6_custom_url 'https://ispip.clang.cn/all_cn_ipv6.txt'
+@@ -67,6 +67,13 @@ config openclash 'config'
+ 	option cndomain_custom_url 'https://testingcf.jsdelivr.net/gh/felixonmars/dnsmasq-china-list@master/accelerated-domains.china.conf'
  	
  config dns_servers
 +	option enabled '0'

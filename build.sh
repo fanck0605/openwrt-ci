@@ -10,7 +10,7 @@ set -euo pipefail
 PROJ_DIR=$(pwd)
 readonly PROJ_DIR
 
-VERSION=v21.02.3
+VERSION=v21.02.5
 MANUAL=false
 ORIGIN=origin
 RESTORE=false
@@ -91,6 +91,7 @@ fetch_clash_download_urls() {
 
 	echo https://github.com/vernesong/OpenClash/raw/master/core-lateset/dev/clash-linux-"$CPU_ARCH".tar.gz
 	echo https://github.com/vernesong/OpenClash/raw/master/core-lateset/premium/clash-linux-"$CPU_ARCH"-"${LATEST_VERSIONS[1]}".gz
+	echo https://github.com/vernesong/OpenClash/raw/master/core-lateset/meta/clash-linux-"$CPU_ARCH".tar.gz
 
 	return 0
 }
@@ -115,7 +116,9 @@ download_clash_files() {
 	curl -sL "${CLASH_DOWNLOAD_URLS[0]}" | tar -xOz >"$CLASH_HOME"/core/clash
 	echo "Download ${CLASH_DOWNLOAD_URLS[1]}"
 	curl -sL "${CLASH_DOWNLOAD_URLS[1]}" | zcat >"$CLASH_HOME"/core/clash_tun
-	chmod +x "$CLASH_HOME"/core/clash{,_tun}
+	echo "Download ${CLASH_DOWNLOAD_URLS[2]}"
+	curl -sL "${CLASH_DOWNLOAD_URLS[2]}" | tar -xOz >"$CLASH_HOME"/core/clash_meta
+	chmod +x "$CLASH_HOME"/core/clash{,_tun,_meta}
 
 	return 0
 }
@@ -176,7 +179,7 @@ init_packages() {
 	cd "$PROJ_DIR/openwrt"
 	# luci-app-openclash
 	svn export https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/custom/luci-app-openclash
-	download_clash_files package/custom/luci-app-openclash/root armv8
+	download_clash_files package/custom/luci-app-openclash/root arm64
 	# luci-app-xlnetacc
 	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-xlnetacc feeds/luci/applications/luci-app-xlnetacc
 	# luci-app-autoreboot

@@ -18,8 +18,8 @@
  	option stream_domains_prefetch '0'
  	option stream_auto_select '0'
  	option dns_remote '1'
-@@ -62,7 +62,7 @@ config openclash 'config'
- 	option chnr6_custom_url 'https://ispip.clang.cn/all_cn_ipv6.txt'
+@@ -67,7 +67,7 @@ config openclash 'config'
+ 	option cndomain_custom_url 'https://testingcf.jsdelivr.net/gh/felixonmars/dnsmasq-china-list@master/accelerated-domains.china.conf'
  	
  config dns_servers
 -	option enabled '0'
@@ -27,7 +27,7 @@
  	option group 'nameserver'
  	option ip '127.0.0.1'
  	option port '6053'
-@@ -72,13 +72,13 @@ config dns_servers
+@@ -77,13 +77,13 @@ config dns_servers
  	option group 'nameserver'
  	option type 'udp'
  	option ip '114.114.114.114'
@@ -43,7 +43,7 @@
  
  config dns_servers
  	option group 'nameserver'
-@@ -96,19 +96,19 @@ config dns_servers
+@@ -101,19 +101,19 @@ config dns_servers
  	option type 'https'
  	option ip 'doh.pub/dns-query'
  	option group 'nameserver'
@@ -66,7 +66,7 @@
  
  config dns_servers
  	option group 'fallback'
-@@ -162,19 +162,19 @@ config dns_servers
+@@ -167,19 +167,19 @@ config dns_servers
  	option group 'fallback'
  	option type 'https'
  	option ip 'public.dns.iij.jp/dns-query'
@@ -89,7 +89,7 @@
  
  config dns_servers
  	option group 'fallback'
-@@ -186,4 +186,4 @@ config dns_servers
+@@ -191,4 +191,4 @@ config dns_servers
  	option group 'fallback'
  	option ip 'dot.tiar.app'
  	option type 'tls'
@@ -97,7 +97,7 @@
 +	option enabled '0'
 --- a/package/custom/luci-app-openclash/luasrc/model/cbi/openclash/settings.lua
 +++ b/package/custom/luci-app-openclash/luasrc/model/cbi/openclash/settings.lua
-@@ -235,7 +235,7 @@ o.default = 1
+@@ -254,7 +254,7 @@ o.default = 1
  
  o = s:taboption("dns", Flag, "enable_custom_dns", font_red..bold_on..translate("Custom DNS Setting")..bold_off..font_off)
  o.description = font_red..bold_on..translate("Set OpenClash Upstream DNS Resolve Server")..bold_off..font_off
@@ -106,10 +106,15 @@
  
  if op_mode == "redir-host" then
  o = s:taboption("dns", Flag, "dns_remote", font_red..bold_on..translate("DNS Remote")..bold_off..font_off)
-@@ -246,7 +246,7 @@ end
+@@ -265,11 +265,11 @@ end
  
- o = s:taboption("dns", Flag, "append_wan_dns", font_red..bold_on..translate("Append Upstream DNS")..bold_off..font_off)
- o.description = font_red..bold_on..translate("Append The Upstream Assigned DNS And Gateway IP To The Nameserver")..bold_off..font_off
+ o = s:taboption("dns", Flag, "append_wan_dns", translate("Append Upstream DNS"))
+ o.description = translate("Append The Upstream Assigned DNS And Gateway IP To The Nameserver")
+-o.default = 1
++o.default = 0
+ 
+ o = s:taboption("dns", Flag, "append_default_dns", translate("Append Default DNS"))
+ o.description = translate("Automatically Append Compliant DNS to default-nameserver")
 -o.default = 1
 +o.default = 0
  
