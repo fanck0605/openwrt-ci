@@ -14,7 +14,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  
  choice
  	prompt "Selected SSL library"
--	default LIBCURL_WOLFSSL
+-	default LIBCURL_MBEDTLS
 +	default LIBCURL_OPENSSL
  
  	config LIBCURL_MBEDTLS

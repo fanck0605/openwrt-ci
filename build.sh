@@ -10,7 +10,7 @@ set -euo pipefail
 PROJ_DIR=$(pwd)
 readonly PROJ_DIR
 
-VERSION=v21.02.5
+VERSION=v22.03.3
 MANUAL=false
 ORIGIN=origin
 RESTORE=false
@@ -111,13 +111,26 @@ download_clash_files() {
 	echo "Downloading GeoIP database..."
 	curl -sL "$GEOIP_DOWNLOAD_URL" >"$CLASH_HOME"/Country.mmdb
 
-	mkdir -p "$CLASH_HOME"/core
+	local -r download_dir=$(mktemp -d)
 	echo "Download ${CLASH_DOWNLOAD_URLS[0]}"
-	curl -sL "${CLASH_DOWNLOAD_URLS[0]}" | tar -xOz >"$CLASH_HOME"/core/clash
+	mkdir "$download_dir"/clash_dev
+	curl -L "${CLASH_DOWNLOAD_URLS[0]}" -o "$download_dir"/clash_dev/clash.tar.gz
+	tar -zxf "$download_dir"/clash_dev/clash.tar.gz -C "$download_dir"/clash_dev
+
 	echo "Download ${CLASH_DOWNLOAD_URLS[1]}"
-	curl -sL "${CLASH_DOWNLOAD_URLS[1]}" | zcat >"$CLASH_HOME"/core/clash_tun
+	mkdir "$download_dir"/clash_tun
+	curl -L "${CLASH_DOWNLOAD_URLS[1]}" -o "$download_dir"/clash_tun/clash.gz
+	gzip -dk "$download_dir"/clash_tun/clash.gz
+
 	echo "Download ${CLASH_DOWNLOAD_URLS[2]}"
-	curl -sL "${CLASH_DOWNLOAD_URLS[2]}" | tar -xOz >"$CLASH_HOME"/core/clash_meta
+	mkdir "$download_dir"/clash_meta
+	curl -L "${CLASH_DOWNLOAD_URLS[2]}" -o "$download_dir"/clash_meta/clash.tar.gz
+	tar -zxf "$download_dir"/clash_meta/clash.tar.gz -C "$download_dir"/clash_meta
+
+	mkdir -p "$CLASH_HOME"/core
+	cp "$download_dir"/clash_dev/clash "$CLASH_HOME"/core/clash
+	cp "$download_dir"/clash_tun/clash "$CLASH_HOME"/core/clash_tun
+	cp "$download_dir"/clash_meta/clash "$CLASH_HOME"/core/clash_meta
 	chmod +x "$CLASH_HOME"/core/clash{,_tun,_meta}
 
 	return 0
@@ -179,7 +192,7 @@ init_packages() {
 	cd "$PROJ_DIR/openwrt"
 	# luci-app-openclash
 	svn export https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/custom/luci-app-openclash
-	download_clash_files package/custom/luci-app-openclash/root arm64
+	download_clash_files package/custom/luci-app-openclash/root amd64
 	# luci-app-xlnetacc
 	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-xlnetacc feeds/luci/applications/luci-app-xlnetacc
 	# luci-app-autoreboot
@@ -210,7 +223,9 @@ patch_source() {
 	cd "$PROJ_DIR/openwrt"
 	echo "开始修补 OpenWrt 源码"
 	echo "当前目录: ""$(pwd)"
-	cp -lfr "$PROJ_DIR/trunk/files"/* ./
+	if [ -d "$PROJ_DIR/trunk/files" ]; then
+		cp -lfr "$PROJ_DIR/trunk/files"/* ./
+	fi
 	# 因为使用了软链接, 尽量使用相对目录
 	apply_patches ../trunk
 	echo "OpenWrt 源码修补完毕"

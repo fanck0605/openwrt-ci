@@ -4,13 +4,13 @@
 # Copyright (c) 2020, Chuck <fanck0605@qq.com>
 #
 
-name: openwrt-21.02
+name: openwrt-22.03_x86-64
 
 on:
   push:
-    branches: [ openwrt-21.02 ]
+    branches: [ openwrt-22.03_x86-64 ]
   pull_request:
-    branches: [ openwrt-21.02 ]
+    branches: [ openwrt-22.03_x86-64 ]
 
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v3
         with:
-          ref: openwrt-21.02
+          ref: openwrt-22.03_x86-64
 
       - name: Show large directories
         run: |
@@ -40,7 +40,7 @@ jobs:
         run: |
           sudo rm -rf /usr/local/lib/android
           sudo apt-get update
-          sudo apt-get install build-essential ccache ecj fastjar file g++ gawk gettext git java-propose-classpath libelf-dev libncurses5-dev libncursesw5-dev libssl-dev python python2.7-dev python3 unzip wget python-distutils-extra python3-setuptools python3-dev quilt rsync subversion swig time xsltproc zlib1g-dev 
+          sudo apt-get install build-essential ccache ecj fastjar file g++ gawk gettext git java-propose-classpath libelf-dev libncurses5-dev libncursesw5-dev libssl-dev python python2.7-dev python3 unzip wget python3-distutils python3-setuptools python3-dev quilt rsync subversion swig time xsltproc zlib1g-dev
           sudo apt-get autoremove --purge
           sudo apt-get clean
           git config --global user.name "GitHub Actions"
@@ -57,7 +57,7 @@ jobs:
       - name: Assemble Artifact
         id: assemble_artifact
         run: |
-          echo "artifact_name=OpenWrt_$(date +%Y%m%d)_NanoPi-R2S" >>"$GITHUB_OUTPUT"
+          echo "artifact_name=openwrt_x86-64_$(date +%Y%m%d)" >>"$GITHUB_OUTPUT"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3

@@ -12,7 +12,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
 
 --- a/package/base-files/Makefile
 +++ b/package/base-files/Makefile
-@@ -82,9 +82,9 @@ define ImageConfigOptions
+@@ -83,9 +83,9 @@ define ImageConfigOptions
  	echo 'pi_init_cmd=$(if $(CONFIG_TARGET_INIT_CMD),$(CONFIG_TARGET_INIT_CMD),"/sbin/init")' >>$(1)/lib/preinit/00_preinit.conf
  	echo 'pi_init_suppress_stderr="$(CONFIG_TARGET_INIT_SUPPRESS_STDERR)"' >>$(1)/lib/preinit/00_preinit.conf
  	echo 'pi_ifname=$(if $(CONFIG_TARGET_PREINIT_IFNAME),$(CONFIG_TARGET_PREINIT_IFNAME),"")' >>$(1)/lib/preinit/00_preinit.conf
@@ -35,7 +35,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  generate_network() {
  	local ports device macaddr protocol type ipaddr netmask vlan
  	local bridge=$2
-@@ -161,7 +161,7 @@ generate_network() {
+@@ -162,7 +162,7 @@ generate_network() {
  		static)
  			local ipad
  			case "$1" in

@@ -1,11 +1,17 @@
 --- a/package/openwrt/files/etc/init.d/smartdns
 +++ b/package/openwrt/files/etc/init.d/smartdns
-@@ -275,17 +275,19 @@ load_service()
- 	config_get port "$section" "port" "6053"
- 	config_get ipv6_server "$section" "ipv6_server" "1"
- 	config_get tcp_server "$section" "tcp_server" "1"
+@@ -333,6 +333,8 @@ load_service()
+ 	config_get rr_ttl_reply_max "$section" "rr_ttl_reply_max" ""
+ 	[ -z "$rr_ttl_reply_max" ] || conf_append "rr-ttl-reply-max" "$rr_ttl_reply_max"
+ 
 +	config_get bind_args "$section" "bind_args" ""
 +
+ 	config_get log_size "$section" "log_size" "64K"
+ 	[ -z "$log_size" ] || conf_append "log-size" "$log_size"
+ 
+@@ -411,16 +413,16 @@ load_service()
+ 	}
+ 
  	if [ "$ipv6_server" = "1" ]; then
 -		conf_append "bind" "[::]:$port"
 +		conf_append "bind" "[::]:$port $bind_args"
@@ -23,4 +29,4 @@
 +			conf_append "bind-tcp" ":$port $bind_args"
  		fi
  	}
- 	config_get dualstack_ip_selection "$section" "dualstack_ip_selection" "0"
+ 

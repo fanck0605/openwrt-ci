@@ -23,12 +23,12 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  	logd \
  	mtd \
  	netifd \
-@@ -43,7 +45,7 @@ DEFAULT_PACKAGES.nas:=\
+@@ -53,7 +55,7 @@ DEFAULT_PACKAGES.nas:=\
  	mdadm
  # For router targets
  DEFAULT_PACKAGES.router:=\
 -	dnsmasq \
 +	dnsmasq-full \
- 	firewall \
- 	ip6tables \
- 	iptables \
+ 	firewall4 \
+ 	nftables \
+ 	kmod-nft-offload \

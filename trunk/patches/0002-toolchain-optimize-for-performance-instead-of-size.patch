@@ -10,7 +10,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
 
 --- a/include/target.mk
 +++ b/include/target.mk
-@@ -191,7 +191,7 @@ LINUX_RECONF_DIFF = $(SCRIPT_DIR)/kconfi
+@@ -208,7 +208,7 @@ LINUX_RECONF_DIFF = $(SCRIPT_DIR)/kconfi
  ifeq ($(DUMP),1)
    BuildTarget=$(BuildTargets/DumpCurrent)
  

@@ -10,7 +10,7 @@ Signed-off-by: Chuck <fanck0605@qq.com>
 
 --- a/package/base-files/files/bin/config_generate
 +++ b/package/base-files/files/bin/config_generate
-@@ -302,7 +302,8 @@ generate_static_system() {
+@@ -303,7 +303,8 @@ generate_static_system() {
  		delete system.@system[0]
  		add system system
  		set system.@system[-1].hostname='OpenWrt'
