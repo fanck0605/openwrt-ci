@@ -57,6 +57,8 @@ jobs:
       - name: Assemble Artifact
         id: assemble_artifact
         run: |
+          cd artifact
+          tar -zcf ../openwrt_x86-64_$(date +%Y%m%d).tar.gz *
           echo "artifact_name=openwrt_x86-64_$(date +%Y%m%d)" >>"$GITHUB_OUTPUT"
 
       - name: Upload Artifact
@@ -64,3 +66,9 @@ jobs:
         with:
           name: ${{ steps.assemble_artifact.outputs.artifact_name }}
           path: artifact
+
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ${{ steps.assemble_artifact.outputs.artifact_name }}.tar.gz
