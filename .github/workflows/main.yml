@@ -9,6 +9,8 @@ name: openwrt-22.03_x86-64
 on:
   push:
     branches: [ openwrt-22.03_x86-64 ]
+    tags:
+      - v22.03.*
   pull_request:
     branches: [ openwrt-22.03_x86-64 ]
 
