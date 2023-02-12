@@ -271,7 +271,7 @@ prepare_build() {
 	# customize configs
 	cd "$PROJ_DIR/openwrt"
 	cat "$PROJ_DIR/config/config_$target" >.config
-	cat "$PROJ_DIR/config/config_common" >.config
+	cat "$PROJ_DIR/config/config_common" >>.config
 	make defconfig
 
 	return 0
