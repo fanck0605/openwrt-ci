@@ -16,7 +16,8 @@ ORIGIN=origin
 RESTORE=false
 REFRESH=false
 BUILD=false
-NO_OPTS=true
+AUTO_BUILD=true
+target=x86-64
 
 refresh_patches() {
 	local patch
@@ -185,6 +186,17 @@ init_trunk() {
 	git clean -dfx
 }
 
+get_cpu_arch() {
+	case $target in
+	x86-64)
+		echo amd64
+		;;
+	nanopi-r2s)
+		echo arm64
+		;;
+	esac
+}
+
 # 初始化第三方软件包, 可以在这里自行添加需要的软件包
 # 如需继续修改第三方软件包, 可以在下面的阶段进行 patch
 init_packages() {
@@ -192,7 +204,7 @@ init_packages() {
 	cd "$PROJ_DIR/openwrt"
 	# luci-app-openclash
 	svn export https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/custom/luci-app-openclash
-	download_clash_files package/custom/luci-app-openclash/root amd64
+	download_clash_files package/custom/luci-app-openclash/root "$(get_cpu_arch)"
 	# luci-app-xlnetacc
 	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-xlnetacc feeds/luci/applications/luci-app-xlnetacc
 	# luci-app-autoreboot
@@ -258,7 +270,8 @@ prepare_build() {
 
 	# customize configs
 	cd "$PROJ_DIR/openwrt"
-	cat "$PROJ_DIR/config.seed" >.config
+	cat "$PROJ_DIR/config/config_$target" >.config
+	cat "$PROJ_DIR/config/config_common" >.config
 	make defconfig
 
 	return 0
@@ -277,29 +290,37 @@ build() {
 	return 0
 }
 
-while getopts 'msrbv:o:' opt; do
-	NO_OPTS=false
+while getopts 'msrbv:o:t:' opt; do
 	case $opt in
 	m)
 		MANUAL=true
+		AUTO_BUILD=false
 		;;
 	v)
 		VERSION=$OPTARG
+		AUTO_BUILD=false
 		;;
 	o)
 		ORIGIN=$OPTARG
+		AUTO_BUILD=false
 		;;
 	r)
 		REFRESH=true
+		AUTO_BUILD=false
 		;;
 	s)
 		RESTORE=true
+		AUTO_BUILD=false
 		;;
 	b)
 		BUILD=true
+		AUTO_BUILD=false
+		;;
+	t)
+		target=$OPTARG
 		;;
 	*)
-		echo "usage: $0 [-msrb] [-v version] [-o origin]"
+		echo "usage: $0 [-msrb] [-v version] [-o origin] [-t target]"
 		exit 1
 		;;
 	esac
@@ -327,7 +348,7 @@ if $REFRESH; then
 	refresh
 fi
 
-if $NO_OPTS; then
+if $AUTO_BUILD; then
 	init_trunk
 
 	init_packages
