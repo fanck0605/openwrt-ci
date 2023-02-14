@@ -1,8 +1,6 @@
-# NanoPi R2s 的 OpenWrt 固件
+# OpenWrt 固件编译 CI
 
 ## 注意事项
-
-- WAN 和 LAN 默认是**互换**的，请注意网线接法。
 
 - 刷机最好**不要**保留配置，以免产生未知的问题！
 
@@ -26,7 +24,7 @@ sudo apt install build-essential ccache ecj fastjar file g++ gawk gettext git ja
 全自动编译, 编译完后固件将会在 `./artifact` 文件夹下
 
 ```
-./build.sh
+./build.sh -t nanopi-r2s
 ```
 
 #### 2.2 手动编译
