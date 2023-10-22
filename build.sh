@@ -87,7 +87,7 @@ fetch_clash_download_urls() {
 
 	echo >&2 "Fetching Clash download urls..."
 	local LATEST_VERSIONS
-	readarray -t LATEST_VERSIONS <<<"$(curl -sL https://github.com/vernesong/OpenClash/raw/core/dev/core_version)"
+	readarray -t LATEST_VERSIONS <<<"$(curl -sLf https://github.com/vernesong/OpenClash/raw/core/dev/core_version)"
 	readonly LATEST_VERSIONS
 
 	echo https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-"$CPU_ARCH".tar.gz
@@ -110,22 +110,22 @@ download_clash_files() {
 
 	mkdir -p "$CLASH_HOME"
 	echo "Downloading GeoIP database..."
-	curl -sL "$GEOIP_DOWNLOAD_URL" >"$CLASH_HOME"/Country.mmdb
+	curl -Lf "$GEOIP_DOWNLOAD_URL" -o "$CLASH_HOME"/Country.mmdb
 
 	local -r download_dir=$(mktemp -d)
 	echo "Download ${CLASH_DOWNLOAD_URLS[0]}"
 	mkdir "$download_dir"/clash_dev
-	curl -L "${CLASH_DOWNLOAD_URLS[0]}" -o "$download_dir"/clash_dev/clash.tar.gz
+	curl -Lf "${CLASH_DOWNLOAD_URLS[0]}" -o "$download_dir"/clash_dev/clash.tar.gz
 	tar -zxf "$download_dir"/clash_dev/clash.tar.gz -C "$download_dir"/clash_dev
 
 	echo "Download ${CLASH_DOWNLOAD_URLS[1]}"
 	mkdir "$download_dir"/clash_tun
-	curl -L "${CLASH_DOWNLOAD_URLS[1]}" -o "$download_dir"/clash_tun/clash.gz
+	curl -Lf "${CLASH_DOWNLOAD_URLS[1]}" -o "$download_dir"/clash_tun/clash.gz
 	gzip -dk "$download_dir"/clash_tun/clash.gz
 
 	echo "Download ${CLASH_DOWNLOAD_URLS[2]}"
 	mkdir "$download_dir"/clash_meta
-	curl -L "${CLASH_DOWNLOAD_URLS[2]}" -o "$download_dir"/clash_meta/clash.tar.gz
+	curl -Lf "${CLASH_DOWNLOAD_URLS[2]}" -o "$download_dir"/clash_meta/clash.tar.gz
 	tar -zxf "$download_dir"/clash_meta/clash.tar.gz -C "$download_dir"/clash_meta
 
 	mkdir -p "$CLASH_HOME"/core
