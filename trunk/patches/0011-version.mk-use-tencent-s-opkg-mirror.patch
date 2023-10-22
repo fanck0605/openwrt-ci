@@ -15,8 +15,8 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  VERSION_CODE:=$(if $(VERSION_CODE),$(VERSION_CODE),r20028-43d71ad93e)
  
  VERSION_REPO:=$(call qstrip,$(CONFIG_VERSION_REPO))
--VERSION_REPO:=$(if $(VERSION_REPO),$(VERSION_REPO),https://downloads.openwrt.org/releases/22.03.3)
-+VERSION_REPO:=$(if $(VERSION_REPO),$(VERSION_REPO),https://mirrors.cloud.tencent.com/openwrt/releases/22.03.3)
+-VERSION_REPO:=$(if $(VERSION_REPO),$(VERSION_REPO),https://downloads.openwrt.org/releases/22.03.5)
++VERSION_REPO:=$(if $(VERSION_REPO),$(VERSION_REPO),https://mirrors.cloud.tencent.com/openwrt/releases/22.03.5)
  
  VERSION_DIST:=$(call qstrip,$(CONFIG_VERSION_DIST))
  VERSION_DIST:=$(if $(VERSION_DIST),$(VERSION_DIST),OpenWrt)
@@ -26,8 +26,8 @@ Signed-off-by: Chuck <fanck0605@qq.com>
  	config VERSION_REPO
  		string
  		prompt "Release repository"
--		default "https://downloads.openwrt.org/releases/22.03.3"
-+		default "https://mirrors.cloud.tencent.com/openwrt/releases/22.03.3"
+-		default "https://downloads.openwrt.org/releases/22.03.5"
++		default "https://mirrors.cloud.tencent.com/openwrt/releases/22.03.5"
  		help
  			This is the repository address embedded in the image, it defaults
  			to the trunk snapshot repo; the url may contain the following placeholders:
