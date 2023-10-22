@@ -87,7 +87,7 @@ fetch_clash_download_urls() {
 
 	echo >&2 "Fetching Clash download urls..."
 	local LATEST_VERSIONS
-	readarray -t LATEST_VERSIONS <<<"$(curl -sL https://github.com/vernesong/OpenClash/raw/master/core_version)"
+	readarray -t LATEST_VERSIONS <<<"$(curl -sL https://github.com/vernesong/OpenClash/raw/core/dev/core_version)"
 	readonly LATEST_VERSIONS
 
 	echo https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-"$CPU_ARCH".tar.gz
