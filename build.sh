@@ -90,9 +90,9 @@ fetch_clash_download_urls() {
 	readarray -t LATEST_VERSIONS <<<"$(curl -sL https://github.com/vernesong/OpenClash/raw/master/core_version)"
 	readonly LATEST_VERSIONS
 
-	echo https://github.com/vernesong/OpenClash/raw/master/core-lateset/dev/clash-linux-"$CPU_ARCH".tar.gz
-	echo https://github.com/vernesong/OpenClash/raw/master/core-lateset/premium/clash-linux-"$CPU_ARCH"-"${LATEST_VERSIONS[1]}".gz
-	echo https://github.com/vernesong/OpenClash/raw/master/core-lateset/meta/clash-linux-"$CPU_ARCH".tar.gz
+	echo https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-"$CPU_ARCH".tar.gz
+	echo https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-"$CPU_ARCH"-"${LATEST_VERSIONS[1]}".gz
+	echo https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-"$CPU_ARCH".tar.gz
 
 	return 0
 }
