@@ -129,10 +129,9 @@ download_clash_files() {
 	tar -zxf "$download_dir"/clash_meta/clash.tar.gz -C "$download_dir"/clash_meta
 
 	mkdir -p "$CLASH_HOME"/core
-	cp "$download_dir"/clash_dev/clash "$CLASH_HOME"/core/clash
-	cp "$download_dir"/clash_tun/clash "$CLASH_HOME"/core/clash_tun
-	cp "$download_dir"/clash_meta/clash "$CLASH_HOME"/core/clash_meta
-	chmod +x "$CLASH_HOME"/core/clash{,_tun,_meta}
+	install -m 755 "$download_dir"/clash_dev/clash "$CLASH_HOME"/core/clash
+	install -m 755 "$download_dir"/clash_tun/clash "$CLASH_HOME"/core/clash_tun
+	install -m 755 "$download_dir"/clash_meta/clash "$CLASH_HOME"/core/clash_meta
 
 	return 0
 }
