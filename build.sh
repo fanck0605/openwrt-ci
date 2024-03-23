@@ -156,18 +156,11 @@ init_packages() {
 	# luci-app-openclash
 	cp -rf "$PROJ_DIR/OpenClash/luci-app-openclash" package/custom
 	download_clash_files package/custom/luci-app-openclash/root "$(get_cpu_arch)"
-	# luci-app-xlnetacc
-	cp -rf  "$PROJ_DIR/immortalwrt-luci/applications/luci-app-xlnetacc" feeds/luci/applications/luci-app-xlnetacc
 	# luci-app-autoreboot
 	cp -rf  "$PROJ_DIR/immortalwrt-luci/applications/luci-app-autoreboot" feeds/luci/applications/luci-app-autoreboot
-	# luci-app-netdata
-	cp -rf  "$PROJ_DIR/immortalwrt-luci/applications/luci-app-netdata" feeds/luci/applications/luci-app-netdata
 	# ddns-scripts
 	cp -rf  "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_aliyun" feeds/packages/net/ddns-scripts_aliyun
 	cp -rf  "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_dnspod" feeds/packages/net/ddns-scripts_dnspod
-	# luci-app-uugamebooster
-	cp -rf  "$PROJ_DIR/immortalwrt-luci/applications/luci-app-uugamebooster" feeds/luci/applications/luci-app-uugamebooster
-	cp -rf  "$PROJ_DIR/immortalwrt-packages/net/uugamebooster" feeds/packages/net/uugamebooster
 
 	# 注意下面的脚本不会影响克隆到 feeds 的源码
 	# zh_cn to zh_Hans
