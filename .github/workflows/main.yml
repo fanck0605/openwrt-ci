@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Set timezone
-        uses: szenius/set-timezone@v1.1
+        uses: szenius/set-timezone@v1.2
         with:
           timezoneLinux: "Asia/Shanghai"
           timezoneMacos: "Asia/Shanghai"
@@ -61,7 +61,7 @@ jobs:
           ./build.sh -t ${{ matrix.target }}
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: openwrt-${{ matrix.target }}
           path: artifact
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
 
       - name: Create release tarball
         run: |
