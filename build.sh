@@ -10,77 +10,12 @@ set -euo pipefail
 PROJ_DIR=$(pwd)
 readonly PROJ_DIR
 
-VERSION=v22.03.5
+VERSION=openwrt-22.03
 MANUAL=false
 ORIGIN=origin
-RESTORE=false
-REFRESH=false
 BUILD=false
 AUTO_BUILD=true
 target=x86-64
-
-refresh_patches() {
-	local patch
-	while IFS= read -r patch; do
-		quilt refresh -p ab --no-timestamps --no-index -f "$patch"
-	done <patches/series
-
-	return 0
-}
-
-refresh() {
-	cd "$PROJ_DIR"
-	if [ -d ./trunk/files ]; then
-		find ./trunk/files/ -type f -printf '%P\n' | xargs -I {} cp -lf ./openwrt/{} ./trunk/files/{}
-	fi
-	if [ -d ./trunk/patches ]; then
-		cd ./openwrt
-		refresh_patches
-	fi
-
-	cd "$PROJ_DIR"/openwrt
-	local feed
-	while IFS= read -r feed; do
-		cd "$PROJ_DIR"
-		if [ -d ./"$feed"/files ]; then
-			find ./"$feed"/files/ -type f -printf '%P\n' | xargs -I {} cp -lf ./openwrt/feeds/"$feed"/{} ./"$feed"/files/{}
-		fi
-		if [ -d ./"$feed"/patches ]; then
-			cd ./openwrt/feeds/"$feed"
-			refresh_patches
-		fi
-	done <<<"$(awk '/^src-git/ { print $2 }' ./feeds.conf.default)"
-}
-
-restore_quilt() {
-	echo '恢复 quilt 临时文件'
-	cd "$PROJ_DIR"
-	if [ -d ./trunk/patches ]; then
-		ln -s ../trunk/patches ./openwrt/patches
-		mv ./trunk/.pc ./openwrt/
-	fi
-
-	local feed
-	while IFS= read -r feed; do
-		if [ -d "./$feed/patches" ]; then
-			ln -s ../../../"$feed"/patches ./openwrt/feeds/"$feed"/patches
-			mv ./"$feed"/.pc ./openwrt/feeds/"$feed"/
-		fi
-	done <<<"$(awk '/^src-git/ { print $2 }' ./openwrt/feeds.conf.default)"
-	echo 'quilt 临时文件恢复完毕'
-}
-
-apply_patches() {
-	ln -s "$1"/patches ./patches
-	sort <<<"$(find patches/ -maxdepth 1 -name '*.patch' -printf '%f\n')" >patches/series
-	quilt push -a
-
-	rm -rf "$1"/.pc
-	mv ./.pc "$1"/
-	rm -f patches
-
-	return 0
-}
 
 fetch_clash_download_urls() {
 	local -r CPU_ARCH=$1
@@ -163,7 +98,7 @@ init_trunk() {
 	else
 		echo "OpenWrt 源码不存在"
 		echo "开始克隆 OpenWrt 源码"
-		git clone -b "$VERSION" https://github.com/openwrt/openwrt.git openwrt
+		git clone -b "$VERSION" https://github.com/fanck0605/openwrt.git openwrt
 	fi
 	echo "OpenWrt 源码初始化完毕"
 
@@ -171,6 +106,10 @@ init_trunk() {
 	cd "$PROJ_DIR/openwrt"
 	echo "Initializing OpenWrt feeds..."
 	echo "Current directory: ""$(pwd)"
+
+	sed -i 's|https://git.openwrt.org/feed|https://github.com/openwrt|g' ./feeds.conf.default
+	sed -i 's|https://git.openwrt.org/project|https://github.com/openwrt|g' ./feeds.conf.default
+
 	local feed
 	while IFS= read -r feed; do
 		if [ -d "./feeds/$feed" ]; then
@@ -180,6 +119,7 @@ init_trunk() {
 			popd
 		fi
 	done <<<"$(awk '/^src-git/ { print $2 }' ./feeds.conf.default)"
+
 	./scripts/feeds update -a
 	# 再次清除缓存, 防止后面 update -i 出错
 	git clean -dfx
@@ -199,23 +139,35 @@ get_cpu_arch() {
 # 初始化第三方软件包, 可以在这里自行添加需要的软件包
 # 如需继续修改第三方软件包, 可以在下面的阶段进行 patch
 init_packages() {
+	cd "$PROJ_DIR"
+	rm -rf OpenClash
+	git clone --depth 1 -b master https://github.com/vernesong/OpenClash.git
+	rm -rf immortalwrt-luci
+	git clone --depth 1 -b openwrt-21.02 https://github.com/immortalwrt/luci.git immortalwrt-luci
+	rm -rf immortalwrt-packages
+	git clone --depth 1 -b openwrt-21.02 https://github.com/immortalwrt/packages.git immortalwrt-packages
+
 	# addition packages
 	cd "$PROJ_DIR/openwrt"
+	mkdir -p package/custom
+	mkdir -p feeds/luci/applications
+	mkdir -p feeds/packages/net
+
 	# luci-app-openclash
-	svn export https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/custom/luci-app-openclash
+	cp -rf "$PROJ_DIR/OpenClash/luci-app-openclash" package/custom
 	download_clash_files package/custom/luci-app-openclash/root "$(get_cpu_arch)"
 	# luci-app-xlnetacc
-	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-xlnetacc feeds/luci/applications/luci-app-xlnetacc
+	cp -rf  "$PROJ_DIR/immortalwrt-luci/applications/luci-app-xlnetacc" feeds/luci/applications/luci-app-xlnetacc
 	# luci-app-autoreboot
-	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-autoreboot feeds/luci/applications/luci-app-autoreboot
+	cp -rf  "$PROJ_DIR/immortalwrt-luci/applications/luci-app-autoreboot" feeds/luci/applications/luci-app-autoreboot
 	# luci-app-netdata
-	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-netdata feeds/luci/applications/luci-app-netdata
+	cp -rf  "$PROJ_DIR/immortalwrt-luci/applications/luci-app-netdata" feeds/luci/applications/luci-app-netdata
 	# ddns-scripts
-	svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-scripts_aliyun feeds/packages/net/ddns-scripts_aliyun
-	svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/ddns-scripts_dnspod feeds/packages/net/ddns-scripts_dnspod
+	cp -rf  "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_aliyun" feeds/packages/net/ddns-scripts_aliyun
+	cp -rf  "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_dnspod" feeds/packages/net/ddns-scripts_dnspod
 	# luci-app-uugamebooster
-	svn export https://github.com/immortalwrt/luci/branches/openwrt-21.02/applications/luci-app-uugamebooster feeds/luci/applications/luci-app-uugamebooster
-	svn export https://github.com/immortalwrt/packages/branches/openwrt-21.02/net/uugamebooster feeds/packages/net/uugamebooster
+	cp -rf  "$PROJ_DIR/immortalwrt-luci/applications/luci-app-uugamebooster" feeds/luci/applications/luci-app-uugamebooster
+	cp -rf  "$PROJ_DIR/immortalwrt-packages/net/uugamebooster" feeds/packages/net/uugamebooster
 
 	# 注意下面的脚本不会影响克隆到 feeds 的源码
 	# zh_cn to zh_Hans
@@ -303,14 +255,6 @@ while getopts 'msrbv:o:t:' opt; do
 		ORIGIN=$OPTARG
 		AUTO_BUILD=false
 		;;
-	r)
-		REFRESH=true
-		AUTO_BUILD=false
-		;;
-	s)
-		RESTORE=true
-		AUTO_BUILD=false
-		;;
 	b)
 		BUILD=true
 		AUTO_BUILD=false
@@ -330,8 +274,6 @@ if $MANUAL; then
 
 	init_packages
 
-	patch_source
-
 	prepare_build
 fi
 
@@ -339,20 +281,10 @@ if $BUILD; then
 	build
 fi
 
-if $RESTORE; then
-	restore_quilt
-fi
-
-if $REFRESH; then
-	refresh
-fi
-
 if $AUTO_BUILD; then
 	init_trunk
 
 	init_packages
-
-	patch_source
 
 	prepare_build
 
