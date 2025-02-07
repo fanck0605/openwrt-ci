@@ -22,7 +22,7 @@ fetch_clash_download_urls() {
 
 	echo >&2 "Fetching Clash download urls..."
 	local LATEST_VERSIONS
-	readarray -t LATEST_VERSIONS <<<"$(curl -sLf https://github.com/vernesong/OpenClash/raw/core/master/core_version)"
+	readarray -t LATEST_VERSIONS <<<"$(curl -fsSL https://github.com/vernesong/OpenClash/raw/core/master/core_version)"
 	readonly LATEST_VERSIONS
 
 	echo https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-"$CPU_ARCH".tar.gz
@@ -43,29 +43,18 @@ download_clash_files() {
 
 	mkdir -p "$CLASH_HOME"
 	echo "Downloading GeoIP database..."
-	curl -Lf "https://github.com/alecthw/mmdb_china_ip_list/raw/release/Country.mmdb" -o "$CLASH_HOME"/Country.mmdb
-	curl -Lf "https://github.com/Loyalsoldier/v2ray-rules-dat/raw/release/geoip.dat" -o "$CLASH_HOME"/GeoIP.dat
-	curl -Lf "https://github.com/Loyalsoldier/v2ray-rules-dat/raw/release/geosite.dat" -o "$CLASH_HOME"/GeoSite.dat
+	curl -fsSL "https://github.com/alecthw/mmdb_china_ip_list/raw/release/Country.mmdb" -o "$CLASH_HOME"/Country.mmdb
+	curl -fsSL "https://github.com/Loyalsoldier/v2ray-rules-dat/raw/release/geoip.dat" -o "$CLASH_HOME"/GeoIP.dat
+	curl -fsSL "https://github.com/Loyalsoldier/v2ray-rules-dat/raw/release/geosite.dat" -o "$CLASH_HOME"/GeoSite.dat
 
 	local -r download_dir=$(mktemp -d)
-	echo "Download ${CLASH_DOWNLOAD_URLS[0]}"
-	mkdir "$download_dir"/clash_dev
-	curl -Lf "${CLASH_DOWNLOAD_URLS[0]}" -o "$download_dir"/clash_dev/clash.tar.gz
-	tar -zxf "$download_dir"/clash_dev/clash.tar.gz -C "$download_dir"/clash_dev
-
-	echo "Download ${CLASH_DOWNLOAD_URLS[1]}"
-	mkdir "$download_dir"/clash_tun
-	curl -Lf "${CLASH_DOWNLOAD_URLS[1]}" -o "$download_dir"/clash_tun/clash.gz
-	gzip -dk "$download_dir"/clash_tun/clash.gz
 
 	echo "Download ${CLASH_DOWNLOAD_URLS[2]}"
 	mkdir "$download_dir"/clash_meta
-	curl -Lf "${CLASH_DOWNLOAD_URLS[2]}" -o "$download_dir"/clash_meta/clash.tar.gz
+	curl -fsSL "${CLASH_DOWNLOAD_URLS[2]}" -o "$download_dir"/clash_meta/clash.tar.gz
 	tar -zxf "$download_dir"/clash_meta/clash.tar.gz -C "$download_dir"/clash_meta
 
 	mkdir -p "$CLASH_HOME"/core
-	install -m 755 "$download_dir"/clash_dev/clash "$CLASH_HOME"/core/clash
-	install -m 755 "$download_dir"/clash_tun/clash "$CLASH_HOME"/core/clash_tun
 	install -m 755 "$download_dir"/clash_meta/clash "$CLASH_HOME"/core/clash_meta
 
 	return 0
@@ -107,8 +96,8 @@ init_trunk() {
 	echo "Initializing OpenWrt feeds..."
 	echo "Current directory: ""$(pwd)"
 
-	sed -i 's|https://git.openwrt.org/feed|https://github.com/openwrt|g' ./feeds.conf.default
-	sed -i 's|https://git.openwrt.org/project|https://github.com/openwrt|g' ./feeds.conf.default
+	sed -i 's|https://git.openwrt.org/feed/|https://github.com/openwrt/|g' ./feeds.conf.default
+	sed -i 's|https://git.openwrt.org/project/|https://github.com/openwrt/|g' ./feeds.conf.default
 
 	local feed
 	while IFS= read -r feed; do

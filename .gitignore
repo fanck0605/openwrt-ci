@@ -4,3 +4,6 @@
 /openwrt/
 series
 .pc/
+/openwrt-*
+/immortalwrt-*
+/OpenClash
