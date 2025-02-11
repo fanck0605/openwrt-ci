@@ -150,16 +150,6 @@ init_packages() {
 	# ddns-scripts
 	cp -rf "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_aliyun" feeds/packages/net/ddns-scripts_aliyun
 	cp -rf "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_dnspod" feeds/packages/net/ddns-scripts_dnspod
-
-	# 注意下面的脚本不会影响克隆到 feeds 的源码
-	# zh_cn to zh_Hans
-	cd "$PROJ_DIR/openwrt/package"
-	"$PROJ_DIR/scripts/convert_translation.sh"
-
-	# create acl files
-	cd "$PROJ_DIR/openwrt"
-	"$PROJ_DIR/scripts/create_acl_for_luci.sh" -a
-	"$PROJ_DIR/scripts/create_acl_for_luci.sh" -c
 }
 
 # 这里将安装 feeds 中所有的软件包, 并读取 config.seed 来生成默认配置文件
