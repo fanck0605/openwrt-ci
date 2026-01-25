@@ -10,7 +10,7 @@ set -euo pipefail
 PROJ_DIR=$(pwd)
 readonly PROJ_DIR
 
-VERSION=openwrt-23.05
+VERSION=openwrt-24.10
 MANUAL=false
 ORIGIN=origin
 BUILD=false
@@ -122,6 +122,9 @@ get_cpu_arch() {
 	nanopi-r2s)
 		echo arm64
 		;;
+	nanopi-r6s)
+		echo arm64
+		;;
 	esac
 }
 
@@ -132,9 +135,9 @@ init_packages() {
 	rm -rf OpenClash
 	git clone --depth 1 -b master https://github.com/vernesong/OpenClash.git
 	rm -rf immortalwrt-luci
-	git clone --depth 1 -b openwrt-23.05 https://github.com/immortalwrt/luci.git immortalwrt-luci
+	git clone --depth 1 -b openwrt-24.10 https://github.com/immortalwrt/luci.git immortalwrt-luci
 	rm -rf immortalwrt-packages
-	git clone --depth 1 -b openwrt-23.05 https://github.com/immortalwrt/packages.git immortalwrt-packages
+	git clone --depth 1 -b openwrt-24.10 https://github.com/immortalwrt/packages.git immortalwrt-packages
 
 	# addition packages
 	cd "$PROJ_DIR/openwrt"
@@ -148,7 +151,8 @@ init_packages() {
 	# luci-app-autoreboot
 	cp -rf "$PROJ_DIR/immortalwrt-luci/applications/luci-app-autoreboot" feeds/luci/applications/luci-app-autoreboot
 	# ddns-scripts
-	cp -rf "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_aliyun" feeds/packages/net/ddns-scripts_aliyun
+	# TODO 恢复 aliyun ddns
+	# cp -rf "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_aliyun" feeds/packages/net/ddns-scripts_aliyun
 	cp -rf "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_dnspod" feeds/packages/net/ddns-scripts_dnspod
 }
 
