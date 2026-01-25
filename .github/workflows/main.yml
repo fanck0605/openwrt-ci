@@ -4,23 +4,23 @@
 # Copyright (c) 2020, Chuck <fanck0605@qq.com>
 #
 
-name: openwrt-23.05
+name: openwrt-24.10
 
 on:
   push:
-    branches: [ openwrt-23.05 ]
+    branches: [ openwrt-24.10 ]
     tags:
-      - v23.05.*
+      - v24.10.*
   pull_request:
-    branches: [ openwrt-23.05 ]
+    branches: [ openwrt-24.10 ]
 
 jobs:
   build:
     strategy:
       matrix:
-        target: [ x86-64, nanopi-r2s ]
+        target: [ x86-64, nanopi-r2s, nanopi-r6s ]
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Set timezone
@@ -33,8 +33,7 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v4
         with:
-          ref: openwrt-23.05
-
+          ref: openwrt-24.10
 
       - name: Initialize environment
         env:
@@ -43,7 +42,7 @@ jobs:
           sudo du -xh -d4 --exclude=/{proc,sys,dev} / | grep -E '^[0-9.]*?[GTPEZY]'
           sudo rm -rf /usr/local/lib/android
           sudo apt-get update
-          sudo apt-get install build-essential clang flex bison g++ gawk gcc-multilib g++-multilib gettext git libelf-dev libncurses-dev libssl-dev python3-distutils rsync unzip zlib1g-dev file wget
+          sudo apt-get install build-essential clang flex bison g++ gawk gcc-multilib g++-multilib gettext git libncurses5-dev libssl-dev python3-setuptools rsync swig unzip zlib1g-dev file wget
           sudo apt-get autoremove --purge
           sudo apt-get clean
           git config --global user.name "GitHub Actions"
@@ -64,7 +63,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     needs: build
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/download-artifact@v4
