@@ -51,6 +51,7 @@ jobs:
 
       - name: Build OpenWrt
         run: |
+          unset GITHUB_ACTIONS
           ./build.sh -t ${{ matrix.target }}
 
       - name: Upload artifact
