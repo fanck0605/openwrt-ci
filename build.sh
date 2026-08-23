@@ -7,153 +7,100 @@
 
 set -euo pipefail
 
-PROJ_DIR=$(pwd)
+PROJ_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 readonly PROJ_DIR
 
-VERSION=openwrt-24.10
+VERSION=v25.12.5
+OPENWRT_REPO=https://github.com/openwrt/openwrt.git
+readonly OPENWRT_REPO
 MANUAL=false
 ORIGIN=origin
+readonly ORIGIN
 BUILD=false
 AUTO_BUILD=true
 target=x86-64
 
-fetch_clash_download_urls() {
-	local -r CPU_ARCH=$1
+sync_git_repository() {
+	local -r destination=$1
+	local -r repository=$2
+	local -r ref=$3
+	shift 3
+	local -a clean_args=(-dfx)
+	local exclude
+	for exclude in "$@"; do
+		clean_args+=(-e "$exclude")
+	done
 
-	echo >&2 "Fetching Clash download urls..."
-	local LATEST_VERSIONS
-	readarray -t LATEST_VERSIONS <<<"$(curl -fsSL https://github.com/vernesong/OpenClash/raw/core/master/core_version)"
-	readonly LATEST_VERSIONS
-
-	echo https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-"$CPU_ARCH".tar.gz
-	echo https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-"$CPU_ARCH"-"${LATEST_VERSIONS[1]}".gz
-	echo https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-"$CPU_ARCH".tar.gz
-
-	return 0
-}
-
-download_clash_files() {
-	local -r WORKING_DIR=$(pwd)/${1%/}
-	local -r CLASH_HOME=$WORKING_DIR/etc/openclash
-	local -r CPU_ARCH=$2
-
-	local CLASH_DOWNLOAD_URLS
-	readarray -t CLASH_DOWNLOAD_URLS <<<"$(fetch_clash_download_urls "$CPU_ARCH")"
-	readonly CLASH_DOWNLOAD_URLS
-
-	mkdir -p "$CLASH_HOME"
-	echo "Downloading GeoIP database..."
-	curl -fsSL "https://github.com/alecthw/mmdb_china_ip_list/raw/release/Country.mmdb" -o "$CLASH_HOME"/Country.mmdb
-	curl -fsSL "https://github.com/Loyalsoldier/v2ray-rules-dat/raw/release/geoip.dat" -o "$CLASH_HOME"/GeoIP.dat
-	curl -fsSL "https://github.com/Loyalsoldier/v2ray-rules-dat/raw/release/geosite.dat" -o "$CLASH_HOME"/GeoSite.dat
-
-	local -r download_dir=$(mktemp -d)
-
-	echo "Download ${CLASH_DOWNLOAD_URLS[2]}"
-	mkdir "$download_dir"/clash_meta
-	curl -fsSL "${CLASH_DOWNLOAD_URLS[2]}" -o "$download_dir"/clash_meta/clash.tar.gz
-	tar -zxf "$download_dir"/clash_meta/clash.tar.gz -C "$download_dir"/clash_meta
-
-	mkdir -p "$CLASH_HOME"/core
-	install -m 755 "$download_dir"/clash_meta/clash "$CLASH_HOME"/core/clash_meta
-
-	return 0
-}
-
-# 初始化 OpenWrt 主干代码, 包括 OpenWrt 本身以及官方 feeds
-# 注意: feeds 仅克隆了源码, 需要使用 ./script/feeds update -i 来生成索引才能使用
-init_trunk() {
-	# clone openwrt
-	cd "$PROJ_DIR"
-	echo "开始初始化 OpenWrt 源码"
-	echo "当前目录: ""$(pwd)"
-	if [ -d "./openwrt" ] && [ -d "./openwrt/.git" ]; then
-		echo "OpenWrt 源码已存在"
-		pushd ./openwrt
-		echo "开始清理 OpenWrt 源码"
-		git clean -dfx
-		# 防止暂存区文件影响 checkout
-		git reset --hard HEAD
-		echo "开始更新 OpenWrt 源码"
-		# FIXME: 这个实现太丑陋了, 快来修复一下
-		if [[ "$VERSION" =~ ^v[0-9.rc-]+$ ]]; then
-			git fetch "$ORIGIN" "refs/tags/$VERSION:refs/tags/$VERSION"
-			git checkout "refs/tags/$VERSION"
-		else
-			git fetch "$ORIGIN" "refs/heads/$VERSION:refs/remotes/$ORIGIN/$VERSION"
-			git checkout -B "$VERSION" "refs/remotes/$ORIGIN/$VERSION"
-		fi
-		popd
-	else
-		echo "OpenWrt 源码不存在"
-		echo "开始克隆 OpenWrt 源码"
-		git clone -b "$VERSION" https://github.com/fanck0605/openwrt.git openwrt
+	if [ ! -e "$destination" ]; then
+		echo "开始克隆 $repository: $ref"
+		git clone --depth 1 --origin "$ORIGIN" --branch "$ref" \
+			"$repository" "$destination" || return
+		return
 	fi
+
+	if ! git -C "$destination" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		echo >&2 "错误: $destination 已存在，但不是 Git 工作树"
+		return 1
+	fi
+
+	echo "开始更新 $repository: $ref"
+	if git -C "$destination" remote get-url "$ORIGIN" >/dev/null 2>&1; then
+		git -C "$destination" remote set-url "$ORIGIN" "$repository" || return
+	else
+		git -C "$destination" remote add "$ORIGIN" "$repository" || return
+	fi
+
+	git -C "$destination" fetch --depth 1 "$ORIGIN" "$ref" || return
+	git -C "$destination" reset --hard HEAD || return
+	git -C "$destination" clean "${clean_args[@]}" || return
+	git -C "$destination" checkout --detach --force FETCH_HEAD || return
+}
+
+# 初始化 OpenWrt 源码及官方 feeds。此操作会清除 openwrt/ 中的本地改动。
+init_trunk() {
+	echo "开始初始化 OpenWrt 源码"
+	sync_git_repository "$PROJ_DIR/openwrt" "$OPENWRT_REPO" "$VERSION" /dl /feeds
 	echo "OpenWrt 源码初始化完毕"
 
-	# clone feeds
 	cd "$PROJ_DIR/openwrt"
-	echo "Initializing OpenWrt feeds..."
-	echo "Current directory: ""$(pwd)"
+	echo "开始初始化 OpenWrt feeds"
 
 	sed -i 's|https://git.openwrt.org/feed/|https://github.com/openwrt/|g' ./feeds.conf.default
 	sed -i 's|https://git.openwrt.org/project/|https://github.com/openwrt/|g' ./feeds.conf.default
+	if ! grep -q '^src-git nikki ' ./feeds.conf.default; then
+		printf '%s\n' 'src-git nikki https://github.com/nikkinikki-org/OpenWrt-nikki.git;v1.26.1' >>./feeds.conf.default
+	fi
 
 	local feed
 	while IFS= read -r feed; do
-		if [ -d "./feeds/$feed" ]; then
-			pushd "./feeds/$feed"
-			git reset --hard
-			git clean -dfx
-			popd
+		if git -C "./feeds/$feed" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+			git -C "./feeds/$feed" reset --hard HEAD
+			git -C "./feeds/$feed" clean -dfx
 		fi
 	done <<<"$(awk '/^src-git/ { print $2 }' ./feeds.conf.default)"
 
 	./scripts/feeds update -a
-	# 再次清除缓存, 防止后面 update -i 出错
-	git clean -dfx
+	echo "OpenWrt feeds 初始化完毕"
 }
 
-get_cpu_arch() {
-	case $target in
-	x86-64)
-		echo amd64
-		;;
-	nanopi-r2s)
-		echo arm64
-		;;
-	nanopi-r6s)
-		echo arm64
-		;;
-	esac
-}
-
-# 初始化第三方软件包, 可以在这里自行添加需要的软件包
-# 如需继续修改第三方软件包, 可以在下面的阶段进行 patch
+# 初始化第三方软件包，可以在同步后添加自定义处理。
 init_packages() {
-	cd "$PROJ_DIR"
-	rm -rf OpenClash
-	git clone --depth 1 -b master https://github.com/vernesong/OpenClash.git
-	rm -rf immortalwrt-luci
-	git clone --depth 1 -b openwrt-24.10 https://github.com/immortalwrt/luci.git immortalwrt-luci
-	rm -rf immortalwrt-packages
-	git clone --depth 1 -b openwrt-24.10 https://github.com/immortalwrt/packages.git immortalwrt-packages
+	sync_git_repository "$PROJ_DIR/immortalwrt-luci" \
+		https://github.com/immortalwrt/luci.git openwrt-25.12
+	sync_git_repository "$PROJ_DIR/immortalwrt-packages" \
+		https://github.com/immortalwrt/packages.git openwrt-25.12
 
 	# addition packages
 	cd "$PROJ_DIR/openwrt"
-	mkdir -p package/custom
-	mkdir -p feeds/luci/applications
-	mkdir -p feeds/packages/net
 
-	# luci-app-openclash
-	cp -rf "$PROJ_DIR/OpenClash/luci-app-openclash" package/custom
-	download_clash_files package/custom/luci-app-openclash/root "$(get_cpu_arch)"
 	# luci-app-autoreboot
-	cp -rf "$PROJ_DIR/immortalwrt-luci/applications/luci-app-autoreboot" feeds/luci/applications/luci-app-autoreboot
+	mkdir -p feeds/luci/applications/luci-app-autoreboot
+	rsync -a --delete "$PROJ_DIR/immortalwrt-luci/applications/luci-app-autoreboot/" feeds/luci/applications/luci-app-autoreboot/
 	# ddns-scripts
 	# TODO 恢复 aliyun ddns
 	# cp -rf "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_aliyun" feeds/packages/net/ddns-scripts_aliyun
-	cp -rf "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_dnspod" feeds/packages/net/ddns-scripts_dnspod
+	mkdir -p feeds/packages/net/ddns-scripts_dnspod
+	rsync -a --delete "$PROJ_DIR/immortalwrt-packages/net/ddns-scripts_dnspod/" feeds/packages/net/ddns-scripts_dnspod/
 }
 
 # 这里将安装 feeds 中所有的软件包, 并读取 config.seed 来生成默认配置文件
@@ -163,6 +110,10 @@ prepare_build() {
 	# 在添加自定义软件包后必须再次 update
 	./scripts/feeds update -i
 	./scripts/feeds install -a
+
+	# install root filesystem overlay
+	mkdir -p "$PROJ_DIR/openwrt/files"
+	rsync -a --delete "$PROJ_DIR/files/" "$PROJ_DIR/openwrt/files/"
 
 	# customize configs
 	cd "$PROJ_DIR/openwrt"
@@ -186,47 +137,48 @@ build() {
 	return 0
 }
 
-while getopts 'msrbv:o:t:' opt; do
-	case $opt in
-	t)
-		target=$OPTARG
-		;;
-	m)
-		MANUAL=true
-		AUTO_BUILD=false
-		;;
-	v)
-		VERSION=$OPTARG
-		AUTO_BUILD=false
-		;;
-	o)
-		ORIGIN=$OPTARG
-		AUTO_BUILD=false
-		;;
-	b)
-		BUILD=true
-		AUTO_BUILD=false
-		;;
-	*)
-		echo "usage: $0 [-msrb] [-v version] [-o origin] [-t target]"
-		exit 1
-		;;
-	esac
-done
+main() {
+	while getopts 'mbv:t:' opt; do
+		case $opt in
+		t)
+			target=$OPTARG
+			;;
+		m)
+			MANUAL=true
+			AUTO_BUILD=false
+			;;
+		v)
+			VERSION=$OPTARG
+			;;
+		b)
+			BUILD=true
+			AUTO_BUILD=false
+			;;
+		*)
+			echo "usage: $0 [-mb] [-v version] [-t target]"
+			return 1
+			;;
+		esac
+	done
 
-if $MANUAL; then
-	init_trunk
-	init_packages
-	prepare_build
-fi
+	if $MANUAL; then
+		init_trunk
+		init_packages
+		prepare_build
+	fi
 
-if $BUILD; then
-	build
-fi
+	if $BUILD; then
+		build
+	fi
 
-if $AUTO_BUILD; then
-	init_trunk
-	init_packages
-	prepare_build
-	build
+	if $AUTO_BUILD; then
+		init_trunk
+		init_packages
+		prepare_build
+		build
+	fi
+}
+
+if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
+	main "$@"
 fi

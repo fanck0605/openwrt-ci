@@ -21,6 +21,8 @@ sudo apt install build-essential clang flex bison g++ gawk gcc-multilib g++-mult
 
 全自动编译, 编译完后固件将会在 `./artifact` 文件夹下
 
+源码直接使用官方 OpenWrt `v25.12.5` tag。固件选项维护在 `config/`，首次启动配置维护在 `files/`。
+
 ```
 ./build.sh -t nanopi-r2s
 ```
@@ -57,5 +59,5 @@ cd ../
 不同版本补丁不一定兼容，可能初始化失败
 
 ```
-./build.sh -v openwrt-23.05
+./build.sh -v v25.12.5
 ```

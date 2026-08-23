@@ -1,0 +1,12 @@
+#!/bin/sh
+
+uci -q batch <<'EOF'
+set system.@system[0].timezone='CST-8'
+set system.@system[0].zonename='Asia/Shanghai'
+set dropbear.@dropbear[0].Interface='lan'
+EOF
+
+uci -q commit system
+uci -q commit dropbear
+
+exit 0
